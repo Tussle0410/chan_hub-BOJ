@@ -1,7 +1,7 @@
-<Title>A+B
-<Blog>https://tussle.tistory.com/54
-<Tag>수학, 구현, 사칙연산
-<Code>
+<problem-name>A+B
+<blog>https://tussle.tistory.com/54
+<tag>수학, 구현, 사칙연산
+<code>
 import java.io.*;
 import java.util.*;
 
