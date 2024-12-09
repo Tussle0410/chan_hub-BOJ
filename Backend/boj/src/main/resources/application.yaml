@@ -2,3 +2,5 @@ server:
   port: 8080
   servlet:
     context-path: /v1/chan_hub/api
+scraping:
+  prefix-url: https://raw.githubusercontent.com/Tussle0410/chan_hub-BOJ/main

@@ -7,15 +7,11 @@ import com.chan.hub.boj.util.ScrapingUtil
 import org.springframework.stereotype.Component
 
 @Component
-class ScrapingProblemAdapter : ScrapingProblemPort {
-
+class ScrapingProblemAdapter(val scrapingUtil: ScrapingUtil) : ScrapingProblemPort {
 
     override fun scrapProblem(problemNo: String): Problem {
-
-        val scrapProblem = ScrapingProblemResponse.ofDocument(ScrapingUtil.scrapProblem(problemNo))
-
+        val scrapProblem = ScrapingProblemResponse.ofDocument(scrapingUtil.scrapProblem(problemNo))
         return scrapProblem.toProblem()
-
     }
 
 }
