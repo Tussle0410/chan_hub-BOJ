@@ -12,7 +12,7 @@ class ScrapingUtil {
     private lateinit var PREFIX_URL : String
 
     fun scrapProblem(problemNo: String): Document {
-        val url = "$PREFIX_URL/Problem/$problemNo/Main.txt"
+        val url = "$PREFIX_URL/Problem/$problemNo.txt"
         return Jsoup.connect(url).get()
     }
 

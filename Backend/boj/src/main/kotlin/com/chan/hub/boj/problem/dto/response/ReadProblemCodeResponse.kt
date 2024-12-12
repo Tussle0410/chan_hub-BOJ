@@ -7,7 +7,7 @@ data class ReadProblemCodeResponse(
     val title: String,
     val blogUrl : String,
     val tags : String,
-    val code : String
+    val javaCode : String
 )
 {
     companion object {
@@ -17,7 +17,7 @@ data class ReadProblemCodeResponse(
                 title = problem.title,
                 blogUrl = problem.blogUrl,
                 tags = problem.tags,
-                code = Formatter().formatSource(problem.code)
+                javaCode = Formatter().formatSource(problem.javaCode)
             )
         }
     }

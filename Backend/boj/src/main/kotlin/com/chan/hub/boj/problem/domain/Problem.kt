@@ -4,5 +4,5 @@ data class Problem(
     val title: String,
     val blogUrl : String,
     val tags : String,
-    val code : String
+    val javaCode : String
 )

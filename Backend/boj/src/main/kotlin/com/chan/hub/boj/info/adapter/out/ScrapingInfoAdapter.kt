@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class ScrapingInfoAdapter(val scrapingUtil: ScrapingUtil) : ScrapingInfoPort {
-
     override fun findApplicationInfo(): Info {
-        val scrapInfo = ScrapingApplicationInfoResponse.ofDocument(scrapingUtil.scrapApplicationInfo())
-
+        val scrapInfo : ScrapingApplicationInfoResponse = ScrapingApplicationInfoResponse.ofDocument(scrapingUtil.scrapApplicationInfo())
         return scrapInfo.toInfo()
     }
 }

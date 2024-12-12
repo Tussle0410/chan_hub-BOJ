@@ -7,7 +7,7 @@ data class ScrapingProblemResponse(
     val title: String,
     val blogUrl : String,
     val tags : String,
-    val code : String
+    val javaCode : String
 ){
 
     companion object{
@@ -16,7 +16,7 @@ data class ScrapingProblemResponse(
             title = doc.select("problem-name").first()!!.ownText(),
             blogUrl = doc.select("blog").first()!!.ownText(),
             tags = doc.select("tag").first()!!.ownText(),
-            code = doc.select("java-code").first()!!.ownText()
+            javaCode = doc.select("java-code").first()!!.ownText()
         )
     }
 
@@ -25,6 +25,6 @@ data class ScrapingProblemResponse(
         title = title,
         blogUrl = blogUrl,
         tags = tags,
-        code = code
+        javaCode = javaCode
      )
 }
