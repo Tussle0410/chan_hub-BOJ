@@ -12,13 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 class ScrapingInfoAdapter(val scrapingUtil: ScrapingUtil) : ScrapingInfoPort {
     private val log = logger()
-    private var problemCount : Int = 0;
-
-    @PostConstruct
-    fun init() {
-        scrapApplicationInfo()
-        log.info("ScrapingInfoAdapter initialized - problemCount: $problemCount")
-    }
+    private var problemCount : Int = 0
 
     override fun findApplicationInfo(): Info {
         return Info(problemCount)
