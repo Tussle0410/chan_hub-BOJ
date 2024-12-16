@@ -5,7 +5,6 @@ import com.chan.hub.boj.info.domain.Info
 import com.chan.hub.boj.info.dto.response.ScrapingApplicationInfoResponse
 import com.chan.hub.boj.info.port.out.ScrapingInfoPort
 import com.chan.hub.boj.util.ScrapingUtil
-import jakarta.annotation.PostConstruct
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
