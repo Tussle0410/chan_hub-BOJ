@@ -3,10 +3,21 @@ export interface ServerInfo {
 }
 
 export interface Problem {
+  problemId: string;
   title: string;
   blogUrl: string;
   tags: string;
   javaCode: string;
+}
+
+export interface IndexProps {
+  errorCode: any;
+  serverInfo: ServerInfo;
+}
+
+export interface SolvedProps {
+  errorCode: any;
+  problem: Problem;
 }
 
 export interface ProblemComponentProps {
