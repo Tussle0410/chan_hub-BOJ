@@ -4,6 +4,7 @@ import com.chan.hub.boj.problem.domain.Problem
 import org.jsoup.nodes.Document
 
 data class ScrapingProblemResponse(
+    val problemId : String,
     val title: String,
     val blogUrl : String,
     val tags : String,
@@ -11,8 +12,9 @@ data class ScrapingProblemResponse(
 ){
 
     companion object{
-        fun ofDocument(doc: Document): ScrapingProblemResponse
+        fun ofDocument(doc: Document, problemNo: String): ScrapingProblemResponse
                 = ScrapingProblemResponse(
+            problemId = problemNo,
             title = doc.select("problem-name").first()!!.ownText(),
             blogUrl = doc.select("blog").first()!!.ownText(),
             tags = doc.select("tag").first()!!.ownText(),
@@ -22,6 +24,7 @@ data class ScrapingProblemResponse(
 
     fun toProblem() : Problem
      = Problem(
+        problemId = problemId,
         title = title,
         blogUrl = blogUrl,
         tags = tags,

@@ -4,6 +4,7 @@ import com.chan.hub.boj.problem.domain.Problem
 import com.google.googlejavaformat.java.Formatter
 
 data class ReadProblemCodeResponse(
+    val problemId : String,
     val title: String,
     val blogUrl : String,
     val tags : String,
@@ -14,6 +15,7 @@ data class ReadProblemCodeResponse(
         fun ofProblem(problem : Problem) : ReadProblemCodeResponse{
 
             return ReadProblemCodeResponse(
+                problemId = problem.problemId,
                 title = problem.title,
                 blogUrl = problem.blogUrl,
                 tags = problem.tags,
