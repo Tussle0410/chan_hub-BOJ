@@ -11,7 +11,7 @@ public class Main{
     	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     	size = Integer.parseInt(br.readLine());
     	fibonaciDataInit();
-    	for(int i=0;i&ltsize;i++) {
+    	for(int i=0;i&lt;size;i++) {
     		int num = Integer.parseInt(br.readLine());
     		fibonaci(num);
     		bw.write(String.format("%d %d", fibonaciData[num][0], fibonaciData[num][1]));
