@@ -1,0 +1,39 @@
+<problem-name>어린 왕자
+<blog>https://tussle.tistory.com/711
+<tag>수학, 기하학
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main {
+	static int T;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st;
+		T = Integer.parseInt(br.readLine());
+		for(int i=0;i<T;i++) {
+			int result = 0;
+			st = new StringTokenizer(br.readLine()," ");
+			int x1 = Integer.parseInt(st.nextToken());
+			int y1 = Integer.parseInt(st.nextToken());
+			int x2 = Integer.parseInt(st.nextToken());
+			int y2 = Integer.parseInt(st.nextToken());
+			int n = Integer.parseInt(br.readLine());
+			for(int j=0;j<n;j++) {
+				st = new StringTokenizer(br.readLine()," ");
+				int cx = Integer.parseInt(st.nextToken());
+				int cy = Integer.parseInt(st.nextToken());
+				int r = Integer.parseInt(st.nextToken());
+				int startDistance = (int)Math.sqrt(Math.pow(x1-cx, 2) + Math.pow(y1-cy, 2));
+				int endDistance = (int)Math.sqrt(Math.pow(x2-cx, 2) + Math.pow(y2-cy, 2));
+				if(startDistance<r ^ endDistance<r)
+					result++;
+			}
+			bw.write(String.valueOf(result));
+			bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+}
