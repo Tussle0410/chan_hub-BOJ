@@ -1,0 +1,22 @@
+version: '1.0'
+
+services:
+  ch-boj-fe:
+    image: tussle0410/ch-boj-fe:latest
+    container_name: ch-boj-fe
+    ports:
+      - "3000:3000"
+    networks:
+      - ch-boj-network
+
+  ch-boj-be:
+    image: tussle0410/ch-boj-be:latest
+    container_name: ch-boj-be
+    ports:
+      - "8080:8080"
+    networks:
+      - ch-boj-network
+
+networks:
+  ch-boj-network:
+    driver: bridge
