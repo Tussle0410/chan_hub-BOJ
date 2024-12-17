@@ -1,5 +1,5 @@
 <problem-name>A-B
-<blog>
+<blog>https://tussle.tistory.com/55
 <tag>수학, 구현, 사칙연산
 <java-code>
 import java.util.*;
