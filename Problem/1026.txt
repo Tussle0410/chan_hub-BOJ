@@ -1,0 +1,37 @@
+<problem-name>보물
+<blog>https://tussle.tistory.com/894
+<tag>수학, 그리디 알고리즘, 정렬
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int N;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+        Integer[] A = new Integer[N];
+        Integer[] B = new Integer[N];
+        st = new StringTokenizer(br.readLine()," ");
+        input(A, st);
+        st = new StringTokenizer(br.readLine()," ");
+        input(B, st);
+        Arrays.sort(A);
+        Arrays.sort(B, Collections.reverseOrder());
+        int answer = 0;
+        for(int i=0;i&lt;N;i++){
+            answer += A[i] * B[i];
+        }
+        bw.write(String.valueOf(answer));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void input(Integer[] arr, StringTokenizer st){
+        for(int i=0;i&lt;N;i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+    }
+}

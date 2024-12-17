@@ -1,0 +1,33 @@
+<problem-name>저항
+<blog>
+<tag>구현
+<java-code>
+import java.io.*;
+import java.util.HashMap;
+
+public class Main{
+    static HashMap&lt;String, Integer> colors = new HashMap&lt;>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        setColors();
+        long answer = (colors.get(br.readLine()) * 10 + colors.get(br.readLine()))
+                * (long)Math.pow(10, colors.get(br.readLine()));
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void setColors(){
+        colors.put("black", 0);
+        colors.put("brown", 1);
+        colors.put("red", 2);
+        colors.put("orange", 3);
+        colors.put("yellow", 4);
+        colors.put("green", 5);
+        colors.put("blue", 6);
+        colors.put("violet", 7);
+        colors.put("grey", 8);
+        colors.put("white",9);
+    }
+}

@@ -1,0 +1,39 @@
+<problem-name>좋은 구간
+<blog>
+<tag>수학, 브루트포스 알고리즘, 정렬
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+import java.util.TreeSet;
+
+public class Main {
+    static int N;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int L = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        TreeSet&lt;Integer> set = new TreeSet&lt;>();
+        for(int i=0;i&lt;L;i++){
+            set.add(Integer.parseInt(st.nextToken()));
+        }
+        int N = Integer.parseInt(br.readLine());
+        int result = 0;
+        if(!set.contains(N)){
+            Integer left = set.lower(N);
+            Integer right = set.higher(N);
+            if(left == null)
+                left = 0;
+            int leftDif = N - left;
+            int rightDis = right - N;
+            for(int i=1;i&lt;=leftDif;i++){
+                result += rightDis;
+            }
+            result--;
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

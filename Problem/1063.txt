@@ -1,0 +1,74 @@
+<problem-name>킹
+<blog>
+<tag>구현, 시뮬레이션
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        String king = st.nextToken();
+        String stone = st.nextToken();
+        HashMap&lt;String, Integer> commands = new HashMap&lt;>();
+        int[] dr = {1, 1, 1, 0, 0, -1, -1, -1};
+        int[] dc = {-1, 0, 1, -1, 1, -1, 0, 1};
+        int N = Integer.parseInt(st.nextToken());
+        int kr = Character.getNumericValue(king.charAt(1))-1;
+        int kc = king.charAt(0) - 65;
+        int sr = Character.getNumericValue(stone.charAt(1)) - 1;
+        int sc = stone.charAt(0) - 65;
+        init(commands);
+        for(int i=0;i&lt;N;i++){
+            int m_idx = commands.get(br.readLine());
+            int tempR = kr + dr[m_idx];
+            int tempC = kc + dc[m_idx];
+            if(inSpace(tempR, tempC)){
+                if(tempR == sr && tempC == sc){
+                    int tR = sr + dr[m_idx];
+                    int tC = sc + dc[m_idx];
+                    if(inSpace(tR,tC)){
+                        sr = tR;
+                        sc = tC;
+                        kr = tempR;
+                        kc = tempC;
+                    }
+                }else{
+                    kr = tempR;
+                    kc = tempC;
+                }
+            }
+        }
+        bw.write((char)(kc + 65));
+        bw.write(String.valueOf(kr+1));
+        bw.newLine();
+        bw.write((char)(sc + 65));
+        bw.write(String.valueOf(sr+1));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void init(HashMap&lt;String, Integer> commands){
+        commands.put("LT", 0);
+        commands.put("T", 1);
+        commands.put("RT", 2);
+        commands.put("L", 3);
+        commands.put("R", 4);
+        commands.put("LB", 5);
+        commands.put("B", 6);
+        commands.put("RB", 7);
+    }
+    static boolean inSpace(int r, int c){
+        if(r >= 0 && c >= 0 && r &lt; 8 && c &lt; 8)
+            return true;
+        return false;
+    }
+}

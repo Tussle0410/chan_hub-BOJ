@@ -1,0 +1,74 @@
+<problem-name>가르침
+<blog>https://tussle.tistory.com/739
+<tag>브루트포스 알고리즘, 비트마스킹, 백트래킹
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+	static int N,K,result = Integer.MIN_VALUE;
+	static boolean[] alphabet = new boolean[26];
+	static ArrayList&lt;String> word = new ArrayList&lt;>();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		N = Integer.parseInt(st.nextToken());
+		K = Integer.parseInt(st.nextToken());
+		alphabetInit();
+		if(K&lt;5)
+			bw.write("0");
+		else if(K==26)
+			bw.write(String.valueOf(N));
+		else {
+			for(int i=0;i&lt;N;i++) {
+				String temp = br.readLine();
+				temp.replace("anta", "");
+				temp.replace("tica", "");
+				word.add(temp);
+			}
+			cal(1,5);
+			bw.write(String.valueOf(result));
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static void cal(int alpha,int cur) {
+		if(cur==K) {
+			wordCheck();
+			return ;
+		}
+		for(int i=alpha;i&lt;26;i++) {
+			if(alphabet[i])
+				continue;
+			alphabet[i] = true;
+			cal(i,cur+1);
+			alphabet[i] = false;
+		}
+		return;
+	}
+	static void wordCheck() {
+		int count = 0;
+		for(int i=0;i&lt;word.size();i++) {
+			String temp = word.get(i);
+			boolean ck = false;
+			if(!temp.equals("")) {
+				int size = temp.length();
+				for(int j=0;j&lt;size;j++) {
+					if(!alphabet[temp.charAt(j)-97]) {
+						ck = true;
+						break;
+					}
+				}
+			}
+			if(!ck)
+				count++;
+		}
+		result = Math.max(result, count);
+		return;
+	}
+	static void alphabetInit() {
+		alphabet[0] = alphabet[2] = alphabet[8] = alphabet[13] = alphabet[19] = true;
+		return;
+	}
+}

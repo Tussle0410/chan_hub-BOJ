@@ -1,0 +1,62 @@
+<problem-name>행렬
+<blog>
+<tag>그리디 알고리즘
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int N,M;
+    static int[][] A;
+    static boolean[][] check;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        A = new int[N][M];
+        check = new boolean[N][M];
+        for(int i=0;i&lt;N;i++){
+            String str = br.readLine();
+            for(int j=0;j&lt;M;j++)
+                A[i][j] = Character.getNumericValue(str.charAt(j));
+        }
+        for(int i=0;i&lt;N;i++){
+            String str = br.readLine();
+            for(int j=0;j&lt;M;j++){
+                int num = Character.getNumericValue(str.charAt(j));
+                if(num != A[i][j])
+                    check[i][j] = true;
+            }
+        }
+        bw.write(program() + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int program(){
+        int answer = 0;
+        for(int i=0;i&lt;N;i++){
+            for(int j=0;j&lt;M;j++){
+                if(i&lt;=N-3 && j&lt;=M-3){
+                    if(check[i][j]) {
+                        arrChange(j, i);
+                        answer++;
+                    }
+                }else{
+                    if(check[i][j])
+                        return -1;
+                }
+            }
+        }
+        return answer;
+    }
+    static void arrChange(int x, int y){
+        for(int i=y;i&lt;y + 3;i++){
+            for(int j=x;j&lt;x+3;j++){
+                check[i][j] = !check[i][j];
+            }
+        }
+    }
+}

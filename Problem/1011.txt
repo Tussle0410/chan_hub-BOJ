@@ -1,0 +1,52 @@
+<problem-name>Fly me to the Alpha Centauri
+<blog>https://tussle.tistory.com/143
+<tag>수학
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        int index = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;index;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int currentLocation = Integer.parseInt(st.nextToken());
+            int arrivalLocation = Integer.parseInt(st.nextToken());
+            int distance = arrivalLocation - currentLocation;
+            int result = FlyMeToTheAlphaCentauri(distance);
+            bw.write(String.valueOf(result));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static int FlyMeToTheAlphaCentauri(int distance){
+        int result = 0, sum = 1, num = 1;
+        boolean check = true;
+        for(;;){
+            if(distance>sum && check){
+                distance -= num;
+                num++;
+                sum += num;
+                result++;
+            }else if(distance==sum){
+                result +=num;
+                break;
+            }else if(distance&lt;sum && check){
+                sum-=num;
+                num--;
+                check = false;
+            }else if(distance>sum && !check){
+                distance -= num;
+                result++;
+            }else if(distance&lt;sum && !check){
+                sum-=num;
+                num--;
+            }
+        }
+        return result;
+    }
+}

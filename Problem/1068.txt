@@ -1,0 +1,50 @@
+<problem-name>트리
+<blog>https://tussle.tistory.com/868
+<tag>그래프 이론, 그래프 탐색, 트리, 깊이 우선 탐색
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static ArrayList&lt;ArrayList&lt;Integer>> tree = new ArrayList&lt;>();
+    static int answer = 0;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int root = 0;
+        //트리에 대한 ArrayList 초기화
+        for(int i=0;i&lt;=N;i++)
+            tree.add(new ArrayList&lt;>());
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        for(int i=0;i&lt;N;i++){
+            int node = Integer.parseInt(st.nextToken());
+            if(node == -1){
+                root = i;
+                continue;
+            }
+            tree.get(node).add(i);
+        }
+        int remove = Integer.parseInt(br.readLine());
+        if(remove == root)
+            answer = 0;
+        else
+            search(remove, root);
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void search(int remove, int node){
+        if(tree.get(node).contains(remove))
+            tree.get(node).remove(Integer.valueOf(remove));
+
+        if(tree.get(node).isEmpty()){
+            answer++;
+            return;
+        }
+        for(int next : tree.get(node)){
+            search(remove, next);
+        }
+    }
+}

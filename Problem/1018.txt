@@ -1,0 +1,58 @@
+<problem-name>체스판 다시 칠하기
+<blog>https://tussle.tistory.com/181
+<tag>브루트포스 알고리즘
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static void main(String[] args) throws IOException{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+	int x_size = Integer.parseInt(st.nextToken());
+	int y_size = Integer.parseInt(st.nextToken());
+    	char[][] arr = new char[x_size][y_size];
+    	for(int i=0;i&lt;x_size;i++) {
+    		String text = br.readLine();
+    		for(int j=0;j&lt;y_size;j++) {
+    			arr[i][j] = text.charAt(j);
+    		}
+    	}
+    	int result = 65;
+		for(int i=0;i&lt;=x_size-8;i++) {
+			for(int j=0;j&lt;=y_size-8;j++) {
+				result = Math.min(result, chessPainting(arr, i, j,'B'));
+				result = Math.min(result, chessPainting(arr, i, j,'W'));
+			}
+		}
+    	bw.write(String.valueOf(result));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static int chessPainting(char[][] arr,int row, int col,char firstLetter){
+		int result = 0;
+		int row_end = row+8 , col_end = col+8;
+		char check = firstLetter;
+		for(int i=row;i&lt;row_end;i++) {
+			if(arr[i][col]!=check)
+				result++;
+			for(int j = col+1;j&lt;col_end;j++) {
+				if(check==arr[i][j]) {
+					check=paintingChange(check);
+					result++;
+				}else
+					check = arr[i][j];
+				}
+			}
+		return result;
+	}
+	public static char paintingChange(char c) {
+		char result=' ';
+		if(c=='B')
+			result ='W';
+		else
+			result ='B';
+		return result;
+	}
+}

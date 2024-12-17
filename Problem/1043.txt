@@ -1,0 +1,73 @@
+<problem-name>거짓말
+<blog>
+<tag>자료 구조, 그래프 이론, 그래프 탐색, 분리 집합
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int[] parent;
+    static ArrayList&lt;ArrayList&lt;Integer>>  party = new ArrayList&lt;>();
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine()," ");
+        int H = Integer.parseInt(st.nextToken());
+        parent = new int[N+1];
+        for(int i=0;i&lt;=N;i++)
+            parent[i] = i;
+
+        for(int i=0;i&lt;H;i++)
+            parent[Integer.parseInt(st.nextToken())] = 0;
+
+        for(int i=0;i&lt;M;i++){
+            party.add(new ArrayList&lt;>());
+            st = new StringTokenizer(br.readLine()," ");
+            int size = Integer.parseInt(st.nextToken());
+            for(int j=0;j&lt;size;j++)
+                party.get(i).add(Integer.parseInt(st.nextToken()));
+        }
+        for(int i=0;i&lt;M;i++){
+            for(int j=1;j&lt;party.get(i).size();j++)
+                union(party.get(i).get(0), party.get(i).get(j));
+        }
+        int answer = 0;
+        for(int i=0;i&lt;M;i++){
+            boolean flag = false;
+            for(int n : party.get(i)){
+                if(find(n) == 0){
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag)
+                answer++;
+        }
+        bw.write(String.valueOf(answer));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int find(int a){
+        if(parent[a] == a)
+            return a;
+        return parent[a] = find(parent[a]);
+    }
+    static void union(int a, int b){
+        int pa = find(a);
+        int pb = find(b);
+        if(pa > pb){
+            parent[pa] = pb;
+        }else
+            parent[pb] = pa;
+    }
+}

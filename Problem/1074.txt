@@ -1,0 +1,47 @@
+<problem-name>Z
+<blog>https://tussle.tistory.com/988
+<tag>분할 정복, 재귀
+<java-code>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int N, r, c, result = 0;
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		N = Integer.parseInt(st.nextToken());
+		r = Integer.parseInt(st.nextToken());
+		c = Integer.parseInt(st.nextToken());
+		int size = 1 &lt;&lt; N;
+		search(0, 0, size >> 1);
+		bw.write(String.valueOf(result));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	private static void search(int sr, int sc, int size) {
+		if(size == 0)
+			return;
+
+		if(r &lt; sr + size) {
+			if(c &lt; sc + size)
+				search(sr, sc, size >> 1);
+			else{
+				result += size * size;
+				search(sr, sc+size, size >> 1);
+			}
+		}else {
+			result += (size * size) &lt;&lt; 1;
+			if(c &lt; sc + size) {
+				search(sr+size, sc, size >> 1);
+			}else {
+				result += (size * size);
+				search(sr + size, sc + size, size >> 1);
+			}
+		}
+	}
+}

@@ -1,0 +1,79 @@
+<problem-name>회전하는 큐
+<blog>https://tussle.tistory.com/315
+<tag>자료 구조, 덱
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	static Deque&lt;Integer> deque = new ArrayDeque&lt;>();
+	static Deque&lt;Integer> temp = new ArrayDeque&lt;>();
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int result = 0;
+        for(int i=1;i&lt;=N;i++)
+        	deque.offer(i);
+
+        st = new StringTokenizer(br.readLine(), " ");
+        for(int i=0;i&lt;M;i++) {
+        	int findNum = Integer.parseInt(st.nextToken());
+        	int leftNum = leftpoll(findNum);
+        	int rightNum = rightpoll(findNum);
+        	result += poll(leftNum,rightNum);
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static int poll(int left, int right) {
+    	if(left&lt;=right) {
+    		for(int i=0;i&lt;left;i++) {
+    			deque.offerLast(deque.pollFirst());
+    		}
+    		deque.pollFirst();
+    		return left;
+    	}else {
+    		for(int i=0;i&lt;right;i++) {
+    			deque.offerFirst(deque.pollLast());
+    		}
+    		deque.pollFirst();
+    		return right;
+    	}
+    }
+    public static int leftpoll(int findNum) {
+    	int result = 0;
+    	int size = deque.size();
+    	for(int i=0;i&lt;size;i++) {
+    		int n = deque.pollFirst();
+    		temp.offerFirst(n);
+    		if(n==findNum)
+    			break;
+    		result++;
+    	}
+    	for(int i=0;i&lt;result+1;i++) {
+    		int n = temp.pollFirst();
+    		deque.offerFirst(n);
+    	}
+    	return result;
+    }
+    public static int rightpoll(int findNum) {
+    	int result = 1;
+    	int size = deque.size();
+    	for(int i=0;i&lt;size;i++) {
+    		int n = deque.pollLast();
+    		temp.offerFirst(n);
+    		if(n==findNum)
+    			break;
+    		result++;
+    	}
+    	for(int i=0;i&lt;result;i++) {
+    		int n = temp.pollFirst();
+    		deque.offerLast(n);
+    	}
+    	return result;
+    }
+}

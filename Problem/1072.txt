@@ -1,0 +1,45 @@
+<problem-name>게임
+<blog>
+<tag>수학, 이분 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    static final int MAX_PLUS_VALUE = 1000000000;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        long X = Long.parseLong(st.nextToken());
+        long Y = Long.parseLong(st.nextToken());
+        long Z = (Y*100)/X;
+        int result = -1;
+        if(X != Y && Z &lt; 99)
+            result = search(X, Y, Z);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(long X, long Y, long Z){
+        int start = 0;
+        int end =  MAX_PLUS_VALUE;
+        while(start &lt; end){
+            int mid = (start + end) / 2;
+            long temp = ((Y+mid)*100) / (X+mid);
+            if(temp == Z){
+                start = mid+1;
+            }else if(temp > Z){
+                end = mid;
+            }
+        }
+        return  start;
+
+
+    }
+}

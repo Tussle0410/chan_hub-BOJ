@@ -1,0 +1,25 @@
+<problem-name>직사각형에서 탈출
+<blog>https://tussle.tistory.com/158
+<tag>수학, 기하학
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        squreEscape();
+    }
+    public static void squreEscape() throws IOException {
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int x = Integer.parseInt(st.nextToken());
+        int y = Integer.parseInt(st.nextToken());
+        int width = Integer.parseInt(st.nextToken());
+        int height = Integer.parseInt(st.nextToken());
+        int minWidth = Math.min(Math.min(x, y),Math.min(width-x, height-y));
+        bw.write(String.valueOf(minWidth));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

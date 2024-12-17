@@ -1,0 +1,60 @@
+<problem-name>감소하는 수
+<blog>https://tussle.tistory.com/948
+<tag>브루트포스 알고리즘, 백트래킹
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Main{
+    static int[] arr;
+    static ArrayList&lt;Long> list;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        arr = new int[10];
+        if(N &lt; 10)
+            bw.write(N + "");
+        else {
+            for (int i = 1; i &lt; 10; i++)
+                arr[i] = i;
+            list = new ArrayList&lt;>();
+            int count = 9, size = 0, index = 0;
+            boolean check = false;
+            while (!check && size != 9) {
+                for (int i = 1; i &lt; 10 - size; i++) {
+                    count += arr[i];
+                    if (count >= N) {
+                        check = true;
+                        count -= arr[i];
+                        index = i + size;
+                        break;
+                    }else
+                        arr[i] = arr[i-1] + arr[i];
+                }
+                if (!check)
+                    size++;
+            }
+            if(size == 9)
+                bw.write("-1");
+            else{
+                int dif = N - count;
+                search(index, 0, size + 1);
+                Collections.sort(list);
+                bw.write(list.get(dif - 1) + "");
+            }
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void search(long num, int size, int maxSize){
+        if(size  == maxSize){
+            list.add(num);
+            return;
+        }
+        for(int i=0;i&lt;num%10;i++)
+            search(num * 10 + i, size+1, maxSize);
+    }
+}
