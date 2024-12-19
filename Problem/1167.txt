@@ -1,0 +1,84 @@
+<problem-name>트리의 지름
+<blog>https://tussle.tistory.com/728
+<tag>그래프 이론, 그래프 탐색, 트리, 깊이 우선 탐색
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	static class tree{
+		int next, length;
+		public int getNext() {
+			return next;
+		}
+
+		public int getLength() {
+			return length;
+		}
+		public tree(int next, int length) {
+			this.next = next;
+			this.length = length;
+		}
+
+	}
+	static int N,max=Integer.MIN_VALUE;
+	static ArrayList&lt;ArrayList&lt;tree>> tree = new ArrayList&lt;>();
+	static int[] length;
+	static boolean[] visited;
+    public static void main(String[] args) throws IOException {
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st;
+    	N = Integer.parseInt(br.readLine());
+    	for(int i=0;i&lt;=N;i++)
+    		tree.add(new ArrayList&lt;>());
+    	for(int i=0;i&lt;N;i++) {
+    		st = new StringTokenizer(br.readLine()," ");
+    		int point = Integer.parseInt(st.nextToken());
+    		while(true) {
+    			int next = Integer.parseInt(st.nextToken());
+    			if(next==-1)
+    				break;
+    			int length = Integer.parseInt(st.nextToken());
+    			tree.get(point).add(new tree(next,length));
+    		}
+    	}
+        dfs(1);
+        int index = getMax();
+        dfs(index);
+        max = Integer.MIN_VALUE;
+        index = getMax();
+    	bw.write(String.valueOf(length[index]));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+    static int getMax() {
+    	int index = 0;
+    	for(int i=1;i&lt;=N;i++) {
+    		if(max&lt;length[i]) {
+    			index = i;
+    			max = length[i];
+    		}
+    	}
+    	return index;
+    }
+    static void dfs(int start) {
+    	Queue&lt;Integer> queue = new LinkedList&lt;>();
+    	length = new int[N+1];
+    	visited = new boolean[N+1];
+    	visited[start] = true;
+    	queue.add(start);
+    	while(!queue.isEmpty()) {
+    		int cur = queue.poll();
+    		for(tree value : tree.get(cur)) {
+    			if(!visited[value.next]&&length[cur] + value.getLength() > length[value.next]) {
+    				length[value.next] = length[cur] + value.getLength();
+    				visited[value.next] = true;
+    				queue.add(value.next);
+    			}
+    		}
+    	}
+    	return;
+    }
+}

@@ -1,0 +1,85 @@
+<problem-name>귀농
+<blog>https://tussle.tistory.com/1121
+<tag>자료 구조, 브루트포스 알고리즘, 누적 합, 해시를 사용한 집합과 맵
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int[] dr = {-1, 1, 1, -1};
+    static int[] dc = {-1, 1, -1, 1};
+    static int[][] DP;
+    static int N;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        DP = new int[N+1][N+1];
+        StringTokenizer st;
+        for(int i=1;i&lt;=N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            for(int j=1;j&lt;=N;j++){
+                DP[i][j] = DP[i-1][j] + DP[i][j-1] - DP[i-1][j-1] + Integer.parseInt(st.nextToken());
+            }
+        }
+        int cnt = 0;
+        for(int i=1;i&lt;N;i++){
+            for(int j=1;j&lt;N;j++){
+                cnt += search(i, j, 0, 1) + search(i, j, 2, 3);
+            }
+        }
+        bw.write(String.valueOf(cnt));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(int y, int x, int d1, int d2){
+        int cnt = 0;
+        Map&lt;Integer, Integer> left = new HashMap&lt;>();
+        Map&lt;Integer, Integer> right = new HashMap&lt;>();
+        if(d1 == 0 && d2 == 1){
+            compare(y, x, d1, left);
+            compare(y+1, x+1, d2, right);
+        }else{
+            compare(y+1, x, d1, left);
+            compare(y, x+1, d2, right);
+        }
+
+        for(int area : left.keySet()){
+            if(right.containsKey(area)){
+                cnt += left.get(area) * right.get(area);
+            }
+        }
+        return cnt;
+    }
+    static void compare(int y, int x, int direction, Map&lt;Integer, Integer> map){
+        int r = y;
+        while(r > 0 && r &lt;= N ){
+            int temp;
+            int c = x;
+            while(c > 0 && c &lt;= N){
+                if(direction == 0) {
+                    temp = calArea(r, c, y, x);
+                } else if(direction == 1) {
+                    temp = calArea(y, x, r, c);
+                } else if(direction == 2) {
+                    temp = calArea(y, c, r, x);
+                } else {
+                    temp = calArea(r, x, y, c);
+                }
+                map.put(temp, map.getOrDefault(temp, 0) + 1);
+                c += dc[direction];
+            }
+            r += dr[direction];
+        }
+    }
+    static int calArea(int r1, int c1, int r2, int c2){
+        return DP[r2][c2] - DP[r1-1][c2] - DP[r2][c1-1] + DP[r1-1][c1-1];
+    }
+}

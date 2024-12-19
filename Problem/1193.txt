@@ -1,0 +1,62 @@
+<problem-name>분수찾기
+<blog>https://tussle.tistory.com/130
+<tag>수학, 구현
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        long num = Integer.parseInt(br.readLine());
+        String result = findFractional(num);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static String findFractional(long num) {
+    	long plus = 2,start = 1,temp;
+    	int stack = 1,molecules,denominator;
+    	boolean check;
+    	String result="";
+    	if(num==1)
+    		return "1/1";
+    	else {
+    		for(;;) {
+    			temp = start;
+    			start+=plus;
+    			stack++;
+    			if(num&lt;=start) {
+    				check = odd_even_number(stack);
+    				temp = num - temp;
+    				if(check) {
+    					molecules = 1;
+    					denominator = stack;
+    					for(int i=1;i&lt;temp;i++) {
+    						molecules++;
+    						denominator--;
+        				}
+    				}else {
+    					molecules = stack;
+    					denominator = 1;
+    					for(int i=1;i&lt;temp;i++) {
+    						molecules--;
+    						denominator++;
+        				}
+    				}
+    				break;
+    			}
+    			plus++;
+        	}
+    	}
+    	result = String.valueOf(molecules) + "/" + String.valueOf(denominator);
+    	return result;
+    }
+    public static boolean odd_even_number(int num) {
+    	if(num%2==0)
+    		return true;
+    	else
+    		return false;
+    }
+}

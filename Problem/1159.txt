@@ -1,0 +1,32 @@
+<problem-name>농구 경기
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int[] alphabet = new int[26];
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        boolean check = false;
+        for(int i=0;i&lt;N;i++){
+            char first = br.readLine().charAt(0);
+            alphabet[first - 97]++;
+        }
+        for(int i=0;i&lt;26;i++) {
+            if (alphabet[i] >= 5){
+                bw.write((char)('a' + i) + "");
+                check = true;
+            }
+        }
+        if(!check)
+            bw.write("PREDAJA");
+
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

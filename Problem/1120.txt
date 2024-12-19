@@ -1,0 +1,40 @@
+<problem-name>문자열
+<blog>https://tussle.tistory.com/885
+<tag>문자열, 브루트포스 알고리즘
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        String A = st.nextToken();
+        String B = st.nextToken();
+        int answer = 51;
+        if(A.length() == B.length()){
+            answer = 0;
+            for(int i=0;i&lt;A.length();i++) {
+                if (A.charAt(i) != B.charAt(i))
+                    answer++;
+            }
+        }else{
+                for(int i=0;i&lt;B.length();i++){
+                    if((B.length() - i) - (A.length()) >= 0){
+                        int temp = 0;
+                        int index = 0;
+                        for(int j=i;j &lt; i + A.length();j++){
+                            if(A.charAt(index++) != B.charAt(j))
+                                temp++;
+                        }
+                        answer = Math.min(temp, answer);
+                    }
+                }
+            }
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

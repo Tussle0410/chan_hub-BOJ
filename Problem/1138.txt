@@ -1,0 +1,56 @@
+<problem-name>한 줄로 서기
+<blog>
+<tag>구현, 그리디 알고리즘
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int[] isSelected, arr;
+    static int fullMask, N;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        StringBuilder sb = new StringBuilder();
+        arr = new int[N+1];
+        isSelected = new int[N];
+        fullMask = (1&lt;&lt;N) - 1;
+        for(int i=1;i&lt;=N;i++)
+            arr[i] = Integer.parseInt(st.nextToken());
+        search(0, 0);
+        for(int i=0;i&lt;N;i++)
+            sb.append(isSelected[i]).append(" ");
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static boolean search(int idx, int flag){
+        if(flag == fullMask){
+            return check();
+        }
+        for(int i=1;i&lt;=N;i++){
+            if((flag & (1&lt;&lt;(i-1))) != 0)
+                continue;
+            isSelected[idx] = i;
+            if(search(idx+1, flag | (1&lt;&lt;(i-1))))
+                return true;
+        }
+        return false;
+    }
+    static boolean check(){
+        for(int i=0;i&lt;N;i++){
+            int height = isSelected[i];
+            int count = arr[height];
+            for(int j=0;j&lt;i;j++){
+                if(isSelected[j] > height)
+                    count--;
+            }
+            if(count != 0)
+                return false;
+        }
+        return true;
+    }
+}

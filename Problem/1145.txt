@@ -1,0 +1,37 @@
+<problem-name>적어도 대부분의 배수
+<blog>https://tussle.tistory.com/956
+<tag>브루트포스 알고리즘
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int[] num = new int[5];
+        int n = Integer.MAX_VALUE;
+        for(int i=0;i&lt;5;i++){
+            num[i] = Integer.parseInt(st.nextToken());
+            n = Math.min(num[i], n);
+        }
+
+        while(true){
+            int count = 0;
+            for(int i=0;i&lt;5;i++){
+                if(n % num[i] == 0)
+                    count++;
+                if(count == 3)
+                    break;
+            }
+            if(count == 3)
+                break;
+            n++;
+        }
+        bw.write(n + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

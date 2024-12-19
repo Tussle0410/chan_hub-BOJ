@@ -1,0 +1,111 @@
+<problem-name>달이 차오른다, 가자.
+<blog>
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색, 비트마스킹
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static class Pos {
+		int r, c, val, mask;
+		public Pos(int r, int c, int val, int mask) {
+			this.r = r;
+			this.c = c;
+			this.val = val;
+			this.mask = mask;
+		}
+	}
+
+	static char[][] arr;
+	static int[][][] visited;;
+	static int[] dr = { -1, 1, 0, 0 };
+	static int[] dc = { 0, 0, -1, 1 };
+	static int N, M, result = Integer.MAX_VALUE;
+	static Queue&lt;Pos> keyList = new ArrayDeque&lt;>();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		visited = new int[N][M][65];
+		int sr = -1, sc = -1;
+		arr = new char[N][M];
+		for (int i = 0; i &lt; N; i++) {
+			String str = br.readLine();
+			for (int j = 0; j &lt; M; j++) {
+				Arrays.fill(visited[i][j], Integer.MAX_VALUE);
+				arr[i][j] = str.charAt(j);
+				if (arr[i][j] == '0') {
+					sr = i;
+					sc = j;
+				}
+			}
+		}
+		arr[sr][sc] = '.';
+		search(sr, sc, 0, 0);
+		while(true) {
+			if(keyList.isEmpty())
+				break;
+			int size = keyList.size();
+			for(int i=0;i&lt;size;i++) {
+				Pos cur = keyList.poll();
+				if(cur.val > result)
+					continue;
+				search(cur.r, cur.c, cur.val, cur.mask);
+			}
+		}
+		if(result == Integer.MAX_VALUE)
+			result = -1;
+		bw.write(String.valueOf(result));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
+	private static void search(int sr, int sc, int val, int mask) {
+		Queue&lt;Pos> q = new ArrayDeque&lt;>();
+		q.add(new Pos(sr, sc, val, mask));
+		visited[sr][sc][mask] = val;
+		while(!q.isEmpty()) {
+			Pos cur = q.poll();
+			if(cur.val > result)
+				continue;
+			if(arr[cur.r][cur.c]== '1' ) {
+				result = Math.min(result, cur.val);
+				continue;
+			}
+			for(int i=0;i&lt;4;i++) {
+				int tempR = cur.r + dr[i];
+				int tempC = cur.c + dc[i];
+				if(inSpace(tempR,tempC) && arr[tempR][tempC] != '#' && visited[tempR][tempC][cur.mask] > cur.val + 1) {
+					visited[tempR][tempC][mask] = cur.val + 1;
+					if(arr[tempR][tempC] >= 97) {
+						if((cur.mask & (1&lt;&lt;(arr[tempR][tempC]-97))) == 0)
+							keyList.add(new Pos(tempR,tempC,cur.val+1, cur.mask | (1&lt;&lt;(arr[tempR][tempC]-97))));
+
+						q.offer(new Pos(tempR,tempC, cur.val + 1, cur.mask));
+					}else if(arr[tempR][tempC] >= 65){
+						if((mask & (1&lt;&lt;(arr[tempR][tempC]-65))) != 0)
+							q.offer(new Pos(tempR,tempC, cur.val + 1, cur.mask));
+					}else {
+						q.offer(new Pos(tempR,tempC, cur.val + 1, cur.mask));
+					}
+				}
+			}
+		}
+	}
+
+	private static boolean inSpace(int r, int c) {
+		if (r >= 0 && c >= 0 && r &lt; N && c &lt; M)
+			return true;
+		return false;
+	}
+}

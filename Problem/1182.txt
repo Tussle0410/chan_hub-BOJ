@@ -1,0 +1,39 @@
+<problem-name>부분수열의 합
+<blog>https://tussle.tistory.com/569
+<tag>브루트포스 알고리즘, 백트래킹
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static int[] num;
+	public static boolean[] check;
+	public static int N,S,result=0;
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	N = Integer.parseInt(st.nextToken());
+    	S = Integer.parseInt(st.nextToken());
+    	num = new int[N];
+    	check = new boolean[N];
+    	st = new StringTokenizer(br.readLine()," ");
+    	for(int i=0;i&lt;N;i++)
+    		num[i] = Integer.parseInt(st.nextToken());
+    	for(int i=0;i&lt;N;i++) {
+    		sum(i+1,num[i]);
+    	}
+    	bw.write(String.valueOf(result));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+    public static void sum(int length, int cur) {
+    	if(cur == S) {
+    		result++;
+    	}
+    	for(int i=length;i&lt;N;i++) {
+    		sum(i+1, cur + num[i]);
+    	}
+    	return;
+    }
+}

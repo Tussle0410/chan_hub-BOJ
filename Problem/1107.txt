@@ -1,0 +1,46 @@
+<problem-name>리모컨
+<blog>https://tussle.tistory.com/404
+<tag>브루트포스 알고리즘
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	static boolean[] button = new boolean[10];
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int num  =Integer.parseInt(br.readLine());
+        int size = Integer.parseInt(br.readLine());
+        if(size!=0) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            for(int i=0;i&lt;size;i++) {
+            	int temp = Integer.parseInt(st.nextToken());
+            	button[temp] = true;
+            }
+        }
+        bw.write(String.valueOf(minClick(num)));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static int minClick(int num) {
+    	int result = Math.abs(num-100);
+    	for(int i=0;i&lt;=999999;i++) {
+    		String temp = String.valueOf(i);
+    		int len = temp.length();
+			boolean check = true;
+    		for(int j=0;j&lt;len;j++) {
+    			int n = Character.getNumericValue(temp.charAt(j));
+    			if(button[n]) {
+    				check = false;
+    				break;
+    			}
+    		}
+    		if(check) {
+    			result = Math.min(result, Math.abs(num-i) + len);
+    		}
+    	}
+    	return result;
+    }
+
+}

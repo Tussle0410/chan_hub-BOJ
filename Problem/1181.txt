@@ -1,0 +1,35 @@
+<problem-name>단어 정렬
+<blog>https://tussle.tistory.com/201
+<tag>문자열, 정렬
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int index = Integer.parseInt(br.readLine());
+    	ArrayList&lt;String> list = new ArrayList&lt;String>();
+    	for(int i=0;i&lt;index;i++) {
+    		String text = br.readLine();
+    		if(!list.contains(text))
+    			list.add(text);
+    	}
+    	Collections.sort(list, new Comparator&lt;String>() {
+    		@Override
+    		public int compare(String s1, String s2) {
+    			if(s1.length()==s2.length())
+    				return s1.compareTo(s2);
+    			else
+    				return s1.length()-s2.length();
+    		}
+		});
+    	for(int i=0;i&lt;list.size();i++) {
+    		bw.write(String.valueOf(list.get(i)));
+    		bw.newLine();
+    	}
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+}
