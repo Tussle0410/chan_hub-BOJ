@@ -1,0 +1,75 @@
+<problem-name>파티
+<blog>https://tussle.tistory.com/1004
+<tag>그래프 이론, 최단 경로, 데이크스트라
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+    static class node implements Comparable&lt;node>{
+        int position, value;
+        public node(int position, int value){
+            this.position = position;
+            this.value = value;
+        }
+        @Override
+        public int compareTo(node o) {
+            return this.value - o.value;
+        }
+    }
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        ArrayList&lt;ArrayList&lt;node>> graph = new ArrayList&lt;>();
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int X = Integer.parseInt(st.nextToken());
+        int[][] distance = new int[N+1][N+1];
+        for(int i=0;i&lt;=N;i++) {
+            graph.add(new ArrayList&lt;>());
+            Arrays.fill(distance[i], Integer.MAX_VALUE);
+        }
+        for(int i=0;i&lt;M;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
+            int T = Integer.parseInt(st.nextToken());
+            graph.get(A).add(new node(B, T));
+        }
+        int answer = Integer.MIN_VALUE;
+        for(int i=1;i&lt;=N;i++)
+            bfs(i, distance, graph);
+
+        for(int i=1;i&lt;=N;i++){
+            int d = distance[i][X] + distance[X][i];
+            answer = Math.max(answer, d);
+        }
+        bw.write(String.valueOf(answer));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void bfs(int start, int[][] distance, ArrayList&lt;ArrayList&lt;node>> graph){
+        PriorityQueue&lt;node> pq = new PriorityQueue&lt;>();
+        pq.add(new node(start, 0));
+        distance[start][start] = 0;
+        while(!pq.isEmpty()){
+            node cur = pq.poll();
+            for(node next : graph.get(cur.position)){
+                int tempValue = cur.value + next.value;
+                if(distance[start][next.position] > tempValue){
+                    distance[start][next.position] = tempValue;
+                    pq.add(new node(next.position, tempValue));
+                }
+            }
+        }
+    }
+}

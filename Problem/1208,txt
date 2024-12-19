@@ -1,0 +1,77 @@
+<problem-name>부분수열의 합 2
+<blog>https://tussle.tistory.com/748
+<tag>이분 탐색, 중간에서 만나기
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main{
+	static int N,S;
+	static int[] num;
+	static ArrayList&lt;Integer> leftlist = new ArrayList&lt;>();
+	static ArrayList&lt;Integer> rightlist = new ArrayList&lt;>();
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		N = Integer.parseInt(st.nextToken());
+		S = Integer.parseInt(st.nextToken());
+		num = new int[N];
+		st = new StringTokenizer(br.readLine()," ");
+		for(int i=0;i&lt;N;i++)
+			num[i] = Integer.parseInt(st.nextToken());
+
+		cal(0,N/2,0,leftlist);
+		cal(N/2,N,0,rightlist);
+
+		Collections.sort(leftlist);
+		Collections.sort(rightlist);
+		long result = compare();
+
+		if(S==0)
+			result -= 1;
+
+		bw.write(String.valueOf(result));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static long compare() {
+		long count = 0;
+		int leftIdx = 0;
+		int rightIdx = rightlist.size()-1;
+		while(true) {
+			if(leftIdx==leftlist.size() || rightIdx &lt; 0)
+				break;
+			int left = leftlist.get(leftIdx);
+			int right = rightlist.get(rightIdx);
+			int temp = left + right;
+			if(temp==S) {
+				long leftCount = 0;
+				while(leftIdx&lt;leftlist.size() && leftlist.get(leftIdx)==left) {
+					leftCount++;
+					leftIdx++;
+				}
+				long rightCount = 0;
+				while(rightIdx>=0 && rightlist.get(rightIdx)==right) {
+					rightCount++;
+					rightIdx--;
+				}
+				count += (leftCount * rightCount);
+			}
+			if(temp>S)
+				rightIdx--;
+			if(temp&lt;S)
+				leftIdx++;
+		}
+		return count;
+	}
+	static void cal(int start, int end, int sum, ArrayList&lt;Integer> list) {
+		if(start==end) {
+			list.add(sum);
+			return;
+		}
+		cal(start+1, end, sum, list);
+		cal(start+1, end, sum+num[start],list);
+	}
+}

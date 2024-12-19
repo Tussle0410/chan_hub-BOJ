@@ -1,0 +1,53 @@
+<problem-name>좋다
+<blog>
+<tag>자료 구조, 정렬, 이분 탐색, 두 포인터
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+	static List&lt;Integer> list = new ArrayList&lt;>();
+	static HashSet&lt;Integer> set = new HashSet&lt;>();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int N = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		for(int i=0;i&lt;N;i++)
+			list.add(Integer.parseInt(st.nextToken()));
+		Collections.sort(list);
+		int result = 0;
+		for(int i=N-1;i>=0;i--) {
+			int basic = list.get(i);
+			int start = i == 0 ? 1 : 0;
+			int end = i == N-1 ? N-2 : N-1;
+			while(start &lt; end) {
+				int val = list.get(start) + list.get(end);
+				if(val == basic) {
+					result++;
+					break;
+				}else if(val > basic)
+					end--;
+				else
+					start++;
+
+				if(start == i)
+					start++;
+				if(end == i)
+					end--;
+			}
+		}
+		bw.write(String.valueOf(result));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+}

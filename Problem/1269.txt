@@ -1,0 +1,34 @@
+<problem-name>대칭 차집합
+<blog>
+<tag>자료 구조, 해시를 사용한 집합과 맵, 트리를 사용한 집합과 맵
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+	static int N,M;
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	HashSet&lt;Integer> A = new HashSet&lt;>();
+    	HashSet&lt;Integer> B = new HashSet&lt;>();
+    	N = Integer.parseInt(st.nextToken());
+    	M = Integer.parseInt(st.nextToken());
+    	st = new StringTokenizer(br.readLine()," ");
+    	for(int i=0;i&lt;N;i++)
+    		A.add(Integer.parseInt(st.nextToken()));
+    	st = new StringTokenizer(br.readLine()," ");
+    	for(int i=0;i&lt;M;i++) {
+    		int num = Integer.parseInt(st.nextToken());
+    		if(!A.contains(num))
+    			B.add(num);
+    		else
+    			A.remove(num);
+    	}
+    	bw.write(String.valueOf(A.size() + B.size()));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+
+    }
+}

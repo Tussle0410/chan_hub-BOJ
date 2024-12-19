@@ -1,0 +1,78 @@
+<problem-name>커피숍2
+<blog>
+<tag>자료 구조, 세그먼트 트리
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static long[] num;
+	static long[] tree;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		int N = Integer.parseInt(st.nextToken());
+		int Q = Integer.parseInt(st.nextToken());
+		num = new long[N + 1];
+		tree = new long[N &lt;&lt; 2];
+		st = new StringTokenizer(br.readLine(), " ");
+		for (int i = 1; i &lt;= N; i++)
+			num[i] = Long.parseLong(st.nextToken());
+		init(1, N, 1);
+		for (int i = 0; i &lt; Q; i++) {
+			st = new StringTokenizer(br.readLine(), " ");
+			int x = Integer.parseInt(st.nextToken());
+			int y = Integer.parseInt(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			if (y > x)
+			    bw.write(String.valueOf(sum(1, N, 1, x, y)));
+			else
+				bw.write(String.valueOf(sum(1, N, 1, y, x)));
+			bw.newLine();
+			update(1, N, 1, a, b - num[a]);
+			num[a] = b;
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
+	static long init(int start, int end, int node) {
+		if (start == end)
+			return tree[node] = num[start];
+
+		int mid = (start + end) / 2;
+		return tree[node] = init(start, mid, node &lt;&lt; 1) + init(mid + 1, end, (node &lt;&lt; 1) + 1);
+	}
+
+	static long sum(int start, int end, int node, int left, int right) {
+		if (start > right || end &lt; left)
+			return 0;
+
+		if (start >= left && end &lt;= right)
+			return tree[node];
+
+		int mid = (start + end) / 2;
+		return sum(start, mid, node &lt;&lt; 1, left, right) + sum(mid + 1, end, (node &lt;&lt; 1) + 1, left, right);
+	}
+
+	static void update(int start, int end, int node, int index, long dif) {
+		if (index &lt; start || index > end)
+			return;
+		tree[node] += dif;
+		if (start == end)
+			return;
+		int mid = (start + end) / 2;
+		update(start, mid, node &lt;&lt; 1, index, dif);
+		update(mid + 1, end, (node &lt;&lt; 1) + 1, index, dif);
+	}
+}

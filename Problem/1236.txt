@@ -1,0 +1,55 @@
+<problem-name>성 지키기
+<blog>
+<tag>구현
+<java-code>
+import java.io.*;
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+	public static void main(String[] args) throws IOException {
+		String s = br.readLine();
+		int h = Integer.parseInt(s.split(" ")[0]), w = Integer.parseInt(s.split(" ")[1]), man = 0;
+		boolean[] hor = new boolean[h], ver = new boolean[w];
+
+		for(int i = 0; i &lt; h; i++) {
+			s = br.readLine();
+
+			for(int j = 0 ; j &lt; w; j++) {
+				if(s.charAt(j) == 'X') {
+					hor[i] = true;
+					ver[j] = true;
+				}
+			}
+		}
+
+		for(int i = 0; i &lt; h; i++) {
+			if(!hor[i]) {
+				for(int j = 0; j &lt; w; j++) {
+					if(!ver[j]) {
+						ver[j] = true;
+						hor[i] = true;
+						man++;
+						break;
+					}
+				}
+			}
+		}
+
+		for(int i = 0; i &lt; w; i++) {
+			if(!ver[i]) {
+				man++;
+			}
+		}
+
+		for(int i = 0; i &lt; h; i++) {
+			if(!hor[i]) {
+				man++;
+			}
+		}
+
+		bw.write(man + "");
+		br.close();
+		bw.close();
+	}
+}

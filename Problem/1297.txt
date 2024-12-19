@@ -1,0 +1,22 @@
+<problem-name>TV 크기
+<blog>
+<tag>기하학, 피타고라스 정리
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int D = Integer.parseInt(st.nextToken());
+        int H = Integer.parseInt(st.nextToken());
+        int W = Integer.parseInt(st.nextToken());
+        double val = Math.sqrt((double) (D * D) / (H * H + W * W));
+        bw.write(String.format("%d %d", (int)(val * H),(int)(val * W)));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

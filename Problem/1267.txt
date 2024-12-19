@@ -1,0 +1,36 @@
+<problem-name>핸드폰 요금
+<blog>
+<tag>수학, 사칙연산
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int m = 0;
+        int o = 0;
+        for(int i=0;i&lt;N;i++){
+            int val = Integer.parseInt(st.nextToken()) + 1;
+            o += val % 30 == 0 ? val / 30 * 10 : val / 30 * 10 + 10;
+            m += val % 60 == 0 ? val / 60 * 15 : val / 60 * 15 + 15;
+        }
+        if(m > o) {
+            bw.write("Y " + o);
+        }else if(m == o){
+            bw.write("Y M " + o);
+        }else{
+            bw.write("M " + m);
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

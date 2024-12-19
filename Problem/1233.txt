@@ -1,0 +1,37 @@
+<problem-name>주사위
+<blog>
+<tag>구현, 브루트포스 알고리즘
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int S1 = Integer.parseInt(st.nextToken());
+        int S2 = Integer.parseInt(st.nextToken());
+        int S3 = Integer.parseInt(st.nextToken());
+        int[] cnts = new int[S1 + S2 + S3 + 1];
+        for (int i = 1; i &lt;= S1; i++) {
+            for (int j = 1; j &lt;= S2; j++) {
+                for (int k = 1; k &lt;= S3; k++) {
+                    cnts[i + j + k]++;
+                }
+            }
+        }
+        int max = 0;
+        int idx = 0;
+        for (int i = 1; i &lt; cnts.length; i++) {
+            if (max &lt; cnts[i]) {
+                max = cnts[i];
+                idx = i;
+            }
+        }
+        bw.write(String.valueOf(idx));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

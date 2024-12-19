@@ -1,0 +1,36 @@
+<problem-name>집 주소
+<blog>
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        while(true){
+            int n = Integer.parseInt(br.readLine());
+            if(n == 0)
+                break;
+            int result = 1;
+            while(n > 0){
+                int temp = n % 10;
+                if(temp == 1)
+                    result+=2;
+                else if(temp == 0)
+                    result += 4;
+                else
+                    result += 3;
+                result++;
+                n /= 10;
+            }
+            bw.write(String.valueOf(result));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}
