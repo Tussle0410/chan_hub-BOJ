@@ -1,0 +1,26 @@
+<problem-name>뒤집힌 덧셈
+<blog>https://tussle.tistory.com/872
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int X = Integer.parseInt(st.nextToken());
+        int Y = Integer.parseInt(st.nextToken());
+        bw.write(Rex(Rex(X) + Rex(Y)) + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int Rex(int num){
+        StringBuilder sb = new StringBuilder(num +"");
+        sb.reverse();
+        return Integer.parseInt(sb.toString());
+    }
+}

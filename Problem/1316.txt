@@ -1,0 +1,34 @@
+<problem-name>그룹 단어 체커
+<blog>https://tussle.tistory.com/125
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int N = Integer.parseInt(br.readLine());
+		int cnt = 0;
+		for (int i = 0; i &lt; N; i++) {
+			String str = br.readLine();
+			boolean[] group = new boolean[26];
+			boolean isGroup = true;
+			int tmp = -1;
+
+			for (int j = 0; j &lt; str.length(); j++) {
+				int word = str.charAt(j) - 'a';
+				if(tmp == word) continue;
+				tmp = word;
+				if(!group[word]) group[word] = true;
+				else isGroup = false;
+			}
+			if(isGroup) cnt++;
+		}
+		bw.write(String.valueOf(cnt));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+}

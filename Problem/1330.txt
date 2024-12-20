@@ -1,0 +1,30 @@
+<problem-name>두 수 비교하기
+<blog>https://tussle.tistory.com/65
+<tag>구현
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        String text;
+        while((text=br.readLine())!=null){
+            st = new StringTokenizer(text," ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            if(a>b){
+                bw.write(">");
+            }else if(a&lt;b){
+                bw.write("&lt;");
+            }else if(a==b){
+                bw.write("==");
+            }
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

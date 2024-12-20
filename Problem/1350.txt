@@ -1,0 +1,34 @@
+<problem-name>진짜 공간
+<blog>
+<tag>수학, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int[] disk = new int[N];
+        for(int i=0;i&lt;N;i++){
+            disk[i] = Integer.parseInt(st.nextToken());
+
+        }
+        long size = Long.parseLong(br.readLine());
+        long cnt = 0;
+        for(int i=0;i&lt;N;i++){
+            cnt += disk[i] / size;
+            if(disk[i] % size > 0){
+                cnt++;
+            }
+        }
+        bw.write(String.valueOf(size * cnt));
+        bw.flush();
+        bw.close();
+        br.close();
+
+
+
+    }
+}

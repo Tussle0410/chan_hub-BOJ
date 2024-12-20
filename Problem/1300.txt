@@ -1,0 +1,36 @@
+<problem-name>K번째 수
+<blog>https://tussle.tistory.com/370
+<tag>이분 탐색, 매개 변수 탐색
+<java-code>
+import java.io.*;
+public class Main {
+	static int N;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        int K = Integer.parseInt(br.readLine());
+        bw.write(String.valueOf(findK(1, K, K)));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static int findK(int start, int end, int K) {
+    	while(start&lt;end) {
+    		int median = (start + end)/2;
+    		if(check(median)&lt;K)
+    			start = median+1;
+    		else
+    			end = median;
+    	}
+    	return start;
+    }
+    public static int check(int median) {
+    	int result = 0;
+    	for(int i=1;i&lt;=N;i++)
+    		result += Math.min(median/i, N);
+
+    	return result;
+    }
+
+}

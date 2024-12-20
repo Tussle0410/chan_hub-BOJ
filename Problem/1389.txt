@@ -1,0 +1,65 @@
+<problem-name>케빈 베이컨의 6단계 법칙
+<blog>https://tussle.tistory.com/965
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색, 최단 경로, 플로이드–워셜
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main{
+    static ArrayList&lt;ArrayList&lt;Integer>> graph = new ArrayList&lt;>();
+    static int N,min = Integer.MAX_VALUE, answer = -1;
+    static class info{
+        int index, count;
+        public info(int index, int count){
+            this.index = index;
+            this.count = count;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        for(int i=0;i&lt;=N;i++)
+            graph.add(new ArrayList&lt;>());
+        for(int i=0;i&lt;M;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
+            graph.get(A).add(B);
+            graph.get(B).add(A);
+        }
+        for(int i=1;i&lt;=N;i++)
+            bfs(i);
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void bfs(int start){
+        Queue&lt;info> queue = new LinkedList&lt;>();
+        boolean[] visited = new boolean[N+1];
+        queue.add(new info(start, 0));
+        visited[start] = true;
+        int result = 0;
+        while(!queue.isEmpty()){
+            info cur = queue.poll();
+            for(int next : graph.get(cur.index)){
+                if(!visited[next]){
+                    result += cur.count + 1;
+                    visited[next] = true;
+                    queue.add(new info(next, cur.count+1));
+                }
+            }
+        }
+        if(result &lt; min){
+            min = result;
+            answer = start;
+        }
+
+    }
+}

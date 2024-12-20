@@ -1,0 +1,66 @@
+<problem-name>나이트 투어
+<blog>
+<tag>구현, 시뮬레이션
+<java-code>
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int[] dr = {-1, -2, -2, -1, 1, 2, 2, 1};
+        int[] dc = {-2, -1, 1, 2, -2, -1, 1, 2};
+        boolean[][] visited = new boolean[7][6];
+        String start = br.readLine();
+        int sr = Character.getNumericValue(start.charAt(1));
+        int sc =  start.charAt(0)-65;
+        int r = sr;
+        int c = sc;
+        visited[r][c] = true;
+        boolean validFlag = true;
+        for(int i=1;i&lt;36;i++){
+            String nxt = br.readLine();
+            int nr = Character.getNumericValue(nxt.charAt(1));
+            int nc = nxt.charAt(0)-65;
+            if(visited[nr][nc]) {
+                validFlag = false;
+                break;
+            }
+            boolean flag = true;
+            for(int j=0;j&lt;8;j++){
+                int tempR = r+dr[j];
+                int tempC = c+dc[j];
+                if(tempR == nr && tempC == nc){
+                    flag = false;
+                    visited[nr][nc] = true;
+                    r = nr;
+                    c = nc;
+                    break;
+                }
+            }
+            if(flag){
+                validFlag = false;
+                break;
+            }
+        }
+        if(validFlag) {
+            boolean flag = true;
+            for(int i=0;i&lt;8;i++){
+                int tempR = r + dr[i];
+                int tempC = c + dc[i];
+                if(tempR == sr && tempC == sc){
+                    bw.write("Valid");
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag)
+                bw.write("Invalid");
+        }else
+            bw.write("Invalid");
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

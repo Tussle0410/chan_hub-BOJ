@@ -1,0 +1,35 @@
+<problem-name>가장 많은 글자
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        int[] alphabet = new int[26];
+        String str;
+        while((str = br.readLine())!=null){
+            for(int i=0;i&lt;str.length();i++) {
+                char c = str.charAt(i);
+                if(c == ' ')
+                    continue;
+                alphabet[c - 97]++;
+            }
+        }
+        int max = -1;
+        for(int i=0;i&lt;26;i++)
+            max = Math.max(max, alphabet[i]);
+
+        for(int i=0;i&lt;26;i++)
+            if(alphabet[i] == max)
+                sb.append((char)(i + 97));
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

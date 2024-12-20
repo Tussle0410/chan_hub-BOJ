@@ -1,0 +1,43 @@
+<problem-name>베스트셀러
+<blog>https://tussle.tistory.com/889
+<tag>자료 구조, 문자열, 정렬, 해시를 사용한 집합과 맵
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+public class Main {
+    static HashMap&lt;String, Integer> map = new HashMap&lt;>();
+    static int N, max = Integer.MIN_VALUE;
+    static String answer = "";
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;N;i++){
+            String str = br.readLine();
+            if(map.containsKey(str))
+                map.put(str, map.get(str) + 1);
+            else
+                map.put(str, 1);
+        }
+        for(String key : map.keySet()){
+            if(map.get(key) > max){
+                answer = key;
+                max = map.get(key);
+            }else if(map.get(key) == max){
+                ArrayList&lt;String> list = new ArrayList&lt;>();
+                list.add(answer);
+                list.add(key);
+                Collections.sort(list);
+                if(list.get(0).equals(key))
+                    answer = key;
+            }
+        }
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
