@@ -1,0 +1,45 @@
+<problem-name>계단 수
+<blog>https://tussle.tistory.com/1143
+<tag>다이나믹 프로그래밍, 비트마스킹, 비트필드를 이용한 다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int mod = 1000000000;
+        long[][][] DP = new long[N+1][10][1024];
+        for(int i=1;i&lt;=9;i++){
+            DP[1][i][1&lt;&lt;i] = 1;
+        }
+        for(int i=2;i&lt;=N;i++){
+            for(int j=0;j&lt;=9;j++){
+                for(int k=1;k&lt;1024;k++){
+                    int nxtBit = k | (1 &lt;&lt; j);
+                    if(j == 0){
+                        DP[i][j][nxtBit] += DP[i-1][1][k];
+                    }else if(j == 9){
+                        DP[i][j][nxtBit] += DP[i-1][8][k];
+                    }else{
+                        DP[i][j][nxtBit] += (DP[i-1][j-1][k] + DP[i-1][j+1][k]) % mod;
+                    }
+                    DP[i][j][nxtBit] %= mod;
+                }
+            }
+        }
+        long result = 0;
+        for(int i=0;i&lt;=9;i++){
+            result += DP[N][i][1023];
+            result %= mod;
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+
+    }
+}

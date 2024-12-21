@@ -1,0 +1,37 @@
+<problem-name>평균
+<blog>https://tussle.tistory.com/100
+<tag>수학, 사칙연산
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args)throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int index = Integer.parseInt(br.readLine());
+        String score = br.readLine();
+        int max=-1;
+        float sum=0;
+        StringTokenizer st = new StringTokenizer(score," ");
+        int[] arr = new int[index];
+        for(int i=0;i&lt;index;i++){
+            int num = Integer.parseInt(st.nextToken());
+            arr[i] = num;
+            if(num>max){
+                max = num;
+            }
+        }
+        for(int i=0;i&lt;index;i++){
+            float temp = cal(arr[i],max);
+            sum+=temp;
+        }
+        bw.write(String.valueOf(sum/index));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static float cal(int score,int max){
+        float result = (float)score/max * 100;
+        return result;
+    }
+}

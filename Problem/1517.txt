@@ -1,0 +1,80 @@
+<problem-name>버블 소트
+<blog>https://tussle.tistory.com/1102
+<tag>자료 구조, 정렬, 세그먼트 트리, 분할 정복
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static class Info implements Comparable&lt;Info> {
+        int idx, val;
+        Info(int idx, int val){
+            this.idx = idx;
+            this.val = val;
+        }
+        @Override
+        public int compareTo(Info o) {
+            return this.val - o.val;
+        }
+
+    }
+    static long[] tree;
+    static Info[] values;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        values = new Info[N];
+        for(int i=0;i&lt;N;i++){
+            values[i] = new Info(i, Integer.parseInt(st.nextToken()));
+        }
+        long result = 0;
+        Arrays.sort(values);
+        tree = new long[getTreeSize(N)];
+        int pre = Integer.MAX_VALUE;
+        List&lt;Integer> idxs = new ArrayList&lt;>();
+        for(Info val  : values){
+            if(pre != val.val){
+                for(int idx : idxs){
+                    update(0, N-1, 1, idx);
+                }
+                idxs.clear();
+                pre = val.val;
+            }
+            result += search(0, N-1, 1, val.idx+1, N-1);
+            idxs.add(val.idx);
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static long search(int start, int end, int node, int left, int right){
+        if(left > end || right &lt; start) {
+            return 0L;
+        }
+        if(left &lt;= start && end &lt;= right){
+            return tree[node];
+        }
+        int mid = (start + end) / 2;
+        return search(start, mid, node*2, left, right) + search(mid+1, end, node*2 + 1, left, right);
+    }
+    static void update(int start, int end, int node, int idx){
+        if(idx == start && idx == end){
+            tree[node] = 1L;
+            return;
+        }
+        int mid = (start + end) / 2;
+        if(idx &lt;= mid){
+            update(start, mid, node * 2, idx);
+        }else{
+            update(mid + 1, end, node * 2 + 1, idx);
+        }
+        tree[node] = tree[node * 2] + tree[node * 2 + 1];
+    }
+    static int getTreeSize(int n) {
+        int h = (int)Math.ceil(Math.log(n)/Math.log(2))+1;
+        return (int)Math.pow(2, h)-1;
+    }
+}

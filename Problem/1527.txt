@@ -1,0 +1,36 @@
+<problem-name>금민수의 개수
+<blog>https://tussle.tistory.com/1125
+<tag>브루트포스 알고리즘
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int cnt = 0;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int A = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        search(A, B, 0L);
+        bw.write(String.valueOf(cnt));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void search(int A, int B, long cur){
+        if(cur > B){
+            return;
+        }
+        if(cur >= A){
+            cnt++;
+        }
+        search(A, B, cur * 10 + 4);
+        search(A, B, cur * 10 + 7);
+    }
+}

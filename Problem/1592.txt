@@ -1,0 +1,42 @@
+<problem-name>영식이와 친구들
+<blog>
+<tag>구현, 시뮬레이션
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int L = Integer.parseInt(st.nextToken());
+        int[] cnts = new int[N+1];
+        int curIdx = 1;
+        int cnt = 0;
+        cnts[1] = 1;
+        while(true){
+            if(cnts[curIdx] == M){
+                break;
+            }
+
+            if(cnts[curIdx] % 2 == 1){
+                curIdx = (curIdx + L) % N == 0 ? N : (curIdx + L) % N;
+            }else{
+                int temp = curIdx - L;
+                if(temp &lt;= 0){
+                    curIdx = N + temp;
+                }else{
+                    curIdx = temp;
+                }
+            }
+            cnts[curIdx]++;
+            cnt++;
+        }
+        bw.write(String.valueOf(cnt));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

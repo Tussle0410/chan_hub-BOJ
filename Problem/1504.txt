@@ -1,0 +1,94 @@
+<problem-name>특정한 최단 경로
+<blog>https://tussle.tistory.com/580
+<tag>그래프 이론, 최단 경로, 데이크스트라
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static class node{
+		int point, cost;
+
+		public node(int point, int cost) {
+			this.point = point;
+			this.cost = cost;
+		}
+		public int getPoint() {
+			return point;
+		}
+		public int getCost() {
+			return cost;
+		}
+	}
+	public static int N,E;
+	public static int[] distance;
+	public static ArrayList&lt;ArrayList&lt;node>> graph = new ArrayList&lt;>();
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine());
+    	N = Integer.parseInt(st.nextToken());
+    	E = Integer.parseInt(st.nextToken());
+
+    	for(int i=0;i&lt;N+1;i++)
+    		graph.add(new ArrayList&lt;>());
+
+    	for(int i=0;i&lt;E;i++) {
+    		st = new StringTokenizer(br.readLine());
+    		int a = Integer.parseInt(st.nextToken());
+    		int b = Integer.parseInt(st.nextToken());
+    		int c = Integer.parseInt(st.nextToken());
+
+    		graph.get(a).add(new node(b,c));
+    		graph.get(b).add(new node(a,c));
+    	}
+
+    	st = new StringTokenizer(br.readLine()," ");
+    	int v1 = Integer.parseInt(st.nextToken());
+    	int v2 = Integer.parseInt(st.nextToken());
+
+    	distance = new int[N+1];
+
+    	long result = shortestPath(1, v1);
+    	result += shortestPath(v1, v2);
+    	result += shortestPath(v2, N);
+
+    	long temp = shortestPath(1, v2);
+    	temp += shortestPath(v2, v1);
+    	temp += shortestPath(v1, N);
+
+    	result = Math.min(result, temp);
+    	if(result >= Integer.MAX_VALUE)
+    		bw.write("-1");
+    	else
+    		bw.write(String.valueOf(result));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+
+    }
+    public static int shortestPath(int start, int end) {
+    	Arrays.fill(distance, Integer.MAX_VALUE);
+    	distance[start] = 0;
+    	PriorityQueue&lt;node> queue = new PriorityQueue&lt;node>(new Comparator&lt;node>() {
+			@Override
+			public int compare(node o1, node o2) {
+				return o1.cost-o2.cost;
+			}
+		});
+    	queue.add(new node(start,0));
+    	while(!queue.isEmpty()) {
+    		node temp = queue.poll();
+    		int point = temp.getPoint();
+    		int cost = temp.getCost();
+    		if(distance[point] &lt; cost)
+    			continue;
+    		for(node value : graph.get(point)) {
+        		if(distance[value.getPoint()] > value.getCost() + cost) {
+        			distance[value.getPoint()] = value.getCost() + cost;
+        			queue.add(new node(value.getPoint(),value.getCost() + cost));
+        		}
+    		}
+    	}
+    	return distance[end];
+    }
+}

@@ -1,0 +1,67 @@
+<problem-name>부분 문자열 뽑기 게임
+<blog>https://tussle.tistory.com/1141
+<tag>다이나믹 프로그래밍, 문자열, 게임 이론
+<java-code>
+import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int[] DP;
+    static int N;
+    static int min = Integer.MAX_VALUE;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        DP = new int[N + 1];
+        search(N);
+        if(min == Integer.MAX_VALUE){
+            min = -1;
+        }
+        bw.write(String.valueOf(min));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(int cur){
+
+        if(DP[cur] != 0){
+            return DP[cur];
+        }
+
+        if(cur &lt; 10){
+            return DP[cur] = -1;
+        }
+
+        int remain = 1;
+        while(remain &lt;= cur){
+            remain *= 10;
+        }
+
+        while(remain > 1){
+            int temp = cur % remain;
+            int div = 1;
+            while(div &lt;= temp){
+                int nxt = cur - (temp / div);
+                if(nxt > 0){
+                    if(search(nxt) == -1){
+                        DP[cur] = 1;
+                        if(cur == N){
+                            min = Math.min(min, temp / div);
+                        }
+                    }
+                }
+                div *= 10;
+            }
+            remain /= 10;
+        }
+
+        if(DP[cur] ==0){
+            return DP[cur] = -1;
+        }
+
+        return DP[cur];
+    }
+}
