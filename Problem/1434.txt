@@ -1,0 +1,46 @@
+<problem-name>책 정리
+<blog>
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine()," ");
+        int[] box = new int[N];
+        for(int i=0;i&lt;N;i++){
+            box[i] = Integer.parseInt(st.nextToken());
+        }
+        st = new StringTokenizer(br.readLine()," ");
+        int idx = 0;
+        int sum = 0;
+        for(int i=0;i&lt;M;i++){
+            int book = Integer.parseInt(st.nextToken());
+            while(true){
+                if(box[idx] >= book){
+                    box[idx] -= book;
+                    break;
+                }else{
+                    sum += box[idx];
+                    idx++;
+                }
+            }
+        }
+        for(int i=idx;i&lt;N;i++){
+            sum += box[i];
+        }
+        bw.write(String.valueOf(sum));
+        bw.flush();
+        bw.close();
+        br.close();
+
+
+
+    }
+}

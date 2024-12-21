@@ -1,0 +1,38 @@
+<problem-name>걷기
+<blog>
+<tag>수학, 많은 조건 분기
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int X = Integer.parseInt(st.nextToken());
+        int Y = Integer.parseInt(st.nextToken());
+        int W = Integer.parseInt(st.nextToken());
+        int S = Integer.parseInt(st.nextToken());
+        long result;
+        long max = Math.max(X, Y);
+        long min = Math.min(X, Y);
+        if((W &lt;&lt; 1) &lt; S) {
+            result = (long) (X + Y) * W;
+        }else if((W &lt;&lt; 1) > (S &lt;&lt; 1)) {
+            if((X + Y) % 2 == 0)
+                result = max * S;
+            else
+                result = (max-1) * S + W;
+        }else {
+            if(X == Y)
+                result = max * S;
+            else
+                result = min * S + (max - min) * W;
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

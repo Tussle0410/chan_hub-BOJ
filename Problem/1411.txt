@@ -1,0 +1,53 @@
+<problem-name>비슷한 단어
+<blog>
+<tag>구현, 문자열, 브루트포스 알고리즘
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        String[] words = new String[N];
+        int[] alphabet;
+        boolean[] check;
+        for(int i=0;i&lt;N;i++)
+            words[i] = br.readLine();
+        int len = words[0].length();
+        int result = 0;
+        for(int i=0;i&lt;N;i++){
+            for(int j=i+1;j&lt;N;j++){
+                alphabet = new int[27];
+                check = new boolean[26];
+                boolean flag = true;
+                for(int k=0;k&lt;len;k++){
+                    char a = words[i].charAt(k);
+                    char b = words[j].charAt(k);
+                    if(alphabet[a-96] == 0){
+                        alphabet[a-96] = b;
+                        if(check[b-97]){
+                            flag = false;
+                            break;
+                        }
+                        check[b-97] = true;
+                    }else{
+                        if(alphabet[a-96] != b){
+                            flag = false;
+                            break;
+                        }
+                    }
+                }
+                if(flag)
+                    result++;
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+
+    }
+}

@@ -1,0 +1,40 @@
+<problem-name>다이어트
+<blog>
+<tag>수학, 두 포인터
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int pre = 1;
+        int cur = 2;
+        StringBuilder sb = new StringBuilder();
+        boolean flag = false;
+        while(pre &lt; cur){
+            int temp = cur * cur - pre * pre;
+            if(temp == N){
+                bw.write(String.valueOf(cur));
+                bw.newLine();
+                flag = true;
+                pre++;
+            }else if(temp &lt; N){
+                cur++;
+            }else{
+                if(cur - pre == 1){
+                    break;
+                }
+                pre++;
+            }
+        }
+        if(!flag){
+            bw.write("-1");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

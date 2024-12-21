@@ -1,0 +1,85 @@
+<problem-name>불우이웃돕기
+<blog>
+<tag>그래프 이론, 문자열, 최소 스패닝 트리
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.PriorityQueue;
+
+public class Main {
+    static class Info implements Comparable&lt;Info>{
+        int s, e, len;
+        public Info(int s, int e, int len){
+            this.s = s;
+            this.e = e;
+            this.len = len;
+        }
+
+        @Override
+        public int compareTo(Info o) {
+            return this.len - o.len;
+        }
+    }
+    static int[] parent;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        PriorityQueue&lt;Info> pq = new PriorityQueue&lt;>();
+        parent = new int[N+1];
+        int total_len = 0;
+        for(int i=1;i&lt;=N;i++){
+            String str = br.readLine();
+            parent[i] = i;
+            for(int j=1;j&lt;=N;j++){
+                char c = str.charAt(j-1);
+                if(c == '0')
+                    continue;
+                int len;
+                if(c >= 97)
+                    len = c - 96;
+                else
+                    len = c - 38;
+                total_len += len;
+                pq.offer(new Info(i, j, len));
+            }
+        }
+        int result = 0;
+        while(!pq.isEmpty()){
+            Info cur = pq.poll();
+            if(union(cur.s, cur.e))
+                result += cur.len;
+        }
+        int basic = find(1);
+        for(int i=2;i&lt;=N;i++){
+            if(find(i) != basic){
+                result = -1;
+                break;
+            }
+        }
+        if(result == -1)
+            bw.write("-1");
+        else
+            bw.write(String.valueOf(total_len - result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int find(int a){
+        if(parent[a] == a)
+            return a;
+        return find(parent[a]);
+    }
+    static boolean union(int a, int b){
+        int pa = find(a);
+        int pb = find(b);
+        if(pa == pb)
+            return false;
+
+        parent[pa] = pb;
+        return true;
+    }
+}

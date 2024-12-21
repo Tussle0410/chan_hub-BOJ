@@ -1,0 +1,61 @@
+<problem-name>냅색문제
+<blog>https://tussle.tistory.com/668
+<tag>이분 탐색, 중간에서 만나기
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	static int[] weight;
+	static int N,S;
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	N = Integer.parseInt(st.nextToken());
+    	S = Integer.parseInt(st.nextToken());
+    	weight = new int[N];
+    	st = new StringTokenizer(br.readLine()," ");
+    	for(int i=0;i&lt;N;i++)
+    		weight[i] = Integer.parseInt(st.nextToken());
+
+    	ArrayList&lt;Integer> left = new ArrayList&lt;Integer>();
+    	ArrayList&lt;Integer> right = new ArrayList&lt;Integer>();
+    	cal(0,N/2,0,left);
+    	cal(N/2,N,0,right);
+
+    	Collections.sort(right);
+    	int count = 0;
+    	for(int i=0;i&lt;left.size();i++) {
+    		count += upperBound(right, left.get(i));
+    	}
+    	bw.write(String.valueOf(count));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+
+    }
+    static int upperBound(ArrayList&lt;Integer> list, int num) {
+    	int start = 0;
+    	int end = list.size();
+    	while(start&lt;end) {
+    		int median = (start + end)/2;
+    		if(list.get(median) + num &lt;= S)
+    			start = median+1;
+    		else
+    			end = median;
+    	}
+    	return start;
+    }
+    static void cal(int length, int end, int sum, ArrayList&lt;Integer> list) {
+    	if(sum > S)
+    		return;
+
+    	if(length==end) {
+    		list.add(sum);
+    		return;
+    	}
+    	cal(length+1, end, sum + weight[length], list);
+    	cal(length+1, end, sum, list);
+    	return;
+    }
+}

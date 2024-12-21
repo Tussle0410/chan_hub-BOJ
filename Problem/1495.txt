@@ -1,0 +1,47 @@
+<problem-name>기타리스트
+<blog>https://tussle.tistory.com/806
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main {
+    static int[][] DP;
+    static int[] volume;
+    static int N,S,M;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        N = Integer.parseInt(st.nextToken());
+        S = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        volume = new int[N];
+        DP = new int[N][M+1];
+        for(int i=0;i&lt;N;i++)
+            Arrays.fill(DP[i], Integer.MIN_VALUE);
+        st = new StringTokenizer(br.readLine());
+        for(int i=0;i&lt;N;i++)
+            volume[i] = Integer.parseInt(st.nextToken());
+
+        bw.write(search(0, S) + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(int index, int value){
+        if(value > M || value &lt; 0)
+            return -1;
+
+        if(index==N)
+            return value;
+
+        if(DP[index][value]!=Integer.MIN_VALUE)
+            return DP[index][value];
+
+        DP[index][value] = Math.max(DP[index][value],
+                Math.max(search(index+1, value + volume[index]), search(index+1, value-volume[index])));
+
+        return DP[index][value];
+    }
+}
+

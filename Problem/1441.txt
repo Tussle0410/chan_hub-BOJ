@@ -1,0 +1,68 @@
+<problem-name>나누어 질까
+<blog>https://tussle.tistory.com/1090
+<tag>수학, 정수론, 유클리드 호제법, 포함 배제의 원리
+<java-code>
+import java.io.*;
+import java.util.*;
+
+
+public class Main {
+    static int fullMask;
+    static int N, L, R, result;
+    static boolean[] using;
+    static int[] A;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        N = Integer.parseInt(st.nextToken());
+        L = Integer.parseInt(st.nextToken());
+        R = Integer.parseInt(st.nextToken());
+        A = new int[N];
+        fullMask = (1&lt;&lt;N)-1;
+        using = new boolean[fullMask+1];
+        st = new StringTokenizer(br.readLine()," ");
+        for(int i=0;i&lt;N;i++){
+            A[i] = Integer.parseInt(st.nextToken());
+        }
+        for(int i=0;i&lt;N;i++){
+          search(1&lt;&lt;i, A[i],  1);
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void search(int bitmask, long cur, int cnt){
+        if(using[bitmask]){
+            return;
+        }
+        using[bitmask] = true;
+        if(cur > R){
+            return;
+        }
+
+        long val = R/cur - (L-1)/cur;
+        if(cnt % 2 == 0){
+            result -= val;
+        }else{
+            result += val;
+        }
+        using[bitmask] = true;
+        if(bitmask == fullMask){
+            return;
+        }
+        for(int i=0;i&lt;N;i++){
+            if((bitmask & (1&lt;&lt;i)) == 0){
+                search(bitmask | (1&lt;&lt;i), lcm(cur, A[i]), cnt+1);
+            }
+        }
+    }
+    static long lcm(long a, long b){
+        return a*b/gcd(a,b);
+    }
+    static long gcd(long a, long b){
+        if(b==0) return a;
+        return gcd(b,a%b);
+    }
+}

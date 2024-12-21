@@ -1,0 +1,44 @@
+<problem-name>방 번호
+<blog>https://tussle.tistory.com/964
+<tag>구현
+<java-code>
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String N = br.readLine();
+        int[] count = new int[10];
+        int answer = 1;
+        for(int i=0;i&lt;N.length();i++){
+            int n = Character.getNumericValue(N.charAt(i));
+            if(count[n] &lt; answer)
+                count[n]++;
+            else{
+                if(n == 6){
+                    if(count[9] &lt; answer)
+                        count[9]++;
+                    else{
+                        count[n]++;
+                        answer++;
+                    }
+                }else if(n == 9){
+                    if(count[6] &lt; answer)
+                        count[6]++;
+                    else{
+                        count[n]++;
+                        answer++;
+                    }
+                }else{
+                    count[n]++;
+                    answer++;
+                }
+            }
+        }
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

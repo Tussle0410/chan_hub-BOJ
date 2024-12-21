@@ -1,0 +1,85 @@
+<problem-name>가장 작은 직사각형
+<blog>https://tussle.tistory.com/1117
+<tag>브루트포스 알고리즘, 기하학, 두 포인터
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+    static class Pos implements Comparable&lt;Pos> {
+        int x, y;
+        Pos(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public int compareTo(Pos p) {
+            if(p.y == this.y){
+                return this.x - p.x;
+            }
+            return this.y - p.y;
+        }
+
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        List&lt;Pos> posList = new ArrayList&lt;>();
+        List&lt;Integer> yList = new ArrayList&lt;>();
+        boolean[] duplicationY = new boolean[10001];
+
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            posList.add(new Pos(x, y));
+        }
+
+        Collections.sort(posList);
+        for(Pos cur : posList){
+            if(!duplicationY[cur.y]){
+                duplicationY[cur.y] = true;
+                yList.add(cur.y);
+            }
+        }
+
+        int len = yList.size();
+        int result = Integer.MAX_VALUE;
+        int halfN = N/2;
+        List&lt;Integer> cur = new ArrayList&lt;>();
+        for(int i=0;i&lt;len;i++){
+            int idx = 0;
+            for(int j=i;j&lt;len;j++){
+                int endY = yList.get(j);
+                while(idx &lt; N && posList.get(idx).y &lt;= endY){
+                    if(yList.get(i) &lt;= posList.get(idx).y){
+                        cur.add(posList.get(idx).x);
+                    }
+                    idx++;
+                }
+                if(cur.size() &lt; halfN){
+                    continue;
+                }
+                Collections.sort(cur);
+                for(int k=0;k&lt;=cur.size()-halfN;k++){
+                    result = Math.min(result, (cur.get(k+halfN-1) - cur.get(k) + 2) * (endY - yList.get(i) + 2));
+                }
+            }
+            cur.clear();
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

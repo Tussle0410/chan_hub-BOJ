@@ -1,0 +1,36 @@
+<problem-name>24
+<blog>
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine(),":");
+        int h1 = Integer.parseInt(st.nextToken());
+        int m1 = Integer.parseInt(st.nextToken());
+        int s1 = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine(),":");
+        int h2 = Integer.parseInt(st.nextToken());
+        int m2 = Integer.parseInt(st.nextToken());
+        int s2 = Integer.parseInt(st.nextToken());
+        int time1 = h1*3600 + m1*60 + s1;
+        int time2 = h2*3600 + m2*60 + s2;
+        int result;
+        if(time2 &lt; time1){
+            result = 24*3600 - time1 + time2;
+        }else{
+            result = time2 - time1;
+        }
+        int time = time2 - time1;
+        bw.write(String.format("%02d:%02d:%02d", result/3600, (result%3600)/60, result%60));
+        bw.flush();
+        bw.close();
+        br.close();
+
+
+    }
+}

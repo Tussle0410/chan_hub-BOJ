@@ -1,0 +1,33 @@
+<problem-name>국회의원 선거
+<blog>https://tussle.tistory.com/942
+<tag>구현, 자료 구조, 그리디 알고리즘, 시뮬레이션, 우선순위 큐
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+        int answer = 0;
+        if(N!=1){
+            PriorityQueue&lt;Integer> pq = new PriorityQueue&lt;>(Collections.reverseOrder());
+            for(int i=1;i&lt;N;i++)
+                pq.add(Integer.parseInt(br.readLine()));
+
+            while(pq.peek() >= M){
+                int cur = pq.poll();
+                cur--;
+                M++;
+                answer++;
+                pq.add(cur);
+            }
+        }
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

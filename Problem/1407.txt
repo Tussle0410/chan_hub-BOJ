@@ -1,0 +1,53 @@
+<problem-name>2로 몇 번 나누어질까
+<blog>
+<tag>수학
+<java-code>
+import java.io.*;
+import java.util.*;
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        long A = Long.parseLong(st.nextToken());
+        long B = Long.parseLong(st.nextToken());
+        long dif = B - A + 1;
+        long odd = 0L;
+        boolean aIsOdd = A % 2 == 1;
+        boolean bIsOdd = B % 2 == 1;
+        if(aIsOdd && bIsOdd){
+            odd = dif/2 + 1;
+        }else{
+            odd = dif/2;
+        }
+        long[] arr = new long[50];
+        long[] binary = new long[50];
+        binary[0] = 1L;
+        arr[1] = binary[1] = 2L;
+        for(int i=2;i&lt;50;i++){
+            binary[i] = (long) Math.pow(2, i);
+            arr[i] = arr[i-1] * 2L + binary[i-1];
+        }
+        long valA = getVal(A-1, binary, arr);
+        long valB = getVal(B, binary, arr);
+        long result = valB - valA + odd;
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+
+    }
+    static long getVal(long A, long[] binary, long[] arr){
+        long result = 0L;
+        int idx = 49;
+        while(A > 0){
+            if(A >= binary[idx]){
+                result += arr[idx];
+                A -= binary[idx];
+            }
+            idx--;
+        }
+        return result;
+    }
+}
