@@ -1,0 +1,27 @@
+<problem-name>손익분기점
+<blog>https://tussle.tistory.com/126
+<tag>수학, 사칙연산
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        long fixMoney = Integer.parseInt(st.nextToken());
+        long variableMoney = Integer.parseInt(st.nextToken());
+        long price = Integer.parseInt(st.nextToken());
+        long result = break_even_point(fixMoney,variableMoney,price);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static long break_even_point(long fix,long variable,long price) {
+    	if(variable>=price)
+    		return -1;
+    	long result = fix/(price-variable)+1;
+    	return result;
+    }
+}

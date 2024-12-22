@@ -1,0 +1,32 @@
+<problem-name>수 이어 쓰기 1
+<blog>https://tussle.tistory.com/415
+<tag>수학, 구현
+<java-code>
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int N = Integer.parseInt(br.readLine());
+    	int result = 0;
+    	int maxValue = 1000000000;
+    	int i=10;
+    	boolean check  = false;
+    	while(maxValue!=0) {
+    		i--;
+    		maxValue /= 10;
+    		if(check) {
+    			result += (maxValue*9)*i;
+    			continue;
+    		}
+    		if(N>=maxValue) {
+    			result += (N-maxValue+1)*i;
+    			check = true;
+    		}
+    	}
+    	bw.write(String.valueOf(result));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+}

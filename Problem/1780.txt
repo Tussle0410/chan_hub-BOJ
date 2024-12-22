@@ -1,0 +1,72 @@
+<problem-name>종이의 개수
+<blog>https://tussle.tistory.com/323
+<tag>분할 정복, 재귀
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	static int[][] paper;
+	static int minus = 0, zero = 0, plus = 0;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        int size = Integer.parseInt(br.readLine());
+        paper = new int[size][size];
+        for(int i=0;i&lt;size;i++) {
+        	st = new StringTokenizer(br.readLine()," ");
+        	for(int j=0;j&lt;size;j++)
+        		paper[i][j] = Integer.parseInt(st.nextToken());
+        }
+        paperCount(0, 0, size);
+        bw.write(String.valueOf(minus));
+        bw.newLine();
+        bw.write(String.valueOf(zero));
+        bw.newLine();
+        bw.write(String.valueOf(plus));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static void paperCount(int start, int end, int size) {
+    	if(size == 1) {
+    		countPlus(paper[start][end]);
+    		return;
+    	}
+    	if(paperCheck(start, end, size))
+    		countPlus(paper[start][end]);
+    	else {
+    		int tempSize = size/3;
+    		paperCount(start, end, tempSize);
+    		paperCount(start, end + tempSize, tempSize);
+    		paperCount(start, end + (tempSize*2), tempSize);
+    		paperCount(start + tempSize, end, tempSize);
+    		paperCount(start + tempSize, end + tempSize, tempSize);
+    		paperCount(start + tempSize, end + (tempSize*2), tempSize);
+    		paperCount(start + (tempSize*2), end, tempSize);
+    		paperCount(start + (tempSize*2), end + tempSize, tempSize);
+    		paperCount(start + (tempSize*2), end + (tempSize*2), tempSize);
+    	}
+
+    }
+    public static boolean paperCheck(int start, int end, int size) {
+    	int firstValue = paper[start][end];
+    	int start_end = start + size;
+    	int end_end  = end + size;
+    	for(int i=start;i&lt;start_end;i++) {
+    		for(int j=end;j&lt;end_end;j++) {
+    			if(paper[i][j]!=firstValue)
+    				return false;
+    		}
+    	}
+    	return true;
+    }
+    public static void countPlus(int n) {
+    	if(n==-1)
+    		minus++;
+    	else if(n==0)
+    		zero++;
+    	else
+    		plus++;
+    }
+}

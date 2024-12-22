@@ -1,0 +1,82 @@
+<problem-name>최단경로
+<blog>https://tussle.tistory.com/578
+<tag>그래프 이론, 최단 경로, 데이크스트라
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+    static class Node implements Comparable&lt;Node>{
+
+        int pos, weight;
+
+        public Node(int pos, int weight) {
+            this.pos = pos;
+            this.weight = weight;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.weight - o.weight;
+        }
+    }
+    static int[] distance;
+    static List&lt;List&lt;Node>> graph;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int V = Integer.parseInt(st.nextToken());
+        int E = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(br.readLine());
+         graph = new ArrayList&lt;>();
+        for(int i=0;i&lt;=V;i++){
+            graph.add(new ArrayList&lt;>());
+        }
+        for(int i=0;i&lt;E;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+            graph.get(u).add(new Node(v,w));
+        }        distance = new int[V+1];
+
+        dijkstra(K);
+        for(int i=1;i&lt;=V;i++){
+            if(distance[i] == Integer.MAX_VALUE){
+                bw.write("INF");
+            }else{
+                bw.write(String.valueOf(distance[i]));
+            }
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void dijkstra(int start){
+        PriorityQueue&lt;Node> pq = new PriorityQueue&lt;>();
+        pq.offer(new Node(start,0));
+        Arrays.fill(distance,Integer.MAX_VALUE);
+        distance[start] = 0;
+        while(!pq.isEmpty()){
+            Node cur = pq.poll();
+
+            if(distance[cur.pos] &lt; cur.weight){
+                continue;
+            }
+            for(Node nxt : graph.get(cur.pos)){
+                int nxtWeight = cur.weight + nxt.weight;
+                if(nxtWeight &lt; distance[nxt.pos]){
+                    distance[nxt.pos] = nxtWeight;
+                    pq.offer(new Node(nxt.pos, nxtWeight));
+                }
+            }
+        }
+    }
+}

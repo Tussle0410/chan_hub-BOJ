@@ -1,0 +1,61 @@
+<problem-name>암호 만들기
+<blog>https://tussle.tistory.com/473
+<tag>수학, 브루트포스 알고리즘, 조합론, 백트래킹
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	static int L, C, maxIdx = -1;
+	static char[] selected, ch;
+	static boolean[] check = new boolean[123];
+	static List&lt;String> result = new ArrayList&lt;>();
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		L = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
+		selected = new char[L];
+		ch = new char[C];
+		check['a'] = check['e'] = check['i'] = check['o'] = check['u'] = true;
+		st = new StringTokenizer(br.readLine()," ");
+		for(int i=0;i&lt;C;i++)
+			ch[i] = st.nextToken().charAt(0);
+
+		Arrays.sort(ch);
+
+		for(int i=0;i&lt;C;i++)
+			if(check[ch[i]])
+				maxIdx = i;
+
+		search(0, 0, 0, 0);
+		for(String s : result){
+		    bw.write(s);
+		    bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static void search(int idx, int cnt, int v_count, int c_count) {
+		if(cnt == L) {
+			if(v_count >= 1 && c_count >= 2) {
+				StringBuilder sb = new StringBuilder();
+				for(int i=0;i&lt;L;i++)
+					sb.append(selected[i]);
+				result.add(sb.toString());
+			}
+			return;
+		}
+		if(idx == C || (idx > maxIdx && v_count &lt; 1))
+			return;
+		selected[cnt] = ch[idx];
+		if(check[ch[idx]])
+			search(idx + 1, cnt + 1, v_count+1, c_count);
+		else
+			search(idx + 1, cnt + 1, v_count, c_count+1);
+
+		search(idx + 1, cnt, v_count, c_count);
+	}
+}

@@ -1,0 +1,39 @@
+<problem-name>듣보잡
+<blog>
+<tag>자료 구조, 문자열, 정렬, 해시를 사용한 집합과 맵
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+	static int N,M;
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	N = Integer.parseInt(st.nextToken());
+    	M = Integer.parseInt(st.nextToken());
+    	HashSet&lt;String> map = new HashSet&lt;>();
+    	for(int i=0;i&lt;N;i++) {
+    		String name = br.readLine();
+    		map.add(name);
+    	}
+    	ArrayList&lt;String> list = new ArrayList&lt;>();
+    	for(int i=0;i&lt;M;i++) {
+    		String name = br.readLine();
+    		if(map.contains(name)) {
+    			list.add(name);
+    		}
+    	}
+    	Collections.sort(list);
+    	int size = list.size();
+    	bw.write(String.valueOf(size));
+    	bw.newLine();
+    	for(int i=0;i&lt;size;i++){
+    		bw.write(String.valueOf(list.get(i)));
+    		bw.newLine();
+    	}
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+}

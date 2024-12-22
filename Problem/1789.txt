@@ -1,0 +1,22 @@
+<problem-name>수들의 합
+<blog>
+<tag>수학, 그리디 알고리즘
+<java-code>
+import java.io.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        long S = Long.parseLong(br.readLine());
+        int num = 1, answer = 0;
+        while(S >= num){
+            S -= num;
+            num++;
+            answer++;
+        }
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

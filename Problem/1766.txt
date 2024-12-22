@@ -1,0 +1,51 @@
+<problem-name>문제집
+<blog>https://tussle.tistory.com/1021
+<tag>자료 구조, 그래프 이론, 우선순위 큐, 위상 정렬, 방향 비순환 그래프
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static ArrayList&lt;ArrayList&lt;Integer>> graph  = new ArrayList&lt;>();
+	static int[] count;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        for(int i=0;i&lt;=N;i++)
+        	graph.add(new ArrayList&lt;>());
+        count = new int[N+1];
+        for(int i=0;i&lt;M;i++) {
+        	st = new StringTokenizer(br.readLine()," ");
+        	int A = Integer.parseInt(st.nextToken());
+        	int B = Integer.parseInt(st.nextToken());
+        	graph.get(A).add(B);
+        	count[B]++;
+        }
+        PriorityQueue&lt;Integer> pq = new PriorityQueue&lt;>();
+        for(int i=1;i&lt;=N;i++)
+        	if(count[i] == 0)
+        		pq.offer(i);
+        while(!pq.isEmpty()) {
+        	int cur = pq.poll();
+        	sb.append(cur).append(" ");
+        	for(int nxt : graph.get(cur)) {
+        		count[nxt]--;
+        		if(count[nxt] == 0)
+        			pq.add(nxt);
+        	}
+        }
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+
+
+	}
+}

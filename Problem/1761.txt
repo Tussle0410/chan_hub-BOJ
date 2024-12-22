@@ -1,0 +1,101 @@
+<problem-name>정점들의 거리
+<blog>https://tussle.tistory.com/882
+<tag>자료 구조, 트리, 최소 공통 조상
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+
+public class Main {
+    static class node{
+        int next, width;
+        public node(int next, int width){
+            this.next = next;
+            this.width = width;
+        }
+    }
+    static int N,M, maxDepth = -1;
+    static ArrayList&lt;ArrayList&lt;node>> tree = new ArrayList&lt;>();
+    static int[] depth, width;
+    static int[][] parent;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+        getMaxDepth();
+        parent = new int[N+1][maxDepth+1];
+        width = new int[N+1];
+        depth = new int[N+1];
+        for(int i=0;i&lt;=N;i++)
+            tree.add(new ArrayList&lt;>());
+        for(int i=1;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+            tree.get(a).add(new node(b, w));
+            tree.get(b).add(new node(a, w));
+        }
+        setTree(1, 1, 0, 0);
+        fillParent();
+        M = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;M;i++){
+            st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int result = width[a] + width[b] - (width[LCA(a, b)] * 2);
+            bw.write(String.valueOf(result));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void getMaxDepth(){
+        maxDepth = (int)Math.ceil(Math.log(N) / Math.log(2)) + 1;
+    }
+    static void setTree(int c, int d, int p, int w){
+        depth[c] = d;
+        width[c] = w;
+        for(node next : tree.get(c)){
+            if(next.next == p)
+                continue;
+            parent[next.next][0] = c;
+            setTree(next.next, d+1, c, w + next.width);
+        }
+    }
+    static void fillParent(){
+        for(int i=1;i&lt;=maxDepth;i++){
+            for(int j=1;j&lt;=N;j++){
+                parent[j][i] = parent[parent[j][i-1]][i-1];
+            }
+        }
+    }
+    static int LCA(int a, int b){
+        int ah = depth[a];
+        int bh = depth[b];
+        if(ah &lt; bh){
+            int temp = b;
+            b = a;
+            a = temp;
+        }
+        for(int i=maxDepth-1;i>=0;i--){
+            if(Math.pow(2, i) &lt;= depth[a] - depth[b]){
+                a = parent[a][i];
+            }
+        }
+        if(a == b)
+            return a;
+
+        for(int i=maxDepth-1;i>=0;i--){
+            if(parent[a][i]!=parent[b][i]){
+                a = parent[a][i];
+                b = parent[b][i];
+            }
+        }
+        return parent[a][0];
+    }
+}

@@ -1,0 +1,66 @@
+<problem-name>멀티탭 스케줄링
+<blog>https://tussle.tistory.com/919
+<tag>그리디 알고리즘
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        HashMap&lt;Integer, Queue&lt;Integer>> map = new HashMap&lt;>();
+        ArrayList&lt;Integer> plug = new ArrayList&lt;>();
+        int[] values = new int[K];
+        st = new StringTokenizer(br.readLine()," ");
+        for(int i=0;i&lt;K;i++){
+            values[i] = Integer.parseInt(st.nextToken());
+            if(map.containsKey(values[i])){
+                map.get(values[i]).add(i);
+            }else{
+                map.put(values[i], new LinkedList&lt;>());
+                map.get(values[i]).add(i);
+            }
+        }
+        int index =  0;
+        while(index &lt; K && plug.size() &lt; N){
+            if(!plug.contains(values[index]))
+                plug.add(values[index]);
+            map.get(values[index]).poll();
+            index++;
+        }
+        int answer = 0;
+        for(int i=index;i&lt;K;i++){
+            int max = -1, id = -1;
+            if(plug.contains(values[i])){
+                map.get(values[i]).poll();
+                continue;
+            }
+            for(int j=0;j&lt;plug.size();j++){
+                if(map.get(plug.get(j)).isEmpty()){
+                    id = j;
+                    break;
+                }
+                if(max &lt; map.get(plug.get(j)).peek() - i){
+                    id = j;
+                    max = map.get(plug.get(j)).peek() - i;
+                }
+            }
+            map.get(values[i]).poll();
+            plug.remove(id);
+            plug.add(values[i]);
+            answer++;
+        }
+        bw.write(String.valueOf(answer));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
