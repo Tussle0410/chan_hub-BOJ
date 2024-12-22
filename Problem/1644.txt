@@ -1,0 +1,53 @@
+<problem-name>소수의 연속합
+<blog>https://tussle.tistory.com/656
+<tag>수학, 정수론, 두 포인터, 소수 판정, 에라토스테네스의 체
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        final int MAX =  4000000;
+        boolean[] decimal = new boolean[MAX+1];
+        List&lt;Integer> list = new ArrayList&lt;>();
+        for(int i=2;i&lt;=Math.sqrt(MAX);i++){
+            if(decimal[i]){
+                continue;
+            }
+            for(int j=2;i*j&lt;=MAX;j++){
+                decimal[i*j] = true;
+            }
+        }
+        for(int i=2;i&lt;=MAX;i++){
+            if(!decimal[i]){
+                list.add(i);
+            }
+        }
+        int s = 0;
+        int e = 0;
+        int size = list.size();
+        int sum = list.get(0);
+        int result = 0;
+        while(true){
+            if(sum >= N){
+                if(sum == N){
+                    result++;
+                }
+                sum -= list.get(s++);
+            }else{
+                if(e == size-1){
+                    break;
+                }
+                sum += list.get(++e);
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

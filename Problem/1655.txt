@@ -1,0 +1,41 @@
+<problem-name>가운데를 말해요
+<blog>https://tussle.tistory.com/418
+<tag>자료 구조, 우선순위 큐
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	private static PriorityQueue&lt;Integer> rightQueue = new PriorityQueue&lt;Integer>();
+	private static PriorityQueue&lt;Integer> leftQueue = new PriorityQueue&lt;Integer>(Collections.reverseOrder());
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int N = Integer.parseInt(br.readLine());
+    	for(int i=0;i&lt;N;i++) {
+    		int num = Integer.parseInt(br.readLine());
+    		if(leftQueue.size()==0)
+    			leftQueue.add(num);
+    		else if(leftQueue.size()==rightQueue.size()) {
+    			if(num>rightQueue.peek()) {
+    				int temp = rightQueue.poll();
+    				rightQueue.add(num);
+    				leftQueue.add(temp);
+    			}else
+    				leftQueue.add(num);
+    		}else {
+    			if(num&lt;leftQueue.peek()) {
+    				int temp = leftQueue.poll();
+    				leftQueue.add(num);
+    				rightQueue.add(temp);
+    			}else
+    				rightQueue.add(num);
+    		}
+    		bw.write(String.valueOf(leftQueue.peek()));
+    		bw.newLine();
+    	}
+    	bw.flush();
+    	bw.close();
+    	br.close();
+
+    }
+}

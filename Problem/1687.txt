@@ -1,0 +1,57 @@
+<problem-name>행렬 찾기
+<blog>
+<tag>브루트포스 알고리즘, 누적 합
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    static class Info{
+        int cnt, height;
+        public Info(int cnt, int height){
+            this.cnt = cnt;
+            this.height = height;
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int[][] DP = new int[N+1][M+1];
+        for(int i=1;i&lt;=N;i++){
+            String str = br.readLine();
+            for(int j=1;j&lt;=M;j++){
+                char c = str.charAt(j-1);
+                if(c == '0'){
+                    DP[i][j] = DP[i-1][j] + 1;
+                }
+            }
+        }
+        int result = 0;
+        Stack&lt;Info> stack = new Stack&lt;>();
+        for(int i=1;i&lt;=N;i++){
+            for(int j=1;j&lt;=M;j++){
+                int cnt = 1;
+                while(!stack.isEmpty() && stack.peek().height >= DP[i][j]){
+                    cnt += stack.peek().cnt;
+                    result = Math.max(result, (cnt-1) * stack.peek().height);
+                    stack.pop();
+                }
+                stack.push(new Info(cnt, DP[i][j]));
+                result = Math.max(result, cnt * DP[i][j]);
+            }
+            int total = 0;
+            while(!stack.isEmpty()) {
+                total += stack.peek().cnt;
+                result = Math.max(result, total* stack.peek().height);
+                stack.pop();
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

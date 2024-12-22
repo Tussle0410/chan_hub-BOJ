@@ -1,0 +1,61 @@
+<problem-name>누울 자리를 찾아라
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, row, col;
+    static char[][] arr;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        N = Integer.parseInt(br.readLine());
+        arr = new char[N][N];
+        for(int i=0;i&lt;N;i++)
+            arr[i] = br.readLine().toCharArray();
+        rowSearch(0, 0, 0);
+        colSearch(0, 0, 0);
+        sb.append(row).append(" ").append(col);
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+
+    private static void colSearch(int r, int c, int val) {
+        if(c == N)
+            return;
+        if(r == N){
+            if(val >= 2)
+                col++;
+            colSearch(0, c+1, 0);
+        } else if(arr[r][c] == 'X'){
+            if(val >= 2)
+                col++;
+            colSearch(r+1, c, 0);
+        }else
+            colSearch(r+1, c, val+1);
+    }
+
+    private static void rowSearch(int r, int c, int val) {
+        if(r == N)
+            return;
+        if(c == N){
+            if(val >= 2)
+                row++;
+            rowSearch(r+1, 0, 0);
+        } else if(arr[r][c] == 'X'){
+            if(val >= 2)
+                row++;
+            rowSearch(r, c+1, 0);
+        }else
+            rowSearch(r, c+1, val+1);
+    }
+}

@@ -1,0 +1,38 @@
+<problem-name>나는야 포켓몬 마스터 이다솜
+<blog>https://tussle.tistory.com/704
+<tag>자료 구조, 해시를 사용한 집합과 맵
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+	static int N,M;
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	N =Integer.parseInt(st.nextToken());
+    	M =Integer.parseInt(st.nextToken());
+    	HashMap&lt;String,Integer> nameKeyMap = new HashMap&lt;>();
+    	HashMap&lt;Integer,String> numKeyMap = new HashMap&lt;>();
+    	for(int i=1;i&lt;=N;i++) {
+    		String pokemonName = br.readLine();
+    		nameKeyMap.put(pokemonName, i);
+    		numKeyMap.put(i, pokemonName);
+    	}
+    	for(int i=0;i&lt;M;i++) {
+    		String findPokemon = br.readLine();
+    		char AsciiNum = findPokemon.charAt(0);
+    		if(AsciiNum >= 65 && AsciiNum &lt;= 90) {
+    			if(nameKeyMap.containsKey(findPokemon))
+    				bw.write(String.valueOf(nameKeyMap.get(findPokemon)));
+    		}else {
+    			int num = Integer.parseInt(findPokemon);
+    			bw.write(String.valueOf(numKeyMap.get(num)));
+    		}
+    		bw.newLine();
+    	}
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+}

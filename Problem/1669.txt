@@ -1,0 +1,57 @@
+<problem-name>멍멍이 쓰다듬기
+<blog>
+<tag>수학
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringBuilder sb = new StringBuilder();
+        int X = Integer.parseInt(st.nextToken());
+        int Y = Integer.parseInt(st.nextToken());
+        int dif = Y - X;
+        if(dif &lt;= 3)
+            sb.append(dif);
+        else{
+            int result = 0;
+            int val = dif >> 1;
+            int idx = 2;
+            int sum = 3;
+            int pre = 1;
+            while(true){
+                if(sum == val){
+                    result = idx &lt;&lt; 1;
+                    if((sum &lt;&lt; 1) &lt; dif)
+                        result++;
+                    break;
+                }
+                if(sum >val){
+                    if(dif - sum &lt; pre){
+                        result = ((idx-1) &lt;&lt; 1) + 1;
+                    }else if(dif - sum == pre){
+                        result = idx + (idx - 1);
+                    }else{
+                        result = idx + (idx-1) + 1;
+                    }
+                    break;
+                }
+                pre = sum;
+                idx++;
+                sum += idx;
+            }
+            sb.append(result);
+        }
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

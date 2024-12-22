@@ -1,0 +1,39 @@
+<problem-name>트로피 진열
+<blog>
+<tag>구현
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int[] trophies = new int[N];
+        for (int i = 0; i &lt; N; i++) {
+            trophies[i] = Integer.parseInt(br.readLine());
+        }
+        int leftMax = 0;
+        int rightMax = 0;
+        int leftCount = 0;
+        int rightCount = 0;
+        for(int i=0;i&lt;N;i++){
+            if(leftMax &lt; trophies[i]){
+                leftMax = trophies[i];
+                leftCount++;
+            }
+        }
+        for(int i=N-1;i>=0;i--){
+            if(rightMax &lt; trophies[i]){
+                rightMax = trophies[i];
+                rightCount++;
+            }
+        }
+        bw.write(String.valueOf(leftCount));
+        bw.newLine();
+        bw.write(String.valueOf(rightCount));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
