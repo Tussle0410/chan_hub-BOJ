@@ -19,7 +19,7 @@ public class Main {
 		BigInteger size = new BigInteger("2");
 		size = size.pow(N);
 		size = size.subtract(new BigInteger("1"));
-		answer.append(size).append("\\n");
+		answer.append(size).append("\n");
 		if(N&lt;=20)
 			hanoi(N, 1, 2, 3);
 		bw.write(answer.toString());
@@ -29,11 +29,11 @@ public class Main {
 	}
 	static void hanoi(int N, int start, int mid, int end) {
 		if(N == 1) {
-			answer.append(start).append(" ").append(end).append("\\n");
+			answer.append(start).append(" ").append(end).append("\n");
 			return;
 		}
 		hanoi(N-1, start, end, mid);
-		answer.append(start).append(" ").append(end).append("\\n");
+		answer.append(start).append(" ").append(end).append("\n");
 		hanoi(N-1, mid, start, end);
 	}
 }
