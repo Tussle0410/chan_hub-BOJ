@@ -1,0 +1,39 @@
+<problem-name>하노이 탑
+<blog>
+<tag>임의 정밀도 / 큰 수 연산, 재귀
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.math.BigInteger;
+
+public class Main {
+	static StringBuilder answer = new StringBuilder();
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		String str = br.readLine();
+		int N = Integer.parseInt(str);
+		BigInteger size = new BigInteger("2");
+		size = size.pow(N);
+		size = size.subtract(new BigInteger("1"));
+		answer.append(size).append("\\n");
+		if(N&lt;=20)
+			hanoi(N, 1, 2, 3);
+		bw.write(answer.toString());
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static void hanoi(int N, int start, int mid, int end) {
+		if(N == 1) {
+			answer.append(start).append(" ").append(end).append("\\n");
+			return;
+		}
+		hanoi(N-1, start, end, mid);
+		answer.append(start).append(" ").append(end).append("\\n");
+		hanoi(N-1, mid, start, end);
+	}
+}
