@@ -1,0 +1,23 @@
+<problem-name>오각형, 오각형, 오각형…
+<blog>
+<tag>수학
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int MOD = 45678;
+        int result = (N * 5) % MOD;
+        for(int i=1;i&lt;N;i++){
+            result  = (result + (i * 3-1) % MOD) % MOD;
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

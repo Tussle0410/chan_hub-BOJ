@@ -1,0 +1,62 @@
+<problem-name>프린터 큐
+<blog>https://tussle.tistory.com/311
+<tag>구현, 자료 구조, 시뮬레이션, 큐
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	static Queue&lt;Integer> queue = new LinkedList&lt;>();
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static int[] arr;
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int index = Integer.parseInt(br.readLine());
+		StringTokenizer st;
+		for(int i=0;i&lt;index;i++) {
+			st = new StringTokenizer(br.readLine()," ");
+			int N = Integer.parseInt(st.nextToken());
+			int M = Integer.parseInt(st.nextToken());
+			arr = new int[N];
+			st = new StringTokenizer(br.readLine());
+			for(int j=0;j&lt;N;j++) {
+				arr[j] = Integer.parseInt(st.nextToken());
+				queue.offer(j);
+			}
+			printQueue(N,M);
+			queue.clear();
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	public static void printQueue(int N, int M) throws IOException{
+		int result = 1;
+		int check = N;
+		for(int i=0;i&lt;N;i++) {
+			int index=0;
+			int temp = queue.poll();
+			int max = arr[temp];
+			queue.offer(temp);
+			for(int j=1;j&lt;check;j++) {
+				temp = queue.poll();
+				queue.offer(temp);
+				if(arr[temp]>max) {
+					index=j;
+					max = arr[temp];
+				}
+			}
+			for(int j=0;j&lt;index;j++) {
+				temp = queue.poll();
+				queue.offer(temp);
+			}
+			temp = queue.poll();
+			if(temp==M) {
+				bw.write(String.valueOf(result));
+				bw.newLine();
+				break;
+			}
+			check--;
+			result++;
+		}
+	}
+}

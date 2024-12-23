@@ -1,0 +1,47 @@
+<problem-name>후위 표기식2
+<blog>
+<tag>자료 구조, 스택
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		char[] arr = br.readLine().toCharArray();
+		double[] num = new double[N];
+		for(int i=0;i&lt;N;i++)
+			num[i] = Double.parseDouble(br.readLine());
+		Stack&lt;Double> stack = new Stack&lt;>();
+		double temp = 0;
+		for(int i=0;i&lt;arr.length;i++) {
+			if(arr[i] >= 65)
+				stack.add(num[arr[i]-65]);
+			else {
+				double a = stack.pop();
+				double b = stack.pop();
+				temp = cal(arr[i], b, a);
+				stack.add(temp);
+			}
+		}
+		System.out.printf("%.2f", temp);
+		br.close();
+
+	}
+	static double cal(char operator, double a, double b) {
+		if(operator == '+')
+			return a + b;
+		else if(operator == '-')
+			return a - b;
+		else if(operator == '/')
+			return a / b;
+		else
+			return a * b;
+	}
+}

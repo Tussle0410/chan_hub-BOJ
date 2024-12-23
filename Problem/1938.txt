@@ -1,0 +1,129 @@
+<problem-name>통나무 옮기기
+<blog>
+<tag>구현, 그래프 이론, 그래프 탐색, 너비 우선 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+    static class Info{
+        int nr, nc, direction;
+        public Info(int nr, int nc, int direction){
+            this.nr = nr;
+            this.nc = nc;
+            this.direction = direction;
+        }
+    }
+    static char[][] map;
+    static int N, result;
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, -1, 1};
+    static int[][] dirR= {{ 0, 0}, { -1, 1}};
+    static int[][] dirC= {{-1, 1}, { 0, 0}};
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        map = new char[N][N];
+        for(int i=0;i&lt;N;i++){
+            String str =br.readLine();
+            for(int j=0;j&lt;N;j++)
+                map[i][j] = str.charAt(j);
+        }
+        int s_cnt = 0, g_cnt = 0;
+        Info start = null;
+        Info goal = null;
+        for(int i=0;i&lt;N;i++){
+            for(int j=0;j&lt;N;j++){
+                if(map[i][j] == 'B'){
+                    if(s_cnt == 1) {
+                        if(inSpace(i-1, j) && map[i-1][j] == 'B')
+                            start = new Info(i, j, 1);
+                        else
+                            start = new Info(i, j, 0);
+                    }
+                    s_cnt++;
+                }else if(map[i][j] == 'E'){
+                    if(g_cnt == 1){
+                        if(inSpace(i-1, j) && map[i-1][j] == 'E')
+                            goal = new Info(i, j, 1);
+                        else
+                            goal = new Info(i, j, 0);
+                    }
+                    g_cnt++;
+                }
+            }
+        }
+        if(start.nr == goal.nr && start.nc == goal.nc && start.direction == goal.direction)
+            result = 0;
+        else
+            bfs(start, goal);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void bfs(Info start, Info goal){
+        boolean[][][] visited = new boolean[N][N][2];
+        Queue&lt;Info> q = new ArrayDeque&lt;>();
+        visited[start.nr][start.nc][start.direction] = true;
+        q.add(start);
+        int cnt = 0;
+        while(!q.isEmpty()) {
+            int size = q.size();
+            cnt++;
+            for(int i=0;i&lt;size;i++){
+                Info cur = q.poll();
+                if(cur.nr == goal.nr && cur.nc == goal.nc && cur.direction == goal.direction){
+                    result = cnt-1;
+                    return;
+                }
+                for(int j=0;j&lt;4;j++){
+                    int tr = cur.nr + dr[j];
+                    int tc = cur.nc + dc[j];
+                    if(!inSpace(tr, tc) || visited[tr][tc][cur.direction] || map[tr][tc] == '1')
+                        continue;
+                    boolean flag = true;
+                    for(int s=0;s&lt;2;s++){
+                        int tempR = tr + dirR[cur.direction][s];
+                        int tempC = tc + dirC[cur.direction][s];
+                        if(!inSpace(tempR, tempC) || map[tempR][tempC] == '1'){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        visited[tr][tc][cur.direction] = true;
+                        q.add(new Info(tr, tc, cur.direction));
+                    }
+                }
+                if(turnCheck(cur.nr, cur.nc)){
+                    int dir = (cur.direction + 1) % 2;
+                    if(!visited[cur.nr][cur.nc][dir]){
+                        visited[cur.nr][cur.nc][dir] = true;
+                        q.add(new Info(cur.nr, cur.nc, dir));
+                    }
+                }
+            }
+        }
+    }
+    static boolean turnCheck(int r, int c){
+        for(int i=r-1;i&lt;=r+1;i++){
+            for(int j=c-1;j&lt;=c+1;j++)
+                if(!inSpace(i, j) || map[i][j] == '1')
+                    return false;
+        }
+        return true;
+    }
+    static boolean inSpace(int r, int c){
+        if(r>=0 && r &lt; N && c >= 0 && c &lt; N)
+            return true;
+        return false;
+    }
+}

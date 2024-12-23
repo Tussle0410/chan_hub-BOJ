@@ -1,0 +1,84 @@
+<problem-name>중량제한
+<blog>https://tussle.tistory.com/1092
+<tag>자료 구조, 그래프 이론, 그래프 탐색, 이분 탐색, 너비 우선 탐색, 최단 경로, 분리 집합
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static class Info implements Comparable&lt;Info>{
+        int pos;
+        int minWeight;
+        public Info(int pos, int minWeight){
+            this.pos = pos;
+            this.minWeight = minWeight;
+        }
+        @Override
+        public int compareTo(Info o) {
+            return o.minWeight - this.minWeight;
+        }
+    }
+
+    static List&lt;List&lt;Integer>> bridges = new ArrayList&lt;>();
+    static Map&lt;Integer, Map&lt;Integer, Integer>> weights = new HashMap&lt;>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        for(int i=0;i&lt;=N;i++){
+            bridges.add(new ArrayList&lt;>());
+        }
+        for(int i=0;i&lt;M;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            int weight = Integer.parseInt(st.nextToken());
+            if(weights.containsKey(start) && weights.get(start).containsKey(end)) {
+                weights.get(start).put(end, Math.max(weights.get(start).get(end), weight));
+                weights.get(end).put(start, Math.max(weights.get(end).get(start), weight));
+            }else{
+                bridges.get(start).add(end);
+                bridges.get(end).add(start);
+                if(!weights.containsKey(start)){
+                    weights.put(start, new HashMap&lt;>());
+                }
+                if(!weights.containsKey(end)){
+                    weights.put(end, new HashMap&lt;>());
+                }
+                weights.get(start).put(end, weight);
+                weights.get(end).put(start, weight);
+            }
+        }
+        st = new StringTokenizer(br.readLine()," ");
+        int start = Integer.parseInt(st.nextToken());
+        int end = Integer.parseInt(st.nextToken());
+        int result = search(start, end, N);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(int start, int end, int N){
+        PriorityQueue&lt;Info> pq = new PriorityQueue&lt;>();
+        boolean[] visited = new boolean[N+1];
+        pq.add(new Info(start, Integer.MAX_VALUE));
+        while(!pq.isEmpty()){
+            Info info = pq.poll();
+            if(info.pos == end){
+                return info.minWeight;
+            }
+            if(visited[info.pos]){
+                continue;
+            }
+            visited[info.pos] = true;
+            for(Integer nxt : bridges.get(info.pos)){
+                if(!visited[nxt]){
+                    pq.add(new Info(nxt, Math.min(info.minWeight, weights.get(info.pos).get(nxt))));
+                }
+            }
+        }
+        return 0;
+    }
+}

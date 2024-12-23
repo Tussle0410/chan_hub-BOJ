@@ -1,0 +1,37 @@
+<problem-name>완전제곱수
+<blog>
+<tag>수학, 구현, 브루트포스 알고리즘
+<java-code>
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int M = Integer.parseInt(br.readLine());
+        int N = Integer.parseInt(br.readLine());
+        int start = (int) Math.sqrt(M);
+        int sum = 0, min = -1;
+        for(int i=start;i&lt;=100;i++){
+            int temp = (int) Math.pow(i, 2);
+            if(N >= temp && M &lt;= temp){
+                sum += temp;
+                if(min == -1)
+                    min = temp;
+            }
+            if(temp > N)
+                break;
+        }
+        if(sum == 0)
+            bw.write("-1");
+        else{
+            bw.write(String.valueOf(sum));
+            bw.newLine();
+            bw.write(String.valueOf(min));
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

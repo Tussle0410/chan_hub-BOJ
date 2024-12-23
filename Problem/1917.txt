@@ -1,0 +1,124 @@
+<problem-name>정육면체 전개도
+<blog>https://tussle.tistory.com/718
+<tag>구현, 시뮬레이션
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+	static int[] dice;
+	static int[] dy = {1, 0, 0, -1};
+	static int[] dx = {0, 1, -1, 0};
+	static int row, col;
+	public static void main(String[] args)throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st;
+		for(int i=0;i&lt;3;i++) {
+			int[][] arr = new int[6][6];
+			boolean[][] visited = new boolean[6][6];
+			dice = new int[7];
+			for(int j=0;j&lt;6;j++) {
+				st = new StringTokenizer(br.readLine()," ");
+				for(int s=0;s&lt;6;s++) {
+					arr[j][s] = Integer.parseInt(st.nextToken());
+				}
+			}
+			startPoint(arr);
+			cubeMake(arr, visited, row, col);
+			if(cubeCheck())
+				bw.write("yes");
+			else
+				bw.write("no");
+			bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static void cubeMake(int[][] arr, boolean[][] visited, int row, int col) {
+		int[] temp = new int[7];
+		dice[1] = 1;
+		visited[row][col] = true;
+		for(int i=0;i&lt;4;i++) {
+			int tempRow = row + dy[i];
+			int tempCol = col + dx[i];
+			if(tempRow>=0 && tempCol>=0 && tempRow&lt;6 && tempCol&lt;6 && !visited[tempRow][tempCol]) {
+				if(arr[tempRow][tempCol]==1) {
+					cubeChange(i, temp);
+					cubeMake(arr, visited,tempRow,tempCol);
+					cubeReverse(i, temp);
+				}
+			}
+		}
+
+	}
+	static void cubeReverse(int direction, int[] temp) {
+		cubeChange(3-direction, temp);
+	}
+	static void cubeChange(int direction, int[] temp) {
+		if(direction == 0)
+			down(temp);
+		else if(direction == 1)
+			right(temp);
+		else if(direction == 2)
+			left(temp);
+		else
+			up(temp);
+
+		tempToDice(temp);
+	}
+	static void tempToDice(int[] temp) {
+		for(int i=1;i&lt;7;i++)
+			dice[i] = temp[i];
+	}
+	static void startPoint(int[][] arr) {
+		for(int i=0;i&lt;6;i++) {
+			for(int j=0;j&lt;6;j++) {
+				if(arr[i][j] == 1) {
+					row = i;
+					col = j;
+					return;
+				}
+			}
+		}
+	}
+	static boolean cubeCheck() {
+		for(int i=1;i&lt;7;i++) {
+			if(dice[i]==0)
+				return false;
+		}
+		return true;
+	}
+	static void down(int[] temp) {
+		temp[4] = dice[1];
+		temp[1] = dice[2];
+		temp[2] = dice[3];
+		temp[3] = dice[4];
+		temp[5] = dice[5];
+		temp[6] = dice[6];
+	}
+	static void right(int[] temp) {
+		temp[5] = dice[1];
+		temp[2] = dice[2];
+		temp[6] = dice[3];
+		temp[4] = dice[4];
+		temp[3] = dice[5];
+		temp[1] = dice[6];
+	}
+	static void left(int[] temp) {
+		temp[6] = dice[1];
+		temp[2] = dice[2];
+		temp[5] = dice[3];
+		temp[4] = dice[4];
+		temp[1] = dice[5];
+		temp[3] = dice[6];
+	}
+	static void up(int[] temp) {
+		temp[2] = dice[1];
+		temp[3] = dice[2];
+		temp[4] = dice[3];
+		temp[1] = dice[4];
+		temp[5] = dice[5];
+		temp[6] = dice[6];
+	}
+}

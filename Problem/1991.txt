@@ -1,0 +1,64 @@
+<problem-name>트리 순회
+<blog>https://tussle.tistory.com/730
+<tag>트리, 재귀
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+   static String[][] graph;
+   static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        graph = new String[26][2];
+        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        for (int i = 0; i &lt; N; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int node = st.nextToken().charAt(0) - 'A';
+            graph[node][0] = st.nextToken();
+            graph[node][1] = st.nextToken();
+        }
+        front(0);
+        bw.newLine();
+        in(0);
+        bw.newLine();
+        post(0);
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void front(int node) throws IOException{
+        bw.write((char)(node + 'A'));
+
+        if(!graph[node][0].equals(".")){
+            front(graph[node][0].charAt(0) - 'A');
+        }
+
+        if(!graph[node][1].equals(".")){
+            front(graph[node][1].charAt(0) - 'A');
+        }
+    }
+    static void in(int node) throws IOException{
+        if(!graph[node][0].equals(".")){
+            in(graph[node][0].charAt(0) - 'A');
+        }
+
+        bw.write((char)(node + 'A'));
+
+        if(!graph[node][1].equals(".")){
+            in(graph[node][1].charAt(0) - 'A');
+        }
+    }
+    static void post(int node) throws IOException{
+        if(!graph[node][0].equals(".")){
+            post(graph[node][0].charAt(0) - 'A');
+        }
+
+        if(!graph[node][1].equals(".")){
+            post(graph[node][1].charAt(0) - 'A');
+        }
+
+        bw.write((char)(node + 'A'));
+
+    }
+}

@@ -1,0 +1,49 @@
+<problem-name>알파벳
+<blog>https://tussle.tistory.com/963
+<tag>그래프 이론, 그래프 탐색, 깊이 우선 탐색, 백트래킹
+<java-code>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    static char[][] arr;
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, -1, 1};
+    static int R, C, result = -1;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        arr = new char[R][C];
+
+        for(int i=0;i&lt;R;i++) {
+            String str = br.readLine();
+            for(int j=0;j&lt;C;j++)
+                arr[i][j] = str.charAt(j);
+        }
+        int flag = 1 &lt;&lt; (arr[0][0] - 65);
+        search(0, 0, 1, flag);
+        System.out.print(result);
+    }
+    static void search(int r, int c, int dis, int flag) {
+        boolean isUpdate = false;
+        for(int i=0;i&lt;4;i++) {
+            int tempR = r + dr[i];
+            int tempC = c + dc[i];
+            if(inSpace(tempR,tempC) && (flag & (1 &lt;&lt; (arr[tempR][tempC] - 65))) == 0) {
+                isUpdate = true;
+                search(tempR,tempC, dis+1, flag | (1 &lt;&lt; (arr[tempR][tempC]-65)));
+            }
+        }
+        if(!isUpdate)
+            result = Math.max(result, dis);
+    }
+    static boolean inSpace(int r, int c) {
+        if(r >= 0 && c>=0 && r &lt; R && c &lt;C)
+            return true;
+        return false;
+    }
+}

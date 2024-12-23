@@ -1,0 +1,51 @@
+<problem-name>신입 사원
+<blog>https://tussle.tistory.com/896
+<tag>그리디 알고리즘, 정렬
+<java-code>
+import java.io.*;
+import java.util.*;
+
+
+public class Main {
+    static class score implements Comparable&lt;score>{
+        int documentScore, interviewScore;
+        public score(int dScore, int iScore){
+            documentScore = dScore;
+            interviewScore = iScore;
+        }
+        @Override
+        public int compareTo(score o) {
+            return this.documentScore - o.documentScore;
+        }
+    }
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        int T = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;T;i++){
+            int N = Integer.parseInt(br.readLine());
+            ArrayList&lt;score> list = new ArrayList&lt;>();
+            for(int j=0;j&lt;N;j++){
+                st = new StringTokenizer(br.readLine()," ");
+                int score1 = Integer.parseInt(st.nextToken());
+                int score2 = Integer.parseInt(st.nextToken());
+                list.add(new score(score1, score2));
+            }
+            Collections.sort(list);
+            int answer = 1;
+            int min = list.get(0).interviewScore;
+            for(int j=1;j&lt;N;j++){
+                if(list.get(j).interviewScore &lt; min){
+                    min = list.get(j).interviewScore;
+                    answer++;
+                }
+            }
+            bw.write(String.valueOf(answer));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

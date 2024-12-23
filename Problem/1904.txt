@@ -1,0 +1,29 @@
+<problem-name>01타일
+<blog>https://tussle.tistory.com/226
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+public class Main{
+	static Integer[] check = new Integer[1000001];
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int n = Integer.parseInt(br.readLine());
+    	checkInit();
+    	bw.write(String.valueOf(tile(n)));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static int tile(int n) {
+		if(check[n]!=null)
+			return check[n];
+		check[n]=(tile(n-1) + tile(n-2))%15746;
+		return check[n];
+	}
+	public static void checkInit() {
+		check[0] = 0;
+		check[1] = 1;
+		check[2] = 2;
+	}
+}

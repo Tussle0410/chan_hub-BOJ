@@ -1,0 +1,38 @@
+<problem-name>상자넣기
+<blog>https://tussle.tistory.com/1025
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int[] rooms;
+    static int[]DP;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        rooms = new int[N];
+        DP = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        for(int i=0;i&lt;N;i++)
+            rooms[i] = Integer.parseInt(st.nextToken());
+
+        for(int i=0;i&lt;N;i++){
+            DP[i] = 1;
+            for(int j=0;j&lt;i;j++){
+                if(rooms[i] > rooms[j]){
+                    DP[i] = Math.max(DP[i], DP[j] + 1);
+                }
+            }
+        }
+        int result = 0;
+        for(int i=0;i&lt;N;i++)
+            result = Math.max(result, DP[i]);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

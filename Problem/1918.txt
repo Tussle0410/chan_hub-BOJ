@@ -1,0 +1,64 @@
+<problem-name>후위 표기식
+<blog>https://tussle.tistory.com/1005
+<tag>자료 구조, 스택
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Stack;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String str  = br.readLine();
+        Stack&lt;Character> operator = new Stack&lt;>();
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i&lt;str.length();i++){
+            char c = str.charAt(i);
+            if(c >= 65 && c &lt;= 90)
+                sb.append(c);
+            else if(c == '('){
+                operator.push(c);
+            }else if(c == ')'){
+                while(!operator.isEmpty()){
+                    char temp = operator.pop();
+                    if(temp == '(')
+                        break;
+                    else
+                        sb.append(temp);
+                }
+            }else{
+               if(operator.isEmpty()) {
+                   operator.push(c);
+                   continue;
+               }
+               int c_priority = operatorPriority(c);
+               while(!operator.isEmpty()){
+                   int priority = operatorPriority(operator.peek());
+                   if(priority >= c_priority)
+                       sb.append(operator.pop());
+                   else
+                       break;
+               }
+               operator.push(c);
+            }
+        }
+        while(!operator.isEmpty())
+            sb.append(operator.pop());
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int operatorPriority(char c){
+        if(c == '+' || c == '-')
+            return 1;
+        else if(c == '*' || c == '/')
+            return 2;
+        else
+            return 0;
+    }
+}

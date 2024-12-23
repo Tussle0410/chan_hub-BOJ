@@ -1,0 +1,63 @@
+<problem-name>최소비용 구하기
+<blog>https://tussle.tistory.com/998
+<tag>그래프 이론, 최단 경로, 데이크스트라
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+public class Main {
+    static class info implements Comparable&lt;info>{
+        int node, value;
+        public info(int node, int value){
+            this.node = node;
+            this.value = value;
+        }
+
+        @Override
+        public int compareTo(info o) {
+            return this.value - o.value;
+        }
+    }
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        ArrayList&lt;ArrayList&lt;info>> graph = new ArrayList&lt;>();
+        for(int i=0;i&lt;=N;i++)
+            graph.add(new ArrayList&lt;>());
+        for(int i=0;i&lt;M;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int value = Integer.parseInt(st.nextToken());
+            graph.get(s).add(new info(e, value));
+        }
+        st = new StringTokenizer(br.readLine()," ");
+        int s = Integer.parseInt(st.nextToken());
+        int e = Integer.parseInt(st.nextToken());
+        int answer = search(s, e, graph, N);
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(int start, int end, ArrayList&lt;ArrayList&lt;info>> graph, int size){
+        PriorityQueue&lt;info> pq = new PriorityQueue&lt;>();
+        boolean[] visited = new boolean[size+1];
+        pq.add(new info(start, 0));
+        while(!pq.isEmpty()){
+            info cur = pq.poll();
+            if(cur.node == end)
+                return cur.value;
+            visited[cur.node] = true;
+            for(info next : graph.get(cur.node)){
+                if(!visited[next.node])
+                    pq.add(new info(next.node, cur.value + next.value));
+            }
+        }
+        return -1;
+    }
+}

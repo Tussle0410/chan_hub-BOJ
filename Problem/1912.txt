@@ -1,0 +1,29 @@
+<problem-name>연속합
+<blog>https://tussle.tistory.com/252
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int[] DP = new int[N+1];
+        int result = Integer.MIN_VALUE;
+        for(int i=1;i&lt;=N;i++){
+            DP[i] = DP[i-1] + Integer.parseInt(st.nextToken());
+            result = Math.max(result, DP[i]);
+            if(DP[i] &lt; 0){
+                DP[i] = 0;
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

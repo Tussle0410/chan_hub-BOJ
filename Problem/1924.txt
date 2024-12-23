@@ -1,0 +1,31 @@
+<problem-name>2007년
+<blog>
+<tag>수학, 구현
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main{
+    static String[] days = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int x = Integer.parseInt(st.nextToken());
+        int y = Integer.parseInt(st.nextToken());
+        int day = y;
+        for(int i=1;i&lt;x;i++){
+            if(i==4 || i==6 || i==9 || i==11)
+                day += 30;
+            else if(i==2)
+                day += 28;
+            else
+                day += 31;
+        }
+        bw.write(days[day%7]);
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

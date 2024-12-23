@@ -1,0 +1,67 @@
+<problem-name>달팽이
+<blog>
+<tag>구현
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+        int pow = N * N;
+        int x = 0;
+        int y = 0;
+        int[][] arr = new int[N][N];
+        for(int i=0;i&lt;=N/2;i++){
+            for(int j=i;j&lt;N-i;j++){
+                if(pow == M){
+                    x = i;
+                    y = j;
+                }
+                arr[j][i] = pow--;
+            }
+            for(int j=i+1;j&lt;N-i;j++){
+                if(pow == M){
+                    x = j;
+                    y = N-1-i;
+                }
+                arr[N-1-i][j] = pow--;
+            }
+            for(int j=i+1;j&lt;N-i;j++){
+                if(pow == M){
+                    x = N-1-i;
+                    y = N-1-j;
+                }
+                arr[N-1-j][N-1-i] = pow--;
+            }
+            for(int j=i+1;j&lt;N-i-1;j++){
+                if(pow == M){
+                    x = N-1-j;
+                    y = i;
+                }
+                arr[i][N-1-j] = pow--;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i&lt;N;i++){
+            for(int j=0;j&lt;N;j++){
+                bw.write(String.valueOf(arr[i][j]));
+                bw.write(" ");
+            }
+            bw.newLine();
+        }
+        bw.write(String.format("%d %d", y+1, x+1));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}
