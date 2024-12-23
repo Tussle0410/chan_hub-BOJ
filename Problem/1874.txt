@@ -1,0 +1,65 @@
+<problem-name>스택 수열
+<blog>https://tussle.tistory.com/300
+<tag>자료 구조, 스택
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	static Stack&lt;Integer> stack = new Stack&lt;Integer>();
+	static List&lt;String> result = new ArrayList&lt;String>();
+	static int index,cur=0;
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	index = Integer.parseInt(br.readLine());
+    	for(int i=0;i&lt;index;i++) {
+    		int num = Integer.parseInt(br.readLine());
+    		if(stack.empty()) {
+    			if(cur > num) {
+    				Fail();
+    				break;
+    			}
+    			else {
+    				push(cur,num);
+    				pop();
+    				continue;
+    			}
+    		}
+    		int top = stack.peek();
+    		if(top > num) {
+    			Fail();
+    			break;
+    		}else if(top == num) {
+    			pop();
+    		}else{
+    			push(cur,num);
+    			pop();
+    		}
+    	}
+    	for(String s : result){
+    	    bw.write(s);
+    	    bw.newLine();
+    	}
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static void push(int n, int num) {
+		for(int i=n+1;i&lt;=index;i++) {
+			if(i>num) {
+				cur = i-1;
+				break;
+			}
+			stack.push(i);
+			result.add("+");
+		}
+	}
+	public static void pop() {
+		stack.pop();
+		result.add("-");
+	}
+	public static void Fail() {
+	    result.clear();
+	    result.add("NO");
+	}
+}

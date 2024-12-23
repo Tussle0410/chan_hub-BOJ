@@ -1,0 +1,47 @@
+<problem-name>암호 키
+<blog>
+<tag>수학, 브루트포스 알고리즘, 정수론
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        final int MAX = 1000000;
+        boolean[] arr = new boolean[MAX+1];
+        List&lt;Integer> prime = new ArrayList&lt;>();
+        for(int i=2;i&lt;=MAX;i++){
+            if(arr[i]){
+                continue;
+            }
+            prime.add(i);
+            for(int j=2;i * j &lt;= MAX;j++){
+                arr[i*j] = true;
+            }
+        }
+        int N = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;N;i++){
+            long num = Long.parseLong(br.readLine());
+            boolean flag = false;
+            for(int val : prime){
+                if(num % val == 0){
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag) {
+                bw.write("NO");
+            }else{
+                bw.write("YES");
+            }
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

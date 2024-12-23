@@ -1,0 +1,96 @@
+<problem-name>웜홀
+<blog>https://tussle.tistory.com/1003
+<tag>그래프 이론, 최단 경로벨만–포드
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    static class node{
+        int position, time;
+        public node(int position, int time) {
+            this.position = position;
+            this.time = time;
+        }
+    }
+    static final int MAX_VALUE = 25000001;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int t = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        int[] distance;
+        ArrayList&lt;ArrayList&lt;node>> graph;
+        for(int test_case = 0;test_case&lt;t;test_case++) {
+            st = new StringTokenizer(br.readLine()," ");
+            graph = new ArrayList&lt;>();
+            int N = Integer.parseInt(st.nextToken());
+            int M = Integer.parseInt(st.nextToken());
+            int W = Integer.parseInt(st.nextToken());
+            for(int i=0;i&lt;=N;i++)
+                graph.add(new ArrayList&lt;>());
+
+            for(int i=0;i&lt;M;i++) {
+                st = new StringTokenizer(br.readLine()," ");
+                int S = Integer.parseInt(st.nextToken());
+                int E = Integer.parseInt(st.nextToken());
+                int T = Integer.parseInt(st.nextToken());
+                graph.get(S).add(new node(E, T));
+                graph.get(E).add(new node(S, T));
+            }
+            for(int i=0;i&lt;W;i++) {
+                st = new StringTokenizer(br.readLine()," ");
+                int S = Integer.parseInt(st.nextToken());
+                int E = Integer.parseInt(st.nextToken());
+                int T = Integer.parseInt(st.nextToken());
+                graph.get(S).add(new node(E, T * -1));
+            }
+            distance = new int[N+1];
+            boolean check = false;
+            for(int i=1;i&lt;=N;i++){
+                if(bellman(i, distance, graph, N)){
+                    bw.write("YES");
+                    check = true;
+                    break;
+                }
+            }
+            if(!check)
+                bw.write("NO");
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static boolean bellman(int start, int[] distance, ArrayList&lt;ArrayList&lt;node>> graph, int N) {
+        boolean check = false;
+        Arrays.fill(distance, MAX_VALUE);
+        distance[start] = 0;
+        for (int i = 1; i &lt; N; i++) {
+            check = false;
+            for (int j = 1; j &lt;= N; j++) {
+                for (node next : graph.get(j)) {
+                    if (distance[j] != MAX_VALUE && distance[next.position] > distance[j] + next.time) {
+                        distance[next.position] = distance[j] + next.time;
+                        check = true;
+                    }
+                }
+            }
+            if (!check)
+                break;
+        }
+        if(check){
+            for(int i=1;i&lt;=N;i++)
+                for(node next : graph.get(i))
+                    if(distance[i] != MAX_VALUE && distance[next.position] > distance[i] + next.time)
+                        return true;
+        }
+        return false;
+    }
+}
+
+

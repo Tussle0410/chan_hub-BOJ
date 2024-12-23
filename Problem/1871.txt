@@ -1,0 +1,33 @@
+<problem-name>좋은 자동차 번호판
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine(), "-");
+            String front = st.nextToken();
+            int back = Integer.parseInt(st.nextToken());
+            int frontVal = 0;
+            for(int j=0;j&lt;front.length();j++){
+                frontVal += (int)Math.pow(26, front.length()-j-1) * (front.charAt(j)-'A');
+            }
+            if(Math.abs(frontVal-back) &lt;= 100) {
+                bw.write("nice");
+            }else{
+                bw.write("not nice");
+            }
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

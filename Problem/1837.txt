@@ -1,0 +1,36 @@
+<problem-name>암호제작
+<blog>
+<tag>수학, 브루트포스 알고리즘, 임의 정밀도 / 큰 수 연산
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.math.BigInteger;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        BigInteger A = new BigInteger(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        boolean flag = true;
+        for(int i=2;i&lt;B;i++){
+            if(A.remainder(BigInteger.valueOf(i)).equals(BigInteger.ZERO)){
+                bw.write("BAD " + i);
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            bw.write("GOOD");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
