@@ -1,0 +1,37 @@
+<problem-name>조합 0의 개수
+<blog>https://tussle.tistory.com/291
+<tag>수학, 정수론
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        long two = cal(n, 2) - cal(m, 2) - cal(n-m, 2);
+        long five = cal(n, 5) - cal(m, 5) - cal(n-m, 5);
+        bw.write(String.valueOf(Math.min(two, five)));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+
+    static long cal(int n,  int prime){
+        long count = 0;
+        long cur = prime;
+        while(n >= cur){
+            count += n  / cur;
+             cur *= prime;
+        }
+        return count;
+    }
+}

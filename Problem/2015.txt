@@ -1,0 +1,33 @@
+<problem-name>수들의 합 4
+<blog>
+<tag>자료 구조, 누적 합, 해시를 사용한 집합과 맵, 트리를 사용한 집합과 맵
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        long K = Long.parseLong(st.nextToken());
+        st = new StringTokenizer(br.readLine()," ");
+        long result = 0L;
+        long sum = 0L;
+        Map&lt;Long, Long> map = new HashMap&lt;>();
+        map.put(0L, 1L);
+        for(int i=1;i&lt;=N;i++){
+            int num = Integer.parseInt(st.nextToken());
+            sum += num;
+            if(map.containsKey(sum - K)){
+               result += map.get(sum - K);
+            }
+            map.put(sum, map.getOrDefault(sum, 0L)+1);
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

@@ -1,0 +1,22 @@
+<problem-name>지수연산
+<blog>
+<tag>수학, 임의 정밀도 / 큰 수 연산
+<java-code>
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        BigDecimal val = BigDecimal.valueOf(2).pow(N);
+        val = BigDecimal.ONE.divide(val);
+        bw.write(val.toPlainString());
+        bw.flush();
+        br.close();
+        bw.close();
+    }
+}

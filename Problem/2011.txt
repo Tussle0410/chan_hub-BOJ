@@ -1,0 +1,42 @@
+<problem-name>암호코드
+<blog>https://tussle.tistory.com/1137
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String str = br.readLine();
+        int len = str.length();
+        int[] DP = new int[len+1];
+        int div = 1000000;
+        DP[1] = DP[0] = 1;
+        if(str.charAt(0) == '0'){
+            DP[len] = 0;
+        }else{
+            for(int i=2; i&lt;=len;i++){
+                int preC = Character.getNumericValue(str.charAt(i-2));
+                int curC =  Character.getNumericValue(str.charAt(i-1));
+                if(curC == 0){
+                    if(preC == 1 || preC == 2){
+                        DP[i] = DP[i-2];
+                    }
+                }else{
+                    if(preC == 1 || (preC == 2 && curC &lt;= 6)){
+                        DP[i] = (DP[i-1] + DP[i-2]) % div;
+                    }else{
+                        DP[i] = DP[i-1];
+                    }
+                }
+            }
+        }
+        bw.write(String.valueOf(DP[len]));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

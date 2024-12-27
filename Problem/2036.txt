@@ -1,0 +1,58 @@
+<problem-name>수열의 점수
+<blog>
+<tag>그리디 알고리즘, 정렬
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Collections;
+import java.util.PriorityQueue;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        PriorityQueue&lt;Integer> plus = new PriorityQueue&lt;>(Collections.reverseOrder());
+        PriorityQueue&lt;Integer> minus = new PriorityQueue&lt;>();
+        int zeroCnt = 0;
+        for(int i=0;i&lt;N;i++){
+            int n = Integer.parseInt(br.readLine());
+            if(n > 0)
+                plus.add(n);
+            else if(n&lt;0)
+                minus.add(n);
+            else
+                zeroCnt++;
+        }
+        long result = 0;
+        while(!plus.isEmpty()){
+            int temp = plus.poll();
+            if(temp == 1)
+                result += temp;
+            else{
+                if(!plus.isEmpty() && plus.peek() > 1){
+                    result += (long) temp * plus.poll();
+                }else
+                    result += temp;
+            }
+        }
+        while(!minus.isEmpty()){
+            int temp = minus.poll();
+            if(!minus.isEmpty()){
+                result += (long) temp * minus.poll();
+            }else{
+                if(zeroCnt > 0)
+                    zeroCnt--;
+                else
+                    result += temp;
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

@@ -1,0 +1,32 @@
+<problem-name>수들의 합 5
+<blog>
+<tag>수학, 두 포인터
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int start = 0;
+        int end = 0;
+        int sum = 0;
+        int result = 1;
+        while(end &lt; N){
+            if(sum &lt;= N){
+                if(sum == N) {
+                    result++;
+                }
+                sum += ++end;
+            }else{
+                sum -= start++;
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

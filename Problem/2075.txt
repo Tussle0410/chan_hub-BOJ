@@ -1,0 +1,51 @@
+<problem-name>N번째 큰 수
+<blog>
+<tag>자료 구조, 정렬, 우선순위 큐
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static class Info implements Comparable&lt;Info>{
+        int r, c, val;
+        public Info(int r, int c, int val) {
+            this.r = r;
+            this.c = c;
+            this.val = val;
+        }
+        @Override
+        public int compareTo(Info o) {
+            return o.val - this.val;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        int[][] arr = new int[N][N];
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            for(int j=0;j&lt;N;j++)
+                arr[i][j] = Integer.parseInt(st.nextToken());
+        }
+        PriorityQueue&lt;Info> pq = new PriorityQueue&lt;>();
+        for(int i=0;i&lt;N;i++)
+            pq.offer(new Info(N-1, i, arr[N-1][i]));
+
+        int count = 0;
+        while(true){
+            count++;
+            Info cur = pq.poll();
+            if(count == N){
+                bw.write(String.valueOf(cur.val));
+                break;
+            }
+            if(cur.r > 0)
+                pq.offer(new Info(cur.r-1, cur.c, arr[cur.r-1][cur.c]));
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
