@@ -1,0 +1,48 @@
+<problem-name>공유기 설치
+<blog>https://tussle.tistory.com/358
+<tag>이분 탐색, 매개 변수 탐색
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+	static int[] house;
+	static int N;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        N = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        house = new int[N];
+        for(int i=0;i&lt;N;i++)
+        	house[i] = Integer.parseInt(br.readLine());
+        Arrays.sort(house);
+        bw.write(String.valueOf(houseDistance(1, house[N-1] - house[0] + 1, C)));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static int houseDistance(int start, int end, int C) {
+    	while(start&lt;end) {
+    		int median = (start + end)/2;
+    		if(routerCheck(median)&lt;C)
+    			end = median;
+    		else
+    			start = median + 1;
+    	}
+    	return start-1;
+    }
+    public static int routerCheck(int median) {
+    	int count = 1;
+    	int lastLocation = house[0];
+    	for(int i=1;i&lt;N;i++) {
+    		int location = house[i];
+    		if(location - lastLocation >= median) {
+    			count++;
+    			lastLocation = location;
+    		}
+    	}
+    	return count;
+    }
+
+}

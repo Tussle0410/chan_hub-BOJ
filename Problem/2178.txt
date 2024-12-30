@@ -1,0 +1,72 @@
+<problem-name>미로 탐색
+<blog>https://tussle.tistory.com/540
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static class Pos implements Comparable&lt;Pos>{
+		int r, c, value;
+		public Pos(int r, int c, int value) {
+			this.r = r;
+			this.c = c;
+			this.value = value;
+		}
+		@Override
+		public int compareTo(Pos o) {
+			return this.value - o.value;
+		}
+	}
+	static int[] dr = {-1, 1, 0, 0};
+	static int[] dc = {0, 0, -1, 1};
+	static char[][] maze;
+	static int N,M;
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		StringBuilder answer = new StringBuilder();
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		maze = new char[N][M];
+		for(int i=0;i&lt;N;i++) {
+			String str = br.readLine();
+			for(int j=0;j&lt;M;j++)
+				maze[i][j] = str.charAt(j);
+		}
+		answer.append(bfs(N-1, M-1));
+		bw.write(answer.toString());
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static int bfs(int er, int ec) {
+		PriorityQueue&lt;Pos> pq = new PriorityQueue&lt;>();
+		pq.add(new Pos(0, 0, 0));
+		while(!pq.isEmpty()) {
+			Pos cur = pq.poll();
+			if(cur.r == er && cur.c == ec)
+				return cur.value + 1;
+			for(int i=0;i&lt;4;i++) {
+				int tempR = cur.r + dr[i];
+				int tempC = cur.c + dc[i];
+				if(inSpace(tempR,tempC) && maze[tempR][tempC] == '1') {
+					maze[tempR][tempC] = '0';
+					pq.add(new Pos(tempR, tempC, cur.value + 1));
+				}
+			}
+		}
+		return -1;
+	}
+	static boolean inSpace(int r, int c) {
+		if(r >= 0 && c>=0 && r&lt;N && c &lt;M)
+			return true;
+		return false;
+	}
+}

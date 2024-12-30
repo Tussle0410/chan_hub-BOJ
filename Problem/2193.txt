@@ -1,0 +1,31 @@
+<problem-name>이친수
+<blog>https://tussle.tistory.com/598
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static long[] DP = new long[91];
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int N = Integer.parseInt(br.readLine());
+    	init();
+    	bw.write(String.valueOf(pinaryNumber(N)));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+    public static long pinaryNumber(int n) {
+    	if(n==0)
+    		return DP[0];
+    	if(DP[n]!=0)
+    		return DP[n];
+    	DP[n] = pinaryNumber(n-1) + pinaryNumber(n-2);
+    	return DP[n];
+    }
+    public static void init() {
+    	DP[0] = 0;
+    	DP[1] = 1;
+    }
+}

@@ -1,0 +1,54 @@
+<problem-name>넷이 놀기
+<blog>
+<tag>자료 구조, 기하학, 해시를 사용한 집합과 맵
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static class Pos{
+        int x;
+        int y;
+        Pos(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int col = Integer.parseInt(st.nextToken());
+        int row = Integer.parseInt(st.nextToken());
+        Map&lt;Integer, HashSet&lt;Integer>> map = new HashMap&lt;>();
+        List&lt;Pos> list = new ArrayList&lt;>();
+        for(int i=0;i&lt;N;i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            if(!map.containsKey(x)) {
+                map.put(x, new HashSet&lt;>());
+            }
+            list.add(new Pos(x, y));
+            map.get(x).add(y);
+        }
+        int result = 0;
+        for(int i=0;i&lt;N;i++){
+            Pos cur = list.get(i);
+            if(search(map, cur.x + col, cur.y) && search(map, cur.x, cur.y + row) && search(map, cur.x + col, cur.y + row)) {
+                result++;
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static boolean search(Map&lt;Integer, HashSet&lt;Integer>> map, int x, int y){
+        if(!map.containsKey(x)) {
+            return false;
+        }
+        return map.get(x).contains(y);
+    }
+}

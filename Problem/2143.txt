@@ -1,0 +1,78 @@
+<problem-name>두 배열의 합
+<blog>https://tussle.tistory.com/750
+<tag>자료 구조, 이분 탐색, 누적 합, 해시를 사용한 집합과 맵
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        long[] ASum = new long[n+1];
+        for(int i=1;i&lt;=n;i++){
+            ASum[i] = ASum[i-1] + Integer.parseInt(st.nextToken());
+        }
+        int m = Integer.parseInt(br.readLine());
+        long[] BSum = new long[m+1];
+        st = new StringTokenizer(br.readLine()," ");
+        for(int i=1;i&lt;=m;i++){
+            BSum[i] = BSum[i-1] + Integer.parseInt(st.nextToken());
+        }
+        List&lt;Long> AVal = new ArrayList&lt;>();
+        List&lt;Long> BVal = new ArrayList&lt;>();
+
+        cal(AVal, ASum, n);
+        cal(BVal, BSum, m);
+
+        Collections.sort(AVal);
+        Collections.sort(BVal);
+
+        long result = compare(AVal, BVal, T);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static long compare(List&lt;Long> AVal, List&lt;Long> BVal, int T){
+        long result = 0;
+        int Aidx = 0;
+        int Bidx = BVal.size()-1;
+        while(true){
+            if(Aidx >= AVal.size() || Bidx &lt; 0){
+                break;
+            }
+            long A = AVal.get(Aidx);
+            long B = BVal.get(Bidx);
+            long sum = A + B;
+            if(sum == T){
+                long Acount = 0;
+                long Bcount = 0;
+                while(Aidx &lt; AVal.size() && AVal.get(Aidx) == A){
+                    Acount++;
+                    Aidx++;
+                }
+                while(Bidx >= 0 && BVal.get(Bidx) == B){
+                    Bcount++;
+                    Bidx--;
+                }
+                result += Acount * Bcount;
+            }else if(sum > T){
+                Bidx--;
+            }else{
+                Aidx++;
+            }
+        }
+        return result;
+    }
+    static void cal(List&lt;Long> val, long[] sum, int size){
+        for(int i=1;i&lt;=size;i++){
+            for(int j=0;j&lt;i;j++){
+                val.add(sum[i] - sum[j]);
+            }
+        }
+    }
+}

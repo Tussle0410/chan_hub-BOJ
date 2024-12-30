@@ -1,0 +1,45 @@
+<problem-name>문자열 복사
+<blog>
+<tag>그리디 알고리즘, 문자열
+<java-code>
+import java.io.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String str1 = br.readLine();
+        String str2 = br.readLine();
+        char[] S = str1.toCharArray();
+        char[] P = str2.toCharArray();
+        int idx = 0;
+        int S_len = S.length, P_len = P.length;
+        int result = 0;
+        while (idx &lt; P_len) {
+            result++;
+            int max = 0, cur = idx, cnt = 0;
+            for (int i = 0; i &lt; S_len; i++) {
+                if (cur == P_len)
+                    break;
+                if (S[i] == P[cur]) {
+                    cnt++;
+                    cur++;
+                } else {
+                    max = Math.max(max, cnt);
+                    if (S[i] == P[idx]) {
+                        cur = idx + 1;
+                        cnt = 1;
+                    } else {
+                        cur = idx;
+                        cnt = 0;
+                    }
+                }
+            }
+            max = Math.max(cnt, max);
+            idx += max;
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

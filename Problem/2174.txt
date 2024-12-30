@@ -1,0 +1,131 @@
+<problem-name>로봇 시뮬레이션
+<blog>https://tussle.tistory.com/1048
+<tag>구현
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+public class Main {
+    static class Robot{
+        int r, c;
+        char direction;
+        public Robot(int r, int c, char direction){
+            this.r = r;
+            this.c = c;
+            this.direction = direction;
+        }
+    }
+    static HashMap&lt;Character, int[]> move;
+    static Robot[] robots;
+    static int A, B;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringBuilder sb = new StringBuilder();
+        A = Integer.parseInt(st.nextToken());
+        B = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        robots = new Robot[N+1];
+        moveInit();
+        for(int i=1;i&lt;=N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int c = Integer.parseInt(st.nextToken());
+            int r = Integer.parseInt(st.nextToken());
+            robots[i] = new Robot(r, c, st.nextToken().charAt(0));
+        }
+        boolean failFlag = false;
+        for(int i=0;i&lt;M;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int robot_idx = Integer.parseInt(st.nextToken());
+            char command = st.nextToken().charAt(0);
+            int cnt = Integer.parseInt(st.nextToken());
+
+            Robot cur = robots[robot_idx];
+            if(command == 'L'){
+                cnt %= 4;
+                for(int j=0;j&lt;cnt;j++)
+                    leftRotate(cur);
+            }else if(command == 'R'){
+                cnt %= 4;
+                for(int j=0;j&lt;cnt;j++)
+                    rightRotate(cur);
+            }else{
+                int[] moveInfo = move.get(cur.direction);
+                for(int s=0;s&lt;cnt;s++){
+                    int tempR = cur.r + moveInfo[0];
+                    int tempC = cur.c + moveInfo[1];
+                    boolean flag = false;
+                    if(inSpace(tempR, tempC)){
+                        for(int j=1;j&lt;=N;j++){
+                            if(robot_idx == j)
+                                continue;
+                            if(robots[j].r == tempR && robots[j].c == tempC){
+                                flag = true;
+                                sb.append("Robot ").append(robot_idx).append(" crashes into robot ").append(j);
+                                break;
+                            }
+                        }
+                    }else{
+                        flag = true;
+                        sb.append("Robot ").append(robot_idx).append(" crashes into the wall");
+                    }
+                    if(!flag){
+                        cur.r = tempR;
+                        cur.c = tempC;
+                    }else {
+                        failFlag = true;
+                        break;
+                    }
+                }
+            }
+            if(failFlag)
+                break;
+        }
+        if(!failFlag)
+            sb.append("OK");
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void moveInit(){
+        move = new HashMap&lt;>();
+        move.put('N', new int[]{1, 0});
+        move.put('E', new int[]{0, 1});
+        move.put('S', new int[]{-1, 0});
+        move.put('W', new int[]{0, -1});
+    }
+    static boolean inSpace(int r,int c){
+        if(r > 0 && c > 0 && r &lt;= B && c &lt;= A)
+            return true;
+        return false;
+    }
+    static void rightRotate(Robot robot){
+        if(robot.direction == 'N')
+            robot.direction = 'E';
+        else if(robot.direction == 'E')
+            robot.direction = 'S';
+        else if(robot.direction == 'S')
+            robot.direction = 'W';
+        else
+            robot.direction = 'N';
+    }
+    static void leftRotate(Robot robot){
+        if(robot.direction == 'N')
+            robot.direction = 'W';
+        else if(robot.direction == 'E')
+            robot.direction = 'N';
+        else if(robot.direction == 'S')
+            robot.direction = 'E';
+        else
+            robot.direction = 'S';
+    }
+}

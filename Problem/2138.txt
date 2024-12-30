@@ -1,0 +1,63 @@
+<problem-name>전구와 스위치
+<blog>
+<tag>그리디 알고리즘
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        String s1 = br.readLine();
+        String s2 = br.readLine();
+        char[] s1_arr = s1.toCharArray();
+        char[] s2_arr = s2.toCharArray();
+        int cnt = 0;
+        for(int i=0;i&lt;N-2;i++){
+            if(s1_arr[i] == s2_arr[i])
+                continue;
+            cnt++;
+            for(int j=0;j&lt;3;j++)
+                s1_arr[i+j] = swap(s1_arr[i+j]);
+        }
+        if(s1_arr[N-2] != s2_arr[N-2]){
+            s1_arr[N-2] = swap(s1_arr[N-2]);
+            s1_arr[N-1] = swap(s1_arr[N-1]);
+            cnt++;
+        }
+        if(s1_arr[N-1] == s2_arr[N-1])
+            bw.write(String.valueOf(cnt));
+        else{
+            cnt = 1;
+            s1_arr = s1.toCharArray();
+            s1_arr[0] = swap(s1_arr[0]);
+            s1_arr[1] = swap(s1_arr[1]);
+            for(int i=0;i&lt;N-2;i++){
+                if(s1_arr[i] == s2_arr[i])
+                    continue;
+                cnt++;
+                for(int j=0;j&lt;3;j++)
+                    s1_arr[i+j] = swap(s1_arr[i+j]);
+            }
+            if(s1_arr[N-2] != s2_arr[N-2]){
+                s1_arr[N-2] = swap(s1_arr[N-2]);
+                s1_arr[N-1] = swap(s1_arr[N-1]);
+                cnt++;
+            }
+            if(s1_arr[N-1] == s2_arr[N-1])
+                bw.write(String.valueOf(cnt));
+            else
+                bw.write("-1");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static char swap(char c){
+        if(c == '0')
+            return '1';
+        return '0';
+    }
+}
