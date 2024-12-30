@@ -1,0 +1,60 @@
+<problem-name>사탕상자
+<blog>
+<tag>자료 구조, 세그먼트 트리, 이분 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int[] tree;
+	static final int CANDY_KINDS= 1000000;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		int N = Integer.parseInt(br.readLine());
+		tree = new int[CANDY_KINDS&lt;&lt;2];
+		for(int i=0;i&lt;N;i++) {
+			st = new StringTokenizer(br.readLine()," ");
+			int A = Integer.parseInt(st.nextToken());
+			int B = Integer.parseInt(st.nextToken());
+			if(A == 1) {
+				bw.write(String.valueOf(getCandy(1, CANDY_KINDS, 1, B)));
+				bw.newLine();
+			}else {
+				int C = Integer.parseInt(st.nextToken());
+				update(1, CANDY_KINDS, 1, B, C);
+			}
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static void update(int start, int end, int node, int index, int val) {
+		if(start > index || end &lt; index)
+			return;
+		tree[node] += val;
+		if(start == end)
+			return;
+		int mid = (start + end) >> 1;
+		update(start, mid, node&lt;&lt;1, index, val);
+		update(mid+1, end, (node&lt;&lt;1) + 1, index, val);
+	}
+	static int getCandy(int start, int end, int node, int rank) {
+		tree[node]--;
+
+		if(start == end)
+			return start;
+
+		int mid = (start + end) >> 1;
+		if(tree[node&lt;&lt;1] >= rank)
+			return getCandy(start, mid, node&lt;&lt;1, rank);
+		else
+			return getCandy(mid+1, end, (node&lt;&lt;1)+1, rank - tree[node&lt;&lt;1]);
+	}
+}

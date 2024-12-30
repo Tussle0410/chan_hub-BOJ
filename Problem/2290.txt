@@ -1,0 +1,129 @@
+<problem-name>LCD Test
+<blog>https://tussle.tistory.com/716
+<tag>구현, 문자열
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main {
+	static int s;
+	static String value;
+	static char[][] result;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		s = Integer.parseInt(st.nextToken());
+		int height = 2 * s + 3;
+		value = st.nextToken();
+		int width = (s+2) * value.length();
+		result = new char[height][width + 1];
+		for(int i=0;i&lt;value.length();i++) {
+			int num = Character.getNumericValue(value.charAt(i));
+			LCD(num, i);
+		}
+		for(int i=0;i&lt;height;i++) {
+			for(int j=1;j&lt;=width;j++) {
+				if(result[i][j]=='-' || result[i][j]=='|')
+					bw.write(result[i][j]);
+				else
+					bw.write(" ");
+				if(j%(s+2)==0)
+					bw.write(" ");
+			}
+			bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static void LCD(int num, int index) {
+		if(num==1) {
+			VerticalBar(index, 3);
+			VerticalBar(index, 4);
+		}else if(num==2) {
+			Hyphen(index, 0);
+			VerticalBar(index, 3);
+			Hyphen(index, 1);
+			VerticalBar(index, 2);
+			Hyphen(index, 2);
+		}else if(num==3) {
+			Hyphen(index, 0);
+			VerticalBar(index, 3);
+			Hyphen(index, 1);
+			VerticalBar(index, 4);
+			Hyphen(index, 2);
+		}else if(num==4) {
+			VerticalBar(index, 1);
+			VerticalBar(index, 3);
+			Hyphen(index, 1);
+			VerticalBar(index, 4);
+		}else if(num==5) {
+			Hyphen(index, 0);
+			VerticalBar(index, 1);
+			Hyphen(index, 1);
+			VerticalBar(index, 4);
+			Hyphen(index, 2);
+		}else if(num==6) {
+			Hyphen(index, 0);
+			VerticalBar(index, 1);
+			Hyphen(index, 1);
+			VerticalBar(index, 2);
+			VerticalBar(index, 4);
+			Hyphen(index, 2);
+		}else if(num==7) {
+			Hyphen(index, 0);
+			VerticalBar(index, 3);
+			VerticalBar(index, 4);
+		}else if(num==8) {
+			Hyphen(index, 0);
+			VerticalBar(index, 1);
+			VerticalBar(index, 3);
+			Hyphen(index, 1);
+			VerticalBar(index, 2);
+			VerticalBar(index, 4);
+			Hyphen(index, 2);
+		}else if(num==9) {
+			Hyphen(index, 0);
+			VerticalBar(index, 1);
+			VerticalBar(index, 3);
+			Hyphen(index, 1);
+			VerticalBar(index, 4);
+			Hyphen(index, 2);
+		}else if(num==0) {
+			Hyphen(index, 0);
+			VerticalBar(index, 1);
+			VerticalBar(index, 3);
+			VerticalBar(index, 2);
+			VerticalBar(index, 4);
+			Hyphen(index, 2);
+		}
+		return;
+
+	}
+	static void Hyphen(int index, int command) {
+		int row = command*s + command;
+		int col = index * (s+2) + 2;
+
+		for(int i=0;i&lt;s;i++)
+			result[row][col+i] = '-';
+
+		return;
+
+	}
+	static void VerticalBar(int index, int command) {
+		if(command==1 || command == 2) {
+			int col = index * (s+2) + 1;
+			int row = (command-1) * s + command;
+			for(int i=0;i&lt;s;i++) {
+				result[row+i][col] = '|';
+			}
+		}else if(command==3 || command==4) {
+			int col = index * (s+2) + s + 2;
+			int row = (command-3) * s + (command-2);
+			for(int i=0;i&lt;s;i++) {
+				result[row+i][col] = '|';
+			}
+		}
+		return;
+	}
+}

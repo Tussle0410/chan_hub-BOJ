@@ -1,0 +1,23 @@
+<problem-name>실질적 약수
+<blog>
+<tag>수학, 정수론
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        final int DIV = 1000000;
+        int N = Integer.parseInt(br.readLine());
+        long result = 0L;
+        for(int i=2;i&lt;=N/2;i++){
+            result += (N/i - 1L) * i % DIV;
+        }
+        result %= DIV;
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

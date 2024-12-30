@@ -1,0 +1,25 @@
+<problem-name>분해합
+<blog>https://tussle.tistory.com/177
+<tag>브루트포스 알고리즘
+<java-code>
+import java.io.*;
+public class Main{
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int num = Integer.parseInt(br.readLine());
+    	bw.write(String.valueOf(decompose(num)));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static int decompose(int num){
+		for(int i=num/2;i&lt;num;i++) {
+			int temp = i + (i/100000) + (i%100000)/10000
+					+ (i%10000)/1000 + (i%1000)/100 + (i%100)/10 + i%10;
+			if(temp==num)
+				return i;
+		}
+		return 0;
+	}
+}

@@ -1,0 +1,52 @@
+<problem-name>자두나무
+<blog>
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int[][][] DP;
+    static int[] val;
+    static int T, W;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        T = Integer.parseInt(st.nextToken());
+        W = Integer.parseInt(st.nextToken());
+        val = new int[T+1];
+        DP = new int[T+1][W+1][2];
+        for(int i=1;i&lt;=T;i++)
+            val[i] = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;=T;i++){
+            for(int j=0;j&lt;=W;j++)
+                DP[i][j][0] = DP[i][j][1] = Integer.MAX_VALUE;
+        }
+        search(1, W, 0);
+        search(1, W-1, 1);
+        bw.write(String.valueOf(Math.max(DP[1][W][0], DP[1][W-1][1])));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(int t, int w, int pos){
+        if(t >  T)
+            return 0;
+        if(DP[t][w][pos] != Integer.MAX_VALUE)
+            return DP[t][w][pos];
+
+        DP[t][w][pos] = 0;
+        if(val[t]-1 == pos)
+            DP[t][w][pos]++;
+        if(w > 0){
+            DP[t][w][pos] += Math.max(search(t+1, w-1, pos^1), search(t+1, w, pos));
+        }else
+            DP[t][w][pos] += search(t+1, w, pos);
+        return DP[t][w][pos];
+    }
+}

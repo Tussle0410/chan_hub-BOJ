@@ -1,0 +1,52 @@
+<problem-name>동전 2
+<blog>https://tussle.tistory.com/809
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main {
+    static int N,K;
+    static ArrayList&lt;Integer> coins = new ArrayList&lt;>();
+    static boolean[] coinCheck = new boolean[10001];
+    static int[] DP;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        DP = new int[K+1];
+        for(int i=0;i&lt;N;i++){
+            int temp = Integer.parseInt(br.readLine());
+            if(temp &lt;= K && !coinCheck[temp]){
+                coins.add(temp);
+                coinCheck[temp] = true;
+            }
+        }
+        Arrays.fill(DP, 10001);
+        DP[0] = 0;
+        cal();
+        if(DP[K] == 10001)
+            bw.write("-1");
+        else
+            bw.write(String.valueOf(DP[K]));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void cal(){
+        Queue&lt;Integer> queue = new LinkedList&lt;>();
+        queue.add(0);
+        while(!queue.isEmpty()){
+            int cur  = queue.poll();
+            if(cur==K)
+                return;
+            for(int i=0;i&lt;coins.size();i++){
+                if(cur + coins.get(i) &lt;= K && DP[cur + coins.get(i)] > DP[cur] + 1){
+                    DP[cur + coins.get(i)] = DP[cur] + 1;
+                    queue.add(cur + coins.get(i));
+                }
+            }
+        }
+    }
+}

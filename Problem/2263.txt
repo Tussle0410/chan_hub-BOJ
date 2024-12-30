@@ -1,0 +1,49 @@
+<problem-name>트리의 순회
+<blog>https://tussle.tistory.com/733
+<tag>트리, 분할 정복, 재귀
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+	static int N;
+	static int[] inOrder, postOrder;
+	static ArrayList&lt;Integer> preOrder = new ArrayList&lt;Integer>();
+    public static void main(String[] args) throws IOException {
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st;
+    	N = Integer.parseInt(br.readLine());
+    	inOrder = new int[N];
+    	postOrder = new int[N];
+    	st = new StringTokenizer(br.readLine()," ");
+    	for(int i=0;i&lt;N;i++)
+    		inOrder[i] = Integer.parseInt(st.nextToken());
+
+    	st = new StringTokenizer(br.readLine()," ");
+    	for(int i=0;i&lt;N;i++)
+    		postOrder[i] = Integer.parseInt(st.nextToken());
+    	getPreOrder(0,N-1,0,N-1);
+    	for(int i=0;i&lt;preOrder.size();i++)
+    		bw.write(preOrder.get(i) + " ");
+
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+    static void getPreOrder(int inS,int inE,int poS, int poE) {
+    	if(inS&lt;=inE && poS&lt;=poE) {
+        	int root = postOrder[poE];
+        	int pivot = 0;
+        	preOrder.add(root);
+        	for(int i=inS;i&lt;=inE;i++) {
+        		if(inOrder[i] == root) {
+        			pivot = i;
+        			break;
+        		}
+        	}
+        	getPreOrder(inS, pivot-1, poS, poS + pivot - inS - 1);
+        	getPreOrder(pivot+1, inE,poS + pivot - inS , poE-1);
+    	}
+
+    }
+}

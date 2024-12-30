@@ -1,0 +1,83 @@
+<problem-name>물통
+<blog>https://tussle.tistory.com/1153
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색, 깊이 우선 탐색
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static class Water{
+        int A, B, C;
+        public Water(int a, int b, int c) {
+            A = a;
+            B = b;
+            C = c;
+        }
+    }
+    static TreeSet&lt;Integer> result = new TreeSet&lt;>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int A = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        bfs(A, B, C);
+        for(int L : result){
+            bw.write(String.valueOf(L));
+            bw.write(" ");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void bfs(int A, int B, int C){
+        Queue&lt;Water> q = new ArrayDeque&lt;>();
+        boolean[][][] visited = new boolean[201][201][201];
+        q.offer(new Water(0, 0, C));
+        visited[0][0][C] = true;
+        while(!q.isEmpty()){
+            Water cur = q.poll();
+            if(cur.A == 0){
+                result.add(cur.C);
+            }
+            int tempA, tempB, tempC;
+            tempA = cur.A - Math.min(cur.A, B-cur.B);
+            tempB = cur.B + Math.min(cur.A, B-cur.B);
+            tempC = cur.C;
+            checkWater(visited, tempA, tempB, tempC, q);
+
+            tempA = cur.A - Math.min(cur.A, C-cur.C);
+            tempB = cur.B;
+            tempC = cur.C + Math.min(cur.A, C-cur.C);
+            checkWater(visited, tempA, tempB, tempC, q);
+
+            tempA = cur.A + Math.min(cur.B, A-cur.A);
+            tempB = cur.B - Math.min(cur.B, A-cur.A);
+            tempC = cur.C;
+            checkWater(visited, tempA, tempB, tempC, q);
+
+            tempA = cur.A;
+            tempB = cur.B - Math.min(cur.B, C-cur.C);
+            tempC = cur.C + Math.min(cur.B, C-cur.C);
+            checkWater(visited, tempA, tempB, tempC, q);
+
+            tempA = cur.A + Math.min(cur.C, A-cur.A);
+            tempB = cur.B;
+            tempC = cur.C - Math.min(cur.C, A-cur.A);
+            checkWater(visited, tempA, tempB, tempC, q);
+
+            tempA = cur.A;
+            tempB = cur.B + Math.min(cur.C, B-cur.B);
+            tempC = cur.C - Math.min(cur.C, B-cur.B);
+            checkWater(visited, tempA, tempB, tempC, q);
+        }
+    }
+
+    private static void checkWater(boolean[][][] visited, int tempA, int tempB, int tempC, Queue&lt;Water> q) {
+        if(!visited[tempA][tempB][tempC]){
+            visited[tempA][tempB][tempC] = true;
+            q.offer(new Water(tempA, tempB, tempC));
+        }
+    }
+}

@@ -1,0 +1,53 @@
+<problem-name>구간 자르기
+<blog>https://tussle.tistory.com/1010
+<tag>누적 합, 스위핑, 두 포인터
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int[] count = new int[1000001];
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        int max = -1, min = 1000001;
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," " );
+            int left = Integer.parseInt(st.nextToken());
+            int right = Integer.parseInt(st.nextToken());
+            count[left]++;
+            count[right]--;
+            min = Math.min(min, left);
+            max = Math.max(max, right);
+        }
+        for(int i=min+1;i&lt;=max;i++)
+            count[i] += count[i-1];
+
+        int s_id = min, e_id = min;
+        int A = 0, B = 0;
+        int s = 0;
+        while(e_id &lt;= max){
+            if(s &lt; K) {
+                s += count[e_id++];
+            }else if(s == K){
+                A = s_id;
+                B = e_id;
+                break;
+            }else
+                s -= count[s_id++];
+        }
+        if(A == min)
+            A = 0;
+        bw.write(A + " " + B);
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

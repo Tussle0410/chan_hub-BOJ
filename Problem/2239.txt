@@ -1,0 +1,75 @@
+<problem-name>스도쿠
+<blog>https://tussle.tistory.com/978
+<tag>구현, 백트래킹
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main {
+	static int[][] sudoku;
+	static boolean[][][] visited;
+	static boolean flag;
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		sudoku = new int[9][9];
+		visited = new boolean[3][9][10];
+		for (int i = 0; i &lt; 9; i++) {
+			String str = br.readLine();
+			for (int j = 0; j &lt; 9; j++) {
+				int n = Character.getNumericValue(str.charAt(j));
+				sudoku[i][j] = n;
+				if(n != 0) {
+					visited[0][i][n] = true;
+					visited[1][j][n] = true;
+					visited[2][i/3*3 + j/3][n] = true;
+				}
+			}
+		}
+		search(0, 0);
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
+	static void search(int r, int c) throws IOException{
+	    if(flag){
+	        return;
+	    }
+		if (r == 9) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i &lt; 9; i++) {
+            	for (int j = 0; j &lt; 9; j++){
+            	    bw.write(String.valueOf(sudoku[i][j]));
+            	}
+            	bw.newLine();
+            }
+            flag = true;
+            return;
+		}
+
+		int nc = c + 1;
+		int nr = r;
+		if (nc == 9) {
+			nr = r + 1;
+			nc = 0;
+		}
+		if (sudoku[r][c] != 0)
+			search(nr, nc);
+		else {
+			for (int i = 1; i &lt;= 9; i++) {
+				if (!visited[0][r][i] && !visited[1][c][i] && !visited[2][r/3*3+c/3][i]) {
+					visited[0][r][i] = visited[1][c][i] = visited[2][r/3*3+c/3][i] = true;
+					sudoku[r][c] = i;
+					search(nr, nc);
+					sudoku[r][c] = 0;
+					visited[0][r][i] = visited[1][c][i] = visited[2][r/3*3+c/3][i] = false;
+				}
+			}
+		}
+	}
+
+}

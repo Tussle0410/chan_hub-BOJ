@@ -1,0 +1,106 @@
+<problem-name>성곽
+<blog>
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색, 비트마스킹
+<java-code>
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    static class position{
+        int x, y;
+        public position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    static int N,M;
+    static int[][] castle;
+    static int[][] roomId;
+    static int[] dx = {-1, 0, 1, 0};
+    static int[] dy = {0, -1, 0, 1};
+    static ArrayList&lt;Integer> roomSize = new ArrayList&lt;>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        castle = new int[N][M];
+        roomId = new int[N][M];
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            for (int j=0;j&lt;M;j++){
+                castle[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        int roomIndex = 1;
+        int maxSize = -1;
+        for(int i=0;i&lt;N;i++){
+            for(int j=0;j&lt;M;j++){
+                if(roomId[i][j]==0){
+                    roomSize.add(bfs(j, i, roomIndex++));
+                    maxSize = Math.max(maxSize,roomSize.get(roomSize.size()-1));
+                }
+            }
+        }
+        bw.write(String.valueOf(--roomIndex));
+        bw.newLine();
+        bw.write(String.valueOf(maxSize));
+        bw.newLine();
+        int doorBreakSize = -1;
+        for(int i=0;i&lt;N;i++){
+            for(int j=0;j&lt;M;j++){
+                doorBreakSize = Math.max(aroundSearch(j,i), doorBreakSize);
+            }
+        }
+        bw.write(String.valueOf(doorBreakSize));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int bfs(int x, int y, int index){
+        Queue&lt;position> queue = new LinkedList&lt;>();
+        boolean[][] visited = new boolean[N][M];
+        int count = 1;
+        roomId[y][x] = index;
+        visited[y][x] = true;
+        queue.add(new position(x,y));
+        while(!queue.isEmpty()){
+            position cur = queue.poll();
+            for(int i=0;i&lt;4;i++){
+                int tempX = cur.x + dx[i];
+                int tempY = cur.y + dy[i];
+                if(wallCheck(cur.x,cur.y,i) && !visited[tempY][tempX]){
+                    count++;
+                    roomId[tempY][tempX] = index;
+                    visited[tempY][tempX] = true;
+                    queue.add(new position(tempX,tempY));
+                }
+            }
+        }
+        return count;
+    }
+    static int aroundSearch(int x, int y){
+        for(int i=0;i&lt;4;i++){
+            int tempX = x + dx[i];
+            int tempY = y + dy[i];
+            if(inCastle(tempX,tempY)){
+                if(roomId[y][x] != roomId[tempY][tempX]){
+                    return roomSize.get(roomId[y][x]-1) + roomSize.get(roomId[tempY][tempX]-1);
+                }
+            }
+        }
+        return -1;
+    }
+    static boolean inCastle(int x, int y){
+        if(y>=0 && x>=0 && x&lt;M && y&lt;N)
+            return true;
+        return false;
+    }
+    static boolean wallCheck(int x, int y, int index){
+        if((castle[y][x] & (1&lt;&lt;index))==0)
+            return true;
+        return false;
+    }
+}
+

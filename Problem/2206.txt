@@ -1,0 +1,95 @@
+<problem-name>벽 부수고 이동하기
+<blog>https://tussle.tistory.com/567
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static class coordinate{
+		int x,y,distance;
+		boolean crack;
+		public int getX() {
+			return x;
+		}
+		public int getY() {
+			return y;
+		}
+		public int getDistance() {
+			return distance;
+		}
+		public boolean getCrack() {
+			return crack;
+		}
+		public coordinate(int x, int y, int distance,boolean crack) {
+			this.x = x;
+			this.y = y;
+			this.crack = crack;
+			this.distance = distance;
+		}
+	}
+	public static int N,M;
+	public static int[][] map;
+	public static int[] dx = {-1, 1, 0, 0};
+	public static int[] dy = {0, 0, -1, 1};
+	public static boolean[][][] check;
+	public static boolean finsh = false;
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	N = Integer.parseInt(st.nextToken());
+    	M = Integer.parseInt(st.nextToken());
+    	map = new int[N][M];
+    	check = new boolean[N][M][2];
+    	for(int i=0;i&lt;N;i++) {
+    		String str = br.readLine();
+    		for(int j=0;j&lt;M;j++) {
+    			map[i][j] = Character.getNumericValue(str.charAt(j));
+    		}
+    	}
+    	int result = bfs();
+    	bw.write(String.valueOf(result));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+    public static int bfs() {
+    	Queue&lt;coordinate> queue = new LinkedList&lt;coordinate>();
+    	queue.add(new coordinate(0, 0, 1, false));
+    	check[0][0][0] = true;
+    	while(!queue.isEmpty()) {
+    		int size = queue.size();
+    		for(int i=0;i&lt;size;i++) {
+    			coordinate temp = queue.poll();
+    			int x = temp.getX();
+    			int y = temp.getY();
+    			int distance = temp.getDistance();
+    			boolean crack = temp.getCrack();
+    			if(x==N-1 && y == M-1) {
+    				return distance;
+    			}
+    			for(int j=0;j&lt;4;j++) {
+    				int tempX = x + dx[j];
+    				int tempY = y + dy[j];
+    				if(tempX>=0 && tempX&lt;N && tempY>=0 && tempY&lt;M) {
+    					if(map[tempX][tempY]==0) {
+    						if(!crack && !check[tempX][tempY][0]) {
+    							queue.add(new coordinate(tempX, tempY, distance+1, false));
+    							check[tempX][tempY][0] = true;
+    						}else if(crack && !check[tempX][tempY][1]) {
+    							queue.add(new coordinate(tempX, tempY, distance+1, true));
+    							check[tempX][tempY][1] = true;
+    						}
+    					}else {
+    						if(!crack) {
+    							queue.add(new coordinate(tempX, tempY, distance+1, true));
+    							check[tempX][tempY][1] = true;
+    						}
+    					}
+    				}
+    			}
+    		}
+    	}
+    	return -1;
+    }
+}
