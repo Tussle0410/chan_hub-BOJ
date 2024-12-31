@@ -1,0 +1,56 @@
+<problem-name>섞기 수열
+<blog>
+<tag>수학, 정수론, 유클리드 호제법, 순열 사이클 분할
+<java-code>
+import java.io.*;
+import java.util.*;
+
+
+public class Main {
+    static int[] cycle, A;
+    static boolean[] visited;
+
+    static int result = 1;
+    static int cnt;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        A = new int[N+1];
+        cycle = new int[N+1];
+        visited = new boolean[N+1];
+        for(int i=1;i&lt;=N;i++){
+            A[i] = Integer.parseInt(st.nextToken());
+        }
+        for(int i=1;i&lt;=N;i++){
+            if(!visited[i]){
+                cnt = 0;
+                dfs(i);
+                if(result >= cnt){
+                    result = result * (cnt / gcd(result, cnt));
+                }else{
+                    result = result * (cnt / gcd(cnt, result));
+                }
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+}
+    static void dfs(int idx){
+        if(visited[idx]){
+            return;
+        }
+        cnt++;
+        visited[idx] = true;
+        dfs(A[idx]);
+    }
+    static int gcd(int a, int b){
+        if(b == 0){
+            return a;
+        }
+        return gcd(b, a%b);
+    }
+}

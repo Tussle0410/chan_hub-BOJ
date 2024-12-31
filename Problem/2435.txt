@@ -1,0 +1,34 @@
+<problem-name>기상청 인턴 신현수
+<blog>
+<tag>구현, 브루트포스 알고리즘, 누적 합
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        int[] templete = new int[N];
+        st = new StringTokenizer(br.readLine()," ");
+        for(int i=0;i&lt;N;i++){
+            templete[i] = Integer.parseInt(st.nextToken());
+        }
+        int sum = 0;
+        for(int i=0;i&lt;K;i++){
+            sum += templete[i];
+        }
+        int result = sum;
+        for(int i=K;i&lt;N;i++){
+            sum += templete[i] - templete[i-K];
+            result = Math.max(result, sum);
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

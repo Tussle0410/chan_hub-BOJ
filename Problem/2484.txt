@@ -1,0 +1,60 @@
+<problem-name>주사위 네개
+<blog>
+<tag>수학, 구현, 많은 조건 분기
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        int[] dice = new int[4];
+        int result = 0;
+        for(int tc = 0;tc &lt; N;tc++){
+            st = new StringTokenizer(br.readLine()," ");
+            int[] num = new int[7];
+            int max = 0;
+            int maxNum = 0;
+            for(int i=0;i&lt;4;i++){
+                dice[i] = Integer.parseInt(st.nextToken());
+                num[dice[i]]++;
+                if(num[dice[i]] > max){
+                    max = num[dice[i]];
+                    maxNum = dice[i];
+                }else if(num[dice[i]] == max){
+                    maxNum = Math.max(maxNum, dice[i]);
+                }
+            }
+            int temp = 0;
+            if(max == 4){
+                temp = 50000 + maxNum * 5000;
+            }else if(max == 3){
+                temp = 10000 + maxNum * 1000;
+            }else if(max == 2){
+                boolean flag = false;
+                for(int i=1;i&lt;7;i++){
+                    if(num[i] == 2 && i != maxNum){
+                        flag = true;
+                        temp = 2000 + i * 500 + maxNum * 500;
+                        break;
+                    }
+                }
+                if(!flag){
+                    temp = 1000 + maxNum * 100;
+                }
+            }else{
+                temp = maxNum * 100;
+            }
+            result = Math.max(result, temp);
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

@@ -1,0 +1,25 @@
+<problem-name>별 찍기 - 5
+<blog>
+<tag>구현
+<java-code>
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int size = N * 2 - 1;
+        String blank = " ", star = "*";
+        for(int i=1;i&lt;=N;i++){
+            int starCount = 2 * i - 1;
+            int blankCount = (size - starCount)/2;
+            bw.write(blank.repeat(blankCount));
+            bw.write(star.repeat(starCount));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

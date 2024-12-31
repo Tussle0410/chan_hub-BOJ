@@ -1,0 +1,38 @@
+<problem-name>저울
+<blog>https://tussle.tistory.com/915
+<tag>그리디 알고리즘, 정렬
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    static int N, sum;
+    static int[] num;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        num = new int[N];
+        for(int i=0;i&lt;N;i++)
+            num[i] = Integer.parseInt(st.nextToken());
+        Arrays.sort(num);
+        if(N==1){
+            if(num[0] > 1)
+                bw.write("1");
+            else
+                bw.write("2");
+        }else{
+            sum = 0;
+            for(int i=0;i&lt;N;i++){
+                if(sum+1 &lt; num[i])
+                    break;
+                else
+                    sum += num[i];
+            }
+            bw.write((sum+1) + "");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

@@ -1,0 +1,47 @@
+<problem-name>용액
+<blog>https://tussle.tistory.com/1008
+<tag>이분 탐색, 두 포인터
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        List&lt;Long> list = new ArrayList&lt;>();
+        for(int i=0;i&lt;N;i++) {
+            list.add(Long.parseLong(st.nextToken()));
+        }
+        Collections.sort(list);
+        int s = 0;
+        int e = list.size()-1;
+        int solution1 = 0;
+        int solution2 = 0;
+        long dif = Long.MAX_VALUE;
+        while(s &lt; e){
+            long sum = list.get(s) + list.get(e);
+            long temp = Math.abs(sum);
+            if(temp &lt; dif){
+                dif = temp;
+                solution1 = s;
+                solution2 = e;
+            }
+            if(sum &lt; 0){
+                s++;
+            }else if(sum > 0){
+                e--;
+            }else{
+                break;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(list.get(solution1)).append(" ").append(list.get(solution2));
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

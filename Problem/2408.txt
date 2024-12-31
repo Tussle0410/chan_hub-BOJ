@@ -1,0 +1,60 @@
+<problem-name>큰 수 계산
+<blog>
+<tag>수학, 구현, 사칙연산, 임의 정밀도 / 큰 수 연산
+<java-code>
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int n = Integer.parseInt(br.readLine());
+        List&lt;String> tokens = new ArrayList&lt;>();
+        for (int i = 0; i &lt; 2*n-1; i++) {
+            tokens.add(br.readLine());
+        }
+        List&lt;BigDecimal> num = new ArrayList&lt;>();
+        List&lt;String> operators = new ArrayList&lt;>();
+        for (int i = 0; i &lt; tokens.size(); i++) {
+            if (i % 2 == 0) {
+                num.add(new BigDecimal(tokens.get(i)));
+            } else {
+                operators.add(tokens.get(i));
+            }
+        }
+
+        for (int i = 0; i &lt; operators.size(); i++) {
+            if (operators.get(i).equals("*") || operators.get(i).equals("/")) {
+                BigDecimal result;
+                if (operators.get(i).equals("*")) {
+                    result = num.get(i).multiply(num.get(i+1));
+                } else {
+                    result = num.get(i).divide(num.get(i+1), 0, RoundingMode.FLOOR);
+                }
+                num.set(i, result);
+                num.remove(i+1);
+                operators.remove(i);
+                i--;
+            }
+        }
+
+        BigDecimal result = num.get(0);
+        for (int i = 0; i &lt; operators.size(); i++) {
+            if (operators.get(i).equals("+")) {
+                result = result.add(num.get(i+1));
+            } else if (operators.get(i).equals("-")) {
+                result = result.subtract(num.get(i+1));
+            }
+        }
+        bw.write(result.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

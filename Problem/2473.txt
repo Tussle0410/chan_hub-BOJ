@@ -1,0 +1,56 @@
+<problem-name>세 용액
+<blog>https://tussle.tistory.com/1017
+<tag>정렬, 이분 탐색, 두 포인터
+<java-code>
+import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+
+class Main {
+    static long answer = Long.MAX_VALUE;
+    static int first, second, third, N;
+    static boolean Flag = false;
+    static int[] arr;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        arr  = new int[N];
+        for(int i=0;i&lt;N;i++)
+            arr[i] = Integer.parseInt(st.nextToken());
+        Arrays.sort(arr);
+        for(int i=0;i&lt;=N-3;i++) {
+            search(i);
+            if(Flag)
+                break;
+        }
+
+        sb.append(arr[first]).append(" ").append(arr[second]).append(" ").append(arr[third]);
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void search(int n){
+        long value = arr[n];
+        int s = n+1, e = N-1;
+        while(s &lt; e){
+            long temp = value + arr[s] + arr[e];
+            if(Math.abs(temp) &lt; answer){
+                answer = Math.abs(temp);
+                first = n;
+                second = s;
+                third = e;
+            }
+            if(temp > 0)
+                e--;
+            else if(temp == 0)
+                return;
+            else
+                s++;
+        }
+    }
+}

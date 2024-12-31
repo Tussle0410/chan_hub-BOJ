@@ -1,0 +1,79 @@
+<problem-name>암벽 등반
+<blog>
+<tag>자료 구조, 그래프 이론, 그래프 탐색, 너비 우선 탐색, 해시를 사용한 집합과 맵
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static class Info implements Comparable&lt;Info>{
+        int x, y, count;
+
+        public Info(int x, int y, int count) {
+            this.x = x;
+            this.y = y;
+            this.count = count;
+        }
+
+        @Override
+        public int compareTo(Info o) {
+            return this.count - o.count;
+        }
+    }
+    static int T;
+    static Map&lt;Integer, Set&lt;Integer>> holds;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int n = Integer.parseInt(st.nextToken());
+        T = Integer.parseInt(st.nextToken());
+
+        holds = new HashMap&lt;>();
+
+        for(int i=0;i&lt;n;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            if(!holds.containsKey(y)){
+                holds.put(y, new HashSet&lt;>());
+            }
+            holds.get(y).add(x);
+        }
+        int result = dijkstra();
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int dijkstra(){
+        PriorityQueue&lt;Info> pq = new PriorityQueue&lt;>();
+        Map&lt;Integer, Set&lt;Integer>> visited = new HashMap&lt;>();
+        pq.add(new Info(0, 0, 0));
+        visited.put(0, new HashSet&lt;>());
+        visited.get(0).add(0);
+        while(!pq.isEmpty()){
+            Info cur = pq.poll();
+            if(cur.y == T){
+                return cur.count;
+            }
+            for(int row=-2;row&lt;=2;row++){
+                for(int col=-2;col&lt;=2;col++){
+                    int ny = cur.y + row;
+                    int nx = cur.x + col;
+                    if(inSpace(ny, nx) && (!visited.containsKey(ny) || !visited.get(ny).contains(nx)) && holds.containsKey(ny) && holds.get(ny).contains(nx)){
+                        if(!visited.containsKey(ny)){
+                            visited.put(ny, new HashSet&lt;>());
+                        }
+                        visited.get(ny).add(nx);
+                        pq.add(new Info(nx, ny, cur.count+1));
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+    static boolean inSpace(int y, int x){
+        return y >= 0 && y &lt;= T && x >= 0 && x &lt;= 1000000;
+    }
+}

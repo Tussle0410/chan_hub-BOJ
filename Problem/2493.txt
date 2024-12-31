@@ -1,0 +1,57 @@
+<problem-name>탑
+<blog>
+<tag>자료 구조, 스택
+<java-code>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+public class Main {
+	static class Info implements Comparable&lt;Info>{
+		int idx, height;
+		public Info(int idx, int height) {
+			this.idx = idx;
+			this.height = height;
+		}
+		@Override
+		public int compareTo(Info o) {
+			return this.height - o.height;
+		}
+	}
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		StringBuilder answer = new StringBuilder();
+		Stack&lt;Info> stack = new Stack&lt;>();
+		int[] arr = new int[N+1];
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		for(int i=1;i&lt;=N;i++)
+			stack.add(new Info(i, Integer.parseInt(st.nextToken())));
+		PriorityQueue&lt;Info> pq = new PriorityQueue&lt;>();
+		pq.offer(stack.pop());
+		while(!stack.isEmpty()) {
+			if(pq.isEmpty()) {
+				pq.offer(stack.pop());
+				continue;
+			}
+			if(pq.peek().height > stack.peek().height)
+				pq.add(stack.pop());
+			else {
+				Info temp = pq.poll();
+				arr[temp.idx] = stack.peek().idx;
+			}
+		}
+		while(!pq.isEmpty())
+			arr[pq.poll().idx] = 0;
+
+		for(int i=1;i&lt;=N;i++)
+			answer.append(arr[i]).append(" ");
+
+		System.out.print(answer);
+		br.close();
+	}
+
+}

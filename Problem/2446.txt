@@ -1,0 +1,30 @@
+<problem-name>별 찍기 - 9
+<blog>
+<tag>구현
+<java-code>
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	    int num = Integer.parseInt(br.readLine());
+	    int num2 = num*2-1;
+	    for(int i=num2;i>0;i=i-2) {
+		    for(int j=num2;j>i;j=j-2)
+		        bw.write(" ");
+		    for(int k=0;k&lt;i;k++)
+		        bw.write("*");
+		    bw.newLine();
+	    }
+	    for(int n=3;n&lt;=num2;n=n+2) {
+		    for(int o=num2;o>n;o=o-2)
+		        bw.write(" ");
+		    for(int p=0;p&lt;n;p++)
+		        bw.write("*");
+		    bw.newLine();
+	    }
+	    bw.flush();
+	    bw.close();
+	    br.close();
+	}
+}

@@ -1,0 +1,54 @@
+<problem-name>공약수
+<blog>
+<tag>수학, 브루트포스 알고리즘, 정수론, 유클리드 호제법
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        long mul = (long) n * m;
+        long sum = Long.MAX_VALUE;
+        long a = 0;
+        long b = 0;
+        for(int i=n;i&lt;=Math.sqrt(mul);i+=n){
+            if(mul % i == 0 && gcdCal(i, mul/i, n)){
+                long j = mul/i;
+                long temp = i + j;
+                if(temp &lt; sum){
+                    sum = temp;
+                    if(i>= j){
+                       a = j;
+                       b = i;
+                    }else{
+                        a = i;
+                        b = j;
+                    }
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(a).append(" ").append(b);
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static boolean gcdCal(long a, long b, int n){
+        if(a >= b){
+            return gcd(a, b) == n;
+        }else{
+            return gcd(b, a) == n;
+        }
+    }
+    static long gcd(long a, long b){
+        if(b == 0){
+            return a;
+        }
+        return gcd(b, a%b);
+    }
+}
