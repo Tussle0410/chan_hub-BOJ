@@ -1,0 +1,23 @@
+<problem-name>긴자리 계산
+<blog>
+<tag>수학, 사칙연산, 임의 정밀도 / 큰 수 연산
+<java-code>
+import java.io.*;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        BigInteger N = new BigInteger(br.readLine());
+        BigInteger M = new BigInteger(br.readLine());
+        bw.write(String.valueOf(N.add(M)));
+        bw.newLine();
+        bw.write(String.valueOf(N.subtract(M)));
+        bw.newLine();
+        bw.write(String.valueOf(N.multiply(M)));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

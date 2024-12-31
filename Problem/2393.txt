@@ -1,0 +1,38 @@
+<problem-name>Rook
+<blog>
+<tag>구현
+<java-code>
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        bw.write("  ___  ___  ___");
+        bw.newLine();
+        bw.write("  | |__| |__| |");
+        bw.newLine();
+        bw.write("  |           |");
+        bw.newLine();
+        bw.write("   \\_________/");
+        bw.newLine();
+        bw.write( "    \\_______/");
+        bw.newLine();
+        bw.write("     |     |");
+        bw.newLine();
+        bw.write("     |     |");
+        bw.newLine();
+        bw.write("     |     |");
+        bw.newLine();
+        bw.write("     |     |");
+        bw.newLine();
+        bw.write("     |_____|");
+        bw.newLine();
+        bw.write("  __/       \\__");
+        bw.newLine();
+        bw.write(" /             \\");
+        bw.newLine();
+        bw.write("/_______________\\");
+        bw.flush();
+        bw.close();
+    }
+}

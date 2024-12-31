@@ -1,0 +1,97 @@
+<problem-name>어드벤처 게임
+<blog>
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색, 깊이 우선 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    static class Info{
+        int val, idx;
+        public Info(int val, int idx){
+            this.val = val;
+            this.idx = idx;
+        }
+    }
+    static List&lt;List&lt;Integer>> graph;
+    static int[] price;
+    static int N;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
+        while(true){
+            graph = new ArrayList&lt;>();
+            N = Integer.parseInt(br.readLine());
+            price = new int[N+1];
+            if(N == 0)
+                break;
+
+            for(int i=0;i&lt;=N;i++)
+                graph.add(new ArrayList&lt;>());
+
+            for(int i=1;i&lt;=N;i++){
+                st = new StringTokenizer(br.readLine());
+                String str = st.nextToken();
+                int p = Integer.parseInt(st.nextToken());
+                if(str.equals("T"))
+                    price[i] = -1 * p;
+                else
+                    price[i] = p;
+
+                while(true){
+                    int nxt = Integer.parseInt(st.nextToken());
+                    if(nxt == 0)
+                        break;
+                    graph.get(i).add(nxt);
+                }
+            }
+            if(bfs())
+                bw.write("Yes");
+            else
+                bw.write("No");
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+    static boolean bfs(){
+        if(price[1] &lt; 0)
+            return false;
+
+        Queue&lt;Info> q = new ArrayDeque&lt;>();
+        boolean[][] visited = new boolean[N+1][501];
+        q.offer(new Info(price[1], 1));
+        while(!q.isEmpty()){
+            Info cur = q.poll();
+
+            if(cur.idx == N)
+                return true;
+
+            visited[cur.idx][cur.val] = true;
+
+            for(int nxt : graph.get(cur.idx)) {
+                int temp = cur.val;
+                if(price[nxt] > 0)
+                    temp = Math.max(temp, price[nxt]);
+                else if(price[nxt] &lt; 0)
+                    temp += price[nxt];
+
+                if(temp &lt; 0 || visited[nxt][temp])
+                    continue;
+
+                q.offer(new Info(temp, nxt));
+                visited[nxt][temp] = true;
+            }
+        }
+        return false;
+    }
+
+}

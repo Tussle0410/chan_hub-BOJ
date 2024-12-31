@@ -1,0 +1,45 @@
+<problem-name>Dance Dance Revolution
+<blog>https://tussle.tistory.com/1016
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+class Main {
+    static int[][][] DP;
+    static ArrayList&lt;Integer> list;
+    static int size;
+    static int[][] width = { {1, 2, 2, 2, 2}, {0, 1, 3, 4, 3}, {0, 3, 1, 3, 4}, {0, 4, 3, 1, 3}, {0, 3, 4, 3, 1}};
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        list = new ArrayList&lt;>();
+        while (true) {
+            int n = Integer.parseInt(st.nextToken());
+            if (n == 0)
+                break;
+            list.add(n);
+        }
+        size = list.size();
+        DP = new int[size][5][5];
+        int answer = search(0, 0, 0);
+        bw.write(String.valueOf(answer));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    private static int search(int idx, int l, int r) {
+        if(idx == size)
+            return 0;
+
+        if(DP[idx][l][r] != 0)
+            return DP[idx][l][r];
+
+        int nxt = list.get(idx);
+        DP[idx][l][r] = Math.min(search(idx+1, nxt, r) + width[l][nxt],  search(idx+1, l, nxt) + width[r][nxt]);
+
+        return DP[idx][l][r];
+    }
+}

@@ -1,0 +1,41 @@
+<problem-name>일곱 난쟁이
+<blog>https://tussle.tistory.com/351
+<tag>브루트포스 알고리즘, 정렬
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+	static int dwarfMax = 9;
+	static int[] dwarf = new int[dwarfMax];
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int sum = 0;
+        for(int i=0;i&lt;dwarfMax;i++) {
+        	dwarf[i] = Integer.parseInt(br.readLine());
+        	sum += dwarf[i];
+        }
+        dwarfCheck(sum);
+
+        Arrays.sort(dwarf);
+        for(int i=2;i&lt;dwarfMax;i++){
+        	bw.write(String.valueOf(dwarf[i]));
+        	bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static void dwarfCheck(int sum) {
+    	for(int i=0;i&lt;dwarfMax;i++) {
+    		for(int j=i+1;j&lt;dwarfMax;j++) {
+    			if(sum- dwarf[i] - dwarf[j]==100) {
+    				dwarf[i] = -1;
+    				dwarf[j] = -1;
+    				return;
+    			}
+    		}
+    	}
+    }
+
+}
