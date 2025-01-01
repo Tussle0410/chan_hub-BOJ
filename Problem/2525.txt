@@ -1,0 +1,28 @@
+<problem-name>오븐 시계
+<blog>
+<tag>수학, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int hour = Integer.parseInt(st.nextToken());
+        int min = Integer.parseInt(st.nextToken());
+        int usageTime = Integer.parseInt(br.readLine());
+        hour += usageTime/60;
+        min += usageTime%60;
+        if(min > 59) {
+        	hour += 1;
+        	min %= 60;
+        }
+        if(hour > 23)
+        	hour %= 24;
+        bw.write(String.format("%d %d", hour, min));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

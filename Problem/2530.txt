@@ -1,0 +1,29 @@
+<problem-name>인공지능 시계
+<blog>
+<tag>수학, 사칙연산
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int max = 3600 * 24;
+        int second = 3600 * Integer.parseInt(st.nextToken()) + 60 * Integer.parseInt(st.nextToken()) + Integer.parseInt(st.nextToken()) + Integer.parseInt(br.readLine());
+        second %= max;
+        int h = second / 3600;
+        second -= h * 3600;
+        int m = second / 60;
+        second -= m * 60;
+        bw.write(h + " " + m + " " + second);
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

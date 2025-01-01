@@ -1,0 +1,42 @@
+<problem-name>소수
+<blog>https://tussle.tistory.com/149
+<tag>수학, 정수론, 소수 판정
+<java-code>
+import java.io.*;
+import java.math.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int start = Integer.parseInt(br.readLine());
+        int end = Integer.parseInt(br.readLine());
+        int sum = 0;
+        int min=-1;
+        for(int i=start;i&lt;=end;i++){
+            if(findPrimeNumber(i)){
+                sum+=i;
+                if(min==-1)
+                    min = i;
+            }
+        }
+        if(sum==0)
+            bw.write("-1");
+        else{
+            bw.write(String.valueOf(sum));
+            bw.newLine();
+            bw.write(String.valueOf(min));
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static boolean findPrimeNumber(int num){
+        if(num==1)
+            return false;
+        for(int i=2;i&lt;=Math.sqrt(num);i++){
+            if(num%i==0)
+                return false;
+        }
+        return true;
+    }
+}

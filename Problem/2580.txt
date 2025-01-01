@@ -1,0 +1,91 @@
+<problem-name>스도쿠
+<blog>https://tussle.tistory.com/217
+<tag>백트래킹
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	static int[][] sudoku = new int[9][9];
+	static boolean endFlag= false;
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer st;
+    	for(int i=0;i&lt;9;i++) {
+    		st = new StringTokenizer(br.readLine()," ");
+    		for(int j=0;j&lt;9;j++) {
+    			sudoku[i][j] = Integer.parseInt(st.nextToken());
+    		}
+    	}
+    	sudokuSolution(0,0);
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static void sudokuSolution(int x, int y)  throws IOException{
+		if(endFlag){
+            return;
+		}
+		if(y==9){
+			sudokuSolution(x+1, 0);
+			return;
+		}
+		if(x==9) {
+	    	for(int i=0;i&lt;9;i++) {
+	    		for(int j=0;j&lt;9;j++) {
+	    			bw.write(String.valueOf(sudoku[i][j]));
+	    			bw.write(" ");
+	    		}
+	    		bw.newLine();
+	    	}
+	    	endFlag = true;
+	    	return;
+		}
+		if(sudoku[x][y]==0) {
+			for(int i=1;i&lt;=9;i++) {
+				if(numCheck(x,y,i)) {
+					sudoku[x][y]=i;
+					sudokuSolution(x, y+1);
+				}
+			}
+			sudoku[x][y]=0;
+			return;
+		}
+		sudokuSolution(x, y+1);
+	}
+	public static boolean numCheck(int x,int y, int num) {
+		if(rowCheck(x,num))
+			return false;
+		else if(colCheck(y,num))
+			return false;
+		else if(blockCheck(x, y,num))
+			return false;
+		else
+			return true;
+	}
+	public static boolean rowCheck(int x,int num) {
+		for(int i=0;i&lt;9;i++) {
+			if(sudoku[x][i]==num)
+				return true;
+		}
+		return false;
+	}
+	public static boolean colCheck(int y,int num) {
+		for(int i=0;i&lt;9;i++) {
+			if(sudoku[i][y]==num)
+					return true;
+		}
+		return false;
+	}
+	public static boolean blockCheck(int x, int y, int num) {
+		int start_x = (x/3)*3, end_x = start_x+3;
+		int start_y = (y/3)*3, end_y = start_y+3;
+		for(int i=start_x;i&lt;end_x;i++) {
+			for(int j=start_y;j&lt;end_y;j++) {
+				if(sudoku[i][j]==num)
+					return true;
+			}
+		}
+		return false;
+	}
+}

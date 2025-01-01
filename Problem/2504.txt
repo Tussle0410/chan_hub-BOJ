@@ -1,0 +1,49 @@
+<problem-name>괄호의 값
+<blog>https://tussle.tistory.com/971
+<tag>구현, 자료 구조, 스택
+<java-code>
+import java.io.*;
+import java.util.Stack;
+
+public class Main{
+    static class info{
+        char c;
+        int value;
+        public info(char c, int value){
+            this.c = c;
+            this.value = value;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String str = br.readLine();
+        int answer = 0;
+        Stack&lt;info> stack = new Stack&lt;>();
+        for(int i=0;i&lt;str.length();i++){
+            char c = str.charAt(i);
+            if(c == '(' || c == '[')
+                stack.push(new info(c, 0));
+            else{
+                if(stack.isEmpty() || (stack.peek().c == '(' && c == ']')
+                        || (stack.peek().c=='[' && c == ')')){
+                    answer = 0;
+                    break;
+                }
+                info cur = stack.pop();
+                int mul = c == ')' ? 2 : 3;
+                cur.value = cur.value==0 ? 1 : cur.value;
+                if(stack.isEmpty())
+                    answer += cur.value * mul;
+                else
+                    stack.peek().value += mul * cur.value;
+            }
+        }
+        if(!stack.isEmpty())
+            answer = 0;
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

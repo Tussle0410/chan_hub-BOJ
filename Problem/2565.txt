@@ -1,0 +1,48 @@
+<problem-name>전깃줄
+<blog>https://tussle.tistory.com/246
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+	static int[] check;
+	static int[][] num;
+	static int index;
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	index = Integer.parseInt(br.readLine());
+    	num = new int[index][2];
+    	check = new int[index];
+    	int max = Integer.MIN_VALUE;
+    	for(int i=0;i&lt;index;i++) {
+        	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    		num[i][0] = Integer.parseInt(st.nextToken());
+    		num[i][1] = Integer.parseInt(st.nextToken());
+    	}
+
+    	Arrays.sort(num, new Comparator&lt;int[]>() {
+    		@Override
+    		public int compare(int[] o1, int[] o2) {
+    			return o1[0]-o2[0];
+    		}
+		});
+
+    	for(int i=0;i&lt;index;i++)
+    		max = Math.max(electricWire(i), max);
+    	bw.write(String.valueOf(index-max));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static int electricWire(int depth) {
+		if(check[depth]==0) {
+			check[depth]=1;
+			for(int i=0;i&lt;depth;i++) {
+				if(num[depth][1]>num[i][1])
+					check[depth] = Math.max(check[depth], electricWire(i)+1);
+			}
+		}
+		return check[depth];
+	}
+}

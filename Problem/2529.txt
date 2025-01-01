@@ -1,0 +1,60 @@
+<problem-name>부등호
+<blog>https://tussle.tistory.com/504
+<tag>브루트포스 알고리즘, 백트래킹
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static int k;
+	public static long max = Long.MIN_VALUE, min = Long.MAX_VALUE;
+	public static String strMax,strMin;
+	public static char[] inequality;
+	public static boolean[] check = new boolean[10];
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	k = Integer.parseInt(br.readLine());
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	inequality = new char[k];
+    	for(int i=0;i&lt;k;i++) {
+    		inequality[i] = st.nextToken().charAt(0);
+    	}
+    	for(int i=0;i&lt;10;i++) {
+    		check[i] = true;
+    		inequalityCal(1, i+"");
+    		check[i] = false;
+    	}
+    	bw.write(String.valueOf(strMax));
+    	bw.newLine();
+    	bw.write(String.valueOf(strMin));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+
+    }
+    public static void inequalityCal(int depth, String cur) {
+    	if(depth==k+1) {
+    		long temp = Long.parseLong(cur);
+    		if(temp > max) {
+    			max = temp;
+    			strMax = cur;
+    		}
+    		if(temp &lt; min) {
+    			min = temp;
+    			strMin = cur;
+    		}
+    		return;
+    	}
+    	for(int i=0;i&lt;=9;i++) {
+    		if(!check[i]) {
+    			if((inequality[depth-1]=='&lt;' && Character.getNumericValue(cur.charAt(depth-1))&lt;i) ||
+    					(inequality[depth-1]=='>' && Character.getNumericValue(cur.charAt(depth-1))>i)) {
+    				check[i] = true;
+    				inequalityCal(depth+1, cur+i);
+    				check[i] = false;
+    			}
+    		}
+    	}
+    	return;
+    }
+}

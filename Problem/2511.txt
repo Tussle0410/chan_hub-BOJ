@@ -1,0 +1,56 @@
+<problem-name>카드놀이
+<blog>
+<tag>구현
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        int[][] arr = new int[2][10];
+        for(int i=0;i&lt;2;i++){
+            st = new StringTokenizer(br.readLine(), " ");
+            for(int j=0;j&lt;10;j++)
+                arr[i][j] = Integer.parseInt(st.nextToken());
+        }
+        int A_score = 0;
+        int B_score = 0;
+        int lastWinner = -1;
+        for(int i=0;i&lt;10;i++){
+            if(arr[0][i] > arr[1][i]) {
+                A_score += 3;
+                lastWinner = 0;
+            }else if(arr[0][i] &lt; arr[1][i]) {
+                B_score += 3;
+                lastWinner = 1;
+            }else{
+                A_score++;
+                B_score++;
+            }
+        }
+        bw.write(String.format("%d %d", A_score, B_score));
+        bw.newLine();
+        if(A_score > B_score)
+            bw.write("A");
+        else if(A_score &lt; B_score)
+            bw.write("B");
+        else{
+            if(lastWinner == -1)
+                bw.write("D");
+            else if(lastWinner == 0)
+                bw.write("A");
+            else
+                bw.write("B");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

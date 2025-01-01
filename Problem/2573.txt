@@ -1,0 +1,95 @@
+<problem-name>빙산
+<blog>https://tussle.tistory.com/970
+<tag>구현, 그래프 이론, 그래프 탐색, 너비 우선 탐색, 깊이 우선 탐색
+<java-code>
+import java.io.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main{
+    static class iceberg{
+        int x, y, count = 0;
+        public iceberg(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {-1, 1, 0, 0};
+    static Queue&lt;iceberg> icebergs = new LinkedList&lt;>();
+    static int[][] map;
+    static boolean[][] visited;
+    static int N,M;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        map = new int[N][M];
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            for(int j=0;j&lt;M;j++){
+                int n = Integer.parseInt(st.nextToken());
+                if(n != 0)
+                    icebergs.add(new iceberg(j, i));
+                map[i][j] = n;
+            }
+        }
+        int answer = 0;
+        while(true){
+            if(icebergs.isEmpty()){
+                answer = 0;
+                break;
+            }
+            answer++;
+            int size = icebergs.size();
+            for(iceberg cur : icebergs){
+                cur.count = 0;
+                for(int j=0;j&lt;4;j++){
+                    int tempX = cur.x + dx[j];
+                    int tempY = cur.y + dy[j];
+                    if(map[tempY][tempX] == 0)
+                        cur.count++;
+                }
+            }
+            for(int i=0;i&lt;size;i++){
+                iceberg cur = icebergs.poll();
+                map[cur.y][cur.x] = Math.max(0, map[cur.y][cur.x] - cur.count);
+                if(map[cur.y][cur.x] != 0)
+                    icebergs.add(cur);
+            }
+            int count = 0;
+            visited = new boolean[N][M];
+            for(iceberg cur : icebergs){
+                if(!visited[cur.y][cur.x]){
+                    mapCheck(cur.y, cur.x);
+                    count++;
+                }
+            }
+            if(count >= 2)
+                break;
+        }
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void mapCheck(int y, int x){
+        Queue&lt;iceberg> queue = new LinkedList&lt;>();
+        visited[y][x] = true;
+        queue.add(new iceberg(x, y));
+        while(!queue.isEmpty()){
+            iceberg cur = queue.poll();
+            for(int i=0;i&lt;4;i++){
+                int tempX = cur.x + dx[i];
+                int tempY = cur.y + dy[i];
+                if(map[tempY][tempX] != 0 && !visited[tempY][tempX]){
+                    visited[tempY][tempX] = true;
+                    queue.add(new iceberg(tempX, tempY));
+                }
+            }
+        }
+    }
+}

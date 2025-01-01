@@ -1,0 +1,57 @@
+<problem-name>비밀편지
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		String code = br.readLine();
+		String[] codes = {"000000", "001111", "010011", "011100", "100110", "101001", "110101", "111010"};
+		StringBuilder sb = new StringBuilder();
+		for(int i=0;i&lt;code.length();i+=6) {
+			String temp = code.substring(i, i + 6);
+			boolean end = false;
+			for(int j=0;j&lt;codes.length;j++){
+				if(codes[j].equals(temp)) {
+					sb.append((char)('A'+j));
+					end = true;
+					break;
+				}
+			}
+			if(!end) {
+				int count = 0, max = -1;
+				boolean check = false;
+				for(int j=0;j&lt;codes.length;j++) {
+					int tempCount = 0;
+					for(int s = 0;s&lt;temp.length();s++) {
+						if(codes[j].charAt(s) != temp.charAt(s))
+							tempCount++;
+					}
+					if(tempCount == 1) {
+						if(count == 1) {
+							check = true;
+							break;
+						}else if(count == 0) {
+							count = 1;
+							max = j;
+						}
+					}
+				}
+
+				if(check || count == 0) {
+					sb = new StringBuilder();
+					sb.append(i/6 + 1);
+					break;
+				}else
+					sb.append((char)('A'+ max));
+			}
+		}
+		System.out.println(sb);
+	}
+}

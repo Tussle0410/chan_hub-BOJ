@@ -1,0 +1,60 @@
+<problem-name>색종이
+<blog>
+<tag>구현, 그리디 알고리즘, 많은 조건 분기
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int[] paperCnt = new int[7];
+        for(int i=1;i&lt;7;i++)
+            paperCnt[i] = Integer.parseInt(br.readLine());
+        int result = paperCnt[6] + paperCnt[5] + paperCnt[4] + paperCnt[3]/4;
+        paperCnt[3] %= 4;
+        paperCnt[1] -= paperCnt[5] * 11;
+        paperCnt[2] -= paperCnt[4] * 5;
+        if(paperCnt[2] &lt; 0){
+            paperCnt[1] -= Math.abs(paperCnt[2]) * 4;
+            paperCnt[2] = 0;
+        }
+        if(paperCnt[3] == 1){
+            int p2cnt = Math.min(paperCnt[2], 5);
+            int temp = 27 - p2cnt * 4;
+            paperCnt[2] -= p2cnt;
+            paperCnt[1] -= temp;
+            result++;
+        }else if(paperCnt[3] == 2){
+            int p2cnt = Math.min(paperCnt[2], 3);
+            int temp = 18 - p2cnt * 4;
+            paperCnt[2] -= p2cnt;
+            paperCnt[1] -= temp;
+            result++;
+        }else if(paperCnt[3] == 3){
+            int p2cnt = Math.min(paperCnt[2], 1);
+            int temp = 9 - p2cnt * 4;
+            paperCnt[2] -= p2cnt;
+            paperCnt[1] -= temp;
+            result++;
+        }
+        paperCnt[3] = 0;
+        result += paperCnt[2] / 9;
+        paperCnt[2] %= 9;
+        if(paperCnt[2] > 0){
+            int temp = 36 - paperCnt[2] * 4;
+            paperCnt[1] -= temp;
+            result++;
+        }
+        if(paperCnt[1] > 0){
+            result += paperCnt[1] / 36;
+            if(paperCnt[1] % 36 > 0)
+                result++;
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

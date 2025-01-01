@@ -1,0 +1,28 @@
+<problem-name>점수계산
+<blog>
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int answer = 0, score = 0;
+        for(int i=0;i&lt;N;i++){
+            int goal = Integer.parseInt(st.nextToken());
+            if(goal == 1){
+                score++;
+                answer+=score;
+            }else
+                score = 0;
+        }
+        bw.write(String.valueOf(answer));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

@@ -1,0 +1,40 @@
+<problem-name>팬케이크 사랑
+<blog>
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        for(int tc = 0; tc &lt; T; tc++){
+            br.readLine();
+            st = new StringTokenizer(br.readLine()," ");
+            int c = Integer.parseInt(st.nextToken())*2;
+            int y = Integer.parseInt(st.nextToken())*2;
+            int su = Integer.parseInt(st.nextToken())*4;
+            int sa = Integer.parseInt(st.nextToken()) * 16;
+            int f = Integer.parseInt(st.nextToken())*16/9;
+            int val = Math.min(c,Math.min(y,Math.min(su,Math.min(sa,f))));
+
+            st = new StringTokenizer(br.readLine()," ");
+            int b = Integer.parseInt(st.nextToken());
+            int gs = Integer.parseInt(st.nextToken())/30;
+            int gc = Integer.parseInt(st.nextToken())/25;
+            int w = Integer.parseInt(st.nextToken())/10;
+            int val2 = b + gs + gc + w;
+
+            bw.write(String.valueOf(Math.min(val, val2)));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}
