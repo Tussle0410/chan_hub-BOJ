@@ -1,0 +1,63 @@
+<problem-name>촌수계산
+<blog>https://tussle.tistory.com/962
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색, 깊이 우선 탐색
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+    static class info{
+        int index, count;
+        public info(int index, int count){
+            this.index = index;
+            this.count = count;
+        }
+    }
+    static ArrayList&lt;ArrayList&lt;Integer>> graph = new ArrayList&lt;>();
+    static int answer = -1;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int s = Integer.parseInt(st.nextToken());
+        int e = Integer.parseInt(st.nextToken());
+        for(int i=0;i&lt;=n;i++)
+            graph.add(new ArrayList&lt;>());
+        int m = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;m;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            graph.get(x).add(y);
+            graph.get(y).add(x);
+        }
+        bfs(s, e, n);
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void bfs(int start, int end, int N){
+        Queue&lt;info> q = new LinkedList&lt;>();
+        boolean[] visited = new boolean[N+1];
+        visited[start] = true;
+        q.add(new info(start, 0));
+        while(!q.isEmpty()){
+            info cur = q.poll();
+            if(cur.index == end){
+                answer = cur.count;
+                break;
+            }
+            for(int next : graph.get(cur.index)){
+                if(!visited[next]){
+                    visited[next] = true;
+                    q.add(new info(next, cur.count+1));
+                }
+            }
+        }
+    }
+}

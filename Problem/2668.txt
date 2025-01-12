@@ -1,0 +1,65 @@
+<problem-name>숫자고르기
+<blog>
+<tag>그래프 이론, 그래프 탐색, 깊이 우선 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+	static int N;
+	static boolean[] visited;
+	static int[] graph;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		N = Integer.parseInt(br.readLine());
+		visited = new boolean[N + 1];
+		graph = new int[N + 1];
+
+		for (int i = 1; i &lt;= N; i++)
+			graph[i] = Integer.parseInt(br.readLine());
+
+		for (int i = 1; i &lt;= N; i++) {
+			if (visited[i])
+				continue;
+			dfs(i, i);
+		}
+		int count = 0;
+		List&lt;Integer> result = new ArrayList&lt;>();
+		for(int i=1;i&lt;=N;i++) {
+			if(visited[i]) {
+				count++;
+				result.add(i);
+			}
+		}
+		bw.write(String.valueOf(count));
+		bw.newLine();
+		for(int val : result){
+		    bw.write(String.valueOf(val));
+            bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
+	static boolean dfs(int idx, int s) {
+		int nxt = graph[idx];
+		if (!visited[nxt]) {
+			visited[nxt] = true;
+			if (nxt == s)
+				return true;
+
+			if (dfs(nxt, s))
+				return true;
+			visited[nxt] = false;
+		}
+		return false;
+	}
+}

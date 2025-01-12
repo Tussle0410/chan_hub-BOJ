@@ -1,0 +1,65 @@
+<problem-name>음악프로그램
+<blog>https://tussle.tistory.com/1019
+<tag>그래프 이론, 위상 정렬, 방향 비순환 그래프
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main{
+	static ArrayList&lt;HashSet&lt;Integer>> list = new ArrayList&lt;>();
+	static int[] count;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        StringBuilder answer = new StringBuilder();
+        count = new int[N+1];
+        for(int i=0;i&lt;=N;i++)
+        	list.add(new HashSet&lt;>());
+        for(int i=0;i&lt;M;i++) {
+        	st = new StringTokenizer(br.readLine()," ");
+        	int size = Integer.parseInt(st.nextToken());
+        	if(size == 0)
+        		continue;
+        	int pre = Integer.parseInt(st.nextToken());
+        	for(int j=1;j&lt;size;j++) {
+        		int cur = Integer.parseInt(st.nextToken());
+        		if(!list.get(pre).contains(cur)) {
+        			list.get(pre).add(cur);
+        			count[cur]++;
+        		}
+        		pre = cur;
+        	}
+        }
+        Queue&lt;Integer> result = new LinkedList&lt;>();
+        Queue&lt;Integer> q = new LinkedList&lt;>();
+        for(int i=1;i&lt;=N;i++)
+        	if(count[i] == 0)
+        		q.offer(i);
+        while(!q.isEmpty()) {
+        	int cur = q.poll();
+        	result.offer(cur);
+        	for(int nxt : list.get(cur)) {
+        		count[nxt]--;
+        		if(count[nxt] == 0)
+        			q.offer(nxt);
+        	}
+        }
+        if(result.size() == N) {
+        	while(!result.isEmpty()) {
+        		bw.write(String.valueOf(result.poll()));
+        		bw.newLine();
+        	}
+        }else
+        	bw.write("0");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

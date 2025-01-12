@@ -1,0 +1,60 @@
+<problem-name>양팔저울
+<blog>https://tussle.tistory.com/470
+<tag>다이나믹 프로그래밍, 배낭 문제
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static int[] basicMarble;
+	public static int[] findMarble;
+	public static boolean[][] DP;
+    public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int N = Integer.parseInt(br.readLine());
+    	basicMarble = new int[N+1];
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	for(int i=1;i&lt;=N;i++) {
+    		basicMarble[i] = Integer.parseInt(st.nextToken());
+    	}
+    	int M = Integer.parseInt(br.readLine());
+    	findMarble = new int[M];
+    	st = new StringTokenizer(br.readLine()," ");
+    	for(int i=0;i&lt;M;i++) {
+    		findMarble[i] = Integer.parseInt(st.nextToken());
+    		if(findMarble[i]>15000)
+    			findMarble[i] = -1;
+    	}
+    	DP = new boolean[N+1][15501];
+    	Scale(N);
+    	for(int i=0;i&lt;M;i++) {
+    		if(findMarble[i]==-1)
+    			bw.write("N ");
+    		else if(DP[N][findMarble[i]])
+    			bw.write("Y ");
+    		else
+    			bw.write("N ");
+    	}
+    	bw.flush();
+    	bw.close();
+    	br.close();
+    }
+    public static void Scale(int N) {
+    	for(int i=1;i&lt;=N;i++) {
+    		for(int j=1;j&lt;=15000;j++) {
+    			if(DP[i-1][j])
+    				DP[i][j] = true;
+    			else {
+    				int temp1 = Math.abs(j - basicMarble[i]);
+    				int temp2 = j + basicMarble[i];
+    				if(temp1==0)
+    					DP[i][j] = true;
+    				else {
+        				if(DP[i-1][temp1] || DP[i-1][temp2])
+        					DP[i][j] = true;
+    				}
+    			}
+    		}
+    	}
+    }
+}

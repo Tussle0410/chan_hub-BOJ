@@ -1,0 +1,55 @@
+<problem-name>비슷한 단어
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        String word = br.readLine();
+        int length = word.length();
+        int[] arr = new int[26];
+        for(int i=0;i&lt;word.length();i++){
+            char c = word.charAt(i);
+            arr[c-65]++;
+        }
+        int result = 0;
+        int[] cur;
+        for(int i=1;i&lt;N;i++){
+            cur = new int[26];
+            String str = br.readLine();
+            int tempLen = str.length();
+            if(tempLen &lt; length-1 || tempLen > length+1)
+                continue;
+            for(int j=0;j&lt;tempLen;j++){
+                char c = str.charAt(j);
+                cur[c-65]++;
+            }
+            int temp = 0;
+            for(int j=0;j&lt;26;j++){
+                if(arr[j] == 0)
+                    continue;
+                temp += Math.min(arr[j], cur[j]);
+            }
+            if(tempLen == length-1){
+                if(temp == length-1)
+                    result++;
+            }else if(tempLen == length){
+                if(temp==length-1 || temp == length)
+                    result++;
+            }else{
+                if(temp == length)
+                    result++;
+            }
+
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

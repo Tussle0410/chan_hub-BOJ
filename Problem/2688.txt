@@ -1,0 +1,37 @@
+<problem-name>줄어들지 않아
+<blog>
+<tag>다이나믹 프로그래밍
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int result = Integer.MAX_VALUE;
+    static int totalSum = 0;
+    static int[] arr;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        long[][] DP = new long[65][11];
+        Arrays.fill(DP[1], 1);
+        DP[1][10] = 10;
+        for(int i=2;i&lt;=64;i++){
+            long sum = 1;
+            DP[i][0] = 1;
+            for(int j=1;j&lt;10;j++){
+                DP[i][j] = DP[i-1][j] + DP[i][j-1];
+                sum += DP[i][j];
+            }
+            DP[i][10] = sum;
+        }
+        int T = Integer.parseInt(br.readLine());
+        for(int tc = 0; tc &lt; T; tc++){
+            int N = Integer.parseInt(br.readLine());
+            bw.write(String.valueOf(DP[N][10]));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

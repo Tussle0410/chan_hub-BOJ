@@ -1,0 +1,68 @@
+<problem-name>잠수함식별
+<blog>https://tussle.tistory.com/1043
+<tag>문자열, 정규 표현식
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        char[] code = br.readLine().toCharArray();
+        boolean flag = false;
+        boolean soundCheck = true;
+        int i = 0;
+        while(i&lt;code.length) {
+            if (!flag) {
+                if (code[i] == '1') {
+                    if (i + 1 >= code.length || code[i + 1] == '1') {
+                        soundCheck = false;
+                        break;
+                    }
+                    flag = true;
+                }else {
+                    if (i + 1 >= code.length || code[i + 1] == '0') {
+                        soundCheck = false;
+                        break;
+                    }
+                }
+                i += 2;
+            }else {
+                boolean check = false;
+                while (i &lt; code.length) {
+                    if (code[i] == '1')
+                        break;
+                    check = true;
+                    i++;
+                }
+                if (i >= code.length || !check) {
+                    soundCheck = false;
+                    break;
+                }
+                check = false;
+                while (i &lt; code.length) {
+                    if (code[i] == '0')
+                        break;
+
+                    if(check && i + 1 &lt; code.length && i + 2 &lt; code.length && code[i+1] == '0' && code[i+2] == '0')
+                        break;
+                    check = true;
+                    i++;
+                }
+                flag = false;
+            }
+        }
+
+        if(soundCheck)
+            bw.write("SUBMARINE");
+        else
+            bw.write("NOISE");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

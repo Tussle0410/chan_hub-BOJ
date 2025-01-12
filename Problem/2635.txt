@@ -1,0 +1,47 @@
+<problem-name>수 이어가기
+<blog>
+<tag>수학, 브루트포스 알고리즘
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    static String result, temp;
+    static int max = Integer.MIN_VALUE;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        int N = Integer.parseInt(br.readLine());
+        for(int i=1;i&lt;=N;i++){
+            temp = N + " " + i;
+            int first = N;
+            int sencod = i;
+            int cnt = 2;
+            while(true){
+                int nxt = first - sencod;
+                if(nxt &lt; 0){
+                    if(cnt > max){
+                        max = cnt;
+                        result = temp;
+                    }
+                    break;
+                }
+                temp += " " + nxt;
+                cnt++;
+                first = sencod;
+                sencod = nxt;
+            }
+        }
+        bw.write(String.valueOf(max));
+        bw.newLine();
+        bw.write(result);
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

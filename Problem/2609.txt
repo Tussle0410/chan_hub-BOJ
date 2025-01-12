@@ -1,0 +1,45 @@
+<problem-name>최대공약수와 최소공배수
+<blog>https://tussle.tistory.com/271
+<tag>수학, 정수론, 유클리드 호제법
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main{
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    	int num1 = Integer.parseInt(st.nextToken());
+    	int num2 = Integer.parseInt(st.nextToken());
+    	bw.write(String.valueOf(GCF(num1,num2)));
+    	bw.newLine();
+    	bw.write(String.valueOf(LCM(num1, num2)));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static int GCF(int num1, int num2) {
+		int result = 0;
+		for(int i=1;i&lt;=num1;i++) {
+			if(num1%i != 0)
+				continue;
+			if(num2%i==0) {
+				result = i;
+			}
+		}
+		return result;
+	}
+	public static int LCM(int num1, int num2) {
+		int curnum1 = num1;
+		int curnum2 = num2;
+		while(true) {
+			if(curnum1>curnum2)
+				curnum2 +=num2;
+			else if(curnum1&lt;curnum2)
+				curnum1 +=num1;
+			else
+				break;
+		}
+		return curnum1;
+	}
+}

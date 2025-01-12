@@ -1,0 +1,61 @@
+<problem-name>좋은수열
+<blog>
+<tag>백트래킹
+<java-code>
+import java.io.*;
+class Main {
+    static int[] arr;
+    static String result;
+    static boolean flag = false;
+    static int N;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N];
+        arr[0] = 1;
+        search(1);
+        bw.write(result);
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void search(int idx){
+        if(idx == N){
+            StringBuilder sb = new StringBuilder();
+            for(int i=0;i&lt;N;i++){
+                sb.append(arr[i]);
+            }
+            result = sb.toString();
+            flag = true;
+            return;
+        }
+        for(int i=1;i&lt;=3;i++){
+            if(flag){
+                return;
+            }
+            arr[idx] = i;
+            if(!check(idx)){
+                continue;
+            }
+            search(idx+1);
+        }
+    }
+    static boolean check(int idx){
+        for(int i=0;i&lt;=idx;i++){
+            int cnt = 0;
+            for(int j=i;j>=0;j--){
+                if(idx-j-i-1 &lt; 0){
+                    break;
+                }
+                if(arr[idx-j] == arr[idx-j-i-1]){
+                    cnt++;
+                }
+            }
+            if(cnt == i+1){
+                return false;
+            }
+        }
+        return true;
+    }
+}

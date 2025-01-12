@@ -1,0 +1,77 @@
+<problem-name>회장뽑기
+<blog>
+<tag>그래프 이론, 그래프 탐색, 너비 우선 탐색, 최단 경로, 플로이드–워셜
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    static List&lt;List&lt;Integer>> graph = new ArrayList&lt;>();
+    static int[] result;
+    static int N;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        N = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        result = new int[N+1];
+        for(int i=0;i&lt;=N;i++)
+            graph.add(new ArrayList&lt;>());
+
+        while(true){
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            if(a == -1 && b == -1)
+                break;
+            graph.get(a).add(b);
+            graph.get(b).add(a);
+        }
+        List&lt;Integer> result = new ArrayList&lt;>();
+        int min = Integer.MAX_VALUE;
+        for(int i=1;i&lt;=N;i++){
+            int val = bfs(i);
+            if(val &lt; min){
+                result.clear();
+                result.add(i);
+                min = val;
+            }else if(val == min)
+                result.add(i);
+        }
+        bw.write(String.format("%d %d", min, result.size()));
+        bw.newLine();
+        for(int val : result){
+            bw.write(String.valueOf(val));
+            bw.write(" ");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int bfs(int start){
+        Queue&lt;Integer> q = new ArrayDeque&lt;>();
+        boolean[] visited = new boolean[N+1];
+        visited[start] = true;
+        q.add(start);
+        int cnt = 0;
+        while(!q.isEmpty()){
+            cnt++;
+            int size = q.size();
+            for(int i=0;i&lt;size;i++){
+                int cur = q.poll();
+                for(int nxt : graph.get(cur)){
+                    if(!visited[nxt]){
+                        visited[nxt] = true;
+                        q.add(nxt);
+                    }
+                }
+            }
+        }
+        return cnt - 1;
+    }
+}
