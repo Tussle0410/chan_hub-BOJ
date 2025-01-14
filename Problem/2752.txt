@@ -1,0 +1,28 @@
+<problem-name>세수정렬
+<blog>
+<tag>구현, 정렬
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        StringBuilder sb = new StringBuilder();
+        PriorityQueue&lt;Integer> pq = new PriorityQueue&lt;>();
+        for(int i=0;i&lt;3;i++)
+            pq.offer(Integer.parseInt(st.nextToken()));
+        sb.append(pq.poll()).append(" ").append(pq.poll()).append(" ").append(pq.poll());
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

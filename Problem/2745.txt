@@ -1,0 +1,20 @@
+<problem-name>진법 변환
+<blog>
+<tag>수학, 구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+class Main {
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        String str = st.nextToken();
+        int B = Integer.parseInt(st.nextToken());
+        bw.write(Integer.parseInt(str, B) + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

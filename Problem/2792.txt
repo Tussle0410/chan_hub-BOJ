@@ -1,0 +1,43 @@
+<problem-name>보석 상자
+<blog>
+<tag>이분 탐색, 매개 변수 탐색
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int[] arr = new int[M];
+        int max = 0;
+        for(int i=0;i&lt;M;i++){
+            arr[i] = Integer.parseInt(br.readLine());
+            max = Math.max(max,arr[i]);
+        }
+        int left = 1;
+        int right = max;
+        while(left &lt;= right){
+            int mid = (left + right) / 2;
+            int cnt = 0;
+            for(int i=0;i&lt;M;i++){
+                cnt += arr[i] / mid;
+                if(arr[i] % mid != 0){
+                    cnt++;
+                }
+            }
+            if(cnt &lt;= N){
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+            }
+        }
+        bw.write(String.valueOf(left));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}

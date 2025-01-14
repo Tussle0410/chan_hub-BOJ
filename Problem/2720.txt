@@ -1,0 +1,27 @@
+<problem-name>세탁소 사장 동혁
+<blog>
+<tag>수학, 그리디 알고리즘, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int T;
+    static int[] money = {25, 10, 5, 1};
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        T = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;T;i++){
+            int changes = Integer.parseInt(br.readLine());
+            for(int j=0;j&lt; money.length;j++){
+                bw.write((changes/money[j]) + " ");
+                changes %= money[j];
+            }
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

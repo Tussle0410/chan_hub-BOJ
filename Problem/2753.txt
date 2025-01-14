@@ -1,0 +1,20 @@
+<problem-name>윤년
+<blog>https://tussle.tistory.com/69
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String text;
+        while((text=br.readLine())!=null){
+            int year = Integer.parseInt(text);
+            if(((year%4==0)&&(year%100!=0))||(year%400==0)){
+                System.out.println("1");
+            }else {
+                System.out.println("0");
+            }
+        }
+    }
+}
