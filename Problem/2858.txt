@@ -1,0 +1,32 @@
+<problem-name>기숙사 바닥
+<blog>
+<tag>수학, 브루트포스 알고리즘, 사칙연산
+<java-code>
+import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int R = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        boolean flag = false;
+        for(int i=2;i&lt;=5000;i++){
+            for(int j=2;j&lt;=5000;j++){
+                if(i * 2 + (j-2) * 2 == R && (i-2) * (j-2) == B){
+                    bw.write(j + " " + i);
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag){
+                break;
+            }
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

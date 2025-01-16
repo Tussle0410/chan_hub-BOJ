@@ -1,0 +1,72 @@
+<problem-name>NBA 농구
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        int[] goal = new int[2];
+        int[] time = new int[2];
+        int pre = 0;
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int t = Integer.parseInt(st.nextToken());
+            st = new StringTokenizer(st.nextToken(), ":");
+            int min = Integer.parseInt(st.nextToken());
+            int sec = Integer.parseInt(st.nextToken());
+            int ing = getSec(min, sec);
+            if(goal[0] > goal[1])
+                time[0] += ing - pre;
+            else if(goal[1] > goal[0])
+                time[1] += ing - pre;
+            goal[t-1]++;
+            pre = ing;
+        }
+        int ing = getSec(48, 0);
+        if(goal[0] > goal[1])
+            time[0] += ing - pre;
+        else if(goal[1] > goal[0])
+            time[1] += ing - pre;
+
+        if(time[0]/60 &lt; 10){
+            bw.write(String.format("0%d:", time[0]/60));
+        }else{
+            bw.write(String.format("%d:", time[0]/60));
+        }
+
+        if(time[0]%60 &lt; 10){
+            bw.write(String.format("0%d", time[0]%60));
+        }else{
+            bw.write(String.valueOf(time[0]%60));
+        }
+        bw.newLine();
+
+        if(time[1]/60 &lt; 10){
+            bw.write(String.format("0%d:", time[1]/60));
+        }else{
+            bw.write(String.format("%d:", time[1]/60));
+        }
+
+        if(time[1]%60 &lt; 10){
+            bw.write(String.format("0%d", time[1]%60));
+        }else{
+            bw.write(String.valueOf(time[1]%60));
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int getSec(int min, int sec){
+        return min * 60 + sec;
+    }
+}

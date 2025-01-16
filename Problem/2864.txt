@@ -1,0 +1,26 @@
+<problem-name>5와 6의 차이
+<blog>
+<tag>수학, 그리디 알고리즘, 문자열, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static String A="", B="";
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        A = st.nextToken();
+        B = st.nextToken();
+        bw.write(replace('6', '5') + " " + replace('5', '6'));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int replace(char a, char b){
+        A = A.replace(a, b);
+        B = B.replace(a, b);
+        return Integer.parseInt(A) + Integer.parseInt(B);
+    }
+}

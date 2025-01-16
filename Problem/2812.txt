@@ -1,0 +1,39 @@
+<problem-name>크게 만들기
+<blog>https://tussle.tistory.com/924
+<tag>자료 구조, 그리디 알고리즘, 스택
+<java-code>
+import java.io.*;
+import java.util.*;
+import java.util.stream.Stream;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        int dif = N - K;
+        int[] num = Stream.of(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
+        StringBuilder sb = new StringBuilder();
+        int start = 0;
+        while(sb.length() &lt; dif){
+            int max = num[start];
+            int id = start;
+            for(int i=start;i&lt;=K+sb.length();i++){
+                if(max == 9)
+                    break;
+                if(max &lt; num[i]){
+                    max = num[i];
+                    id = i;
+                }
+            }
+            start = id + 1;
+            sb.append(max);
+        }
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

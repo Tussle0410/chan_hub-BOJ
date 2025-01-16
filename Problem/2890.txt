@@ -1,0 +1,48 @@
+<problem-name>카약
+<blog>https://tussle.tistory.com/753
+<tag>구현, 문자열, 정렬
+<java-code>
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st= new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        char[][] map = new char[N][M];
+        for(int i=0;i&lt;N;i++){
+            String str = br.readLine();
+            for(int j=0;j&lt;M;j++)
+                map[i][j] = str.charAt(j);
+        }
+        int[] ranking = new int[10];
+        int idx = 1, cnt = 0;
+        for(int i=M-2;i>0;i--){
+            if(cnt > 9)
+                break;
+            boolean flag = true;
+            for(int j=0;j&lt;N;j++){
+                if(map[j][i] != '.' && ranking[Character.getNumericValue(map[j][i])] == 0) {
+                    ranking[Character.getNumericValue(map[j][i])] = idx;
+                    cnt++;
+                    flag = false;
+                }
+            }
+            if(!flag)
+                idx++;
+        }
+        for(int i=1;i&lt;10;i++) {
+            bw.write(String.valueOf(ranking[i]));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

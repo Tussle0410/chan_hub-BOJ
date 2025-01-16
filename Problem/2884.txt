@@ -1,0 +1,37 @@
+<problem-name>알람 시계
+<blog>https://tussle.tistory.com/72
+<tag>수학, 사칙연산
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        String text;
+        while((text=br.readLine())!=null){
+            st = new StringTokenizer(text," ");
+            int hour = Integer.parseInt(st.nextToken());
+            int min = Integer.parseInt(st.nextToken());
+            int[] result = hourCal(hour,min);
+            System.out.println(result[0] + " " + result[1]);
+        }
+    }
+    public static int[] hourCal(int h, int m){
+        m = minCal(m);
+        if(m&lt;0){
+                h-=1;
+                m = 60+m;
+                if(h&lt;0){
+                    h=23;
+                }
+            }
+        int[] value = {h,m};
+        return value;
+    }
+    public static int minCal(int m){
+        m-=45;
+        return m;
+    }
+
+}

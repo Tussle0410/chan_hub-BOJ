@@ -1,0 +1,45 @@
+<problem-name>캔디캔디
+<blog>
+<tag>그리디 알고리즘, 정렬, 이분 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class Main {
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		int M = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+		ArrayList&lt;Long> candy = new ArrayList&lt;>();
+		long sum = 0;
+		long DIV = (long) Math.pow(2, 64);
+		for(int i=0;i&lt;N;i++) {
+			candy.add(Long.parseLong(br.readLine()));
+			sum += candy.get(i);
+		}
+		Collections.sort(candy);
+		long dif = (sum - M);
+		for(int i=0;i&lt;N;i++) {
+			long temp = dif/(N-i);
+			candy.set(i,  Math.min(candy.get(i), temp));
+			dif -= candy.get(i);
+		}
+		long answer = 0;
+		for(int i=0;i&lt;N;i++) {
+			answer +=  candy.get(i) * candy.get(i);
+			answer %= DIV;
+		}
+		bw.write(String.valueOf(answer));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+}

@@ -1,0 +1,31 @@
+<problem-name>설탕 배달
+<blog>https://tussle.tistory.com/138
+<tag>수학, 다이나믹 프로그래밍, 그리디 알고리즘
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main {
+
+	public static void main(String[] args)  throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int N = Integer.parseInt(br.readLine());
+		int size = N/5;
+		int result = -1;
+		for(int i=size;i>=0;i--) {
+			if((N - i*5) % 3 == 0) {
+				result = i + ((N-i*5)/3);
+				break;
+			}
+		}
+		bw.write(String.valueOf(result));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
+}

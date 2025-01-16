@@ -1,0 +1,51 @@
+<problem-name>점수 계산
+<blog>
+<tag>정렬
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main {
+    static class Info implements Comparable&lt;Info>{
+        int idx, score;
+        public Info(int idx, int score){
+            this.idx = idx;
+            this.score = score;
+        }
+
+        @Override
+        public int compareTo(Info o) {
+            return o.score - this.score;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        final int MAX_PROBLEM_SIZE = 8;
+        final int TOTAL_SCORE_COUNT = 5;
+        int sum = 0;
+        List&lt;Info> list = new ArrayList&lt;>();
+        for(int i=0;i&lt;MAX_PROBLEM_SIZE;i++){
+            int score = Integer.parseInt(br.readLine());
+            sum += score;
+            list.add(new Info(i+1, score));
+        }
+        Collections.sort(list);
+        List&lt;Integer> idxs = new ArrayList&lt;>();
+        for(int i=MAX_PROBLEM_SIZE-1;i>=TOTAL_SCORE_COUNT;i--){
+            sum -= list.get(i).score;
+        }
+        bw.write(String.valueOf(sum));
+        bw.newLine();
+        for(int i=0;i&lt;TOTAL_SCORE_COUNT;i++){
+            idxs.add(list.get(i).idx);
+        }
+        Collections.sort(idxs);
+        for(int i=0;i&lt;TOTAL_SCORE_COUNT;i++){
+            bw.write(String.valueOf(idxs.get(i)));
+            bw.write(" ");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

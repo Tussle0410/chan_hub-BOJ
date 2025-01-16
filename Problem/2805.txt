@@ -1,0 +1,50 @@
+<problem-name>나무 자르기
+<blog>https://tussle.tistory.com/355
+<tag>이분 탐색, 매개 변수 탐색
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+	static int[] tree;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        tree = new int[N];
+        st = new StringTokenizer(br.readLine()," ");
+        int max = Integer.MIN_VALUE;
+        for(int i=0;i&lt;N;i++) {
+        	tree[i] = Integer.parseInt(st.nextToken());
+        	max = Math.max(max, tree[i]);
+        }
+        bw.write(String.valueOf(treeHeight(max, N, M)));
+        bw.newLine();
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static long treeHeight(int max, int N, int M) {
+    	long start = 0;
+    	long end = max;
+    	while(start&lt;end) {
+    		long median = (start + end) / 2;
+    		long sum = heightCheck(median, N);
+    		if(sum&lt;M)
+    			end = median;
+    		else
+    			start = median + 1;
+    	}
+    	return start-1;
+    }
+    public static long heightCheck(long height, int N) {
+    	long result = 0;
+    	for(int i=0;i&lt;N;i++) {
+    		long temp = tree[i] - height;
+    		result += temp&lt;0?0:temp;
+    	}
+    	return result;
+    }
+
+}

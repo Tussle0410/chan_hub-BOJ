@@ -1,0 +1,59 @@
+<problem-name>문자열 잘라내기
+<blog>https://tussle.tistory.com/1103
+<tag>자료 구조, 문자열, 이분 탐색, 해시를 사용한 집합과 맵
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int R = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        char[][] arr = new char[R][C];
+        for(int i=0;i&lt;R;i++){
+            arr[i] = br.readLine().toCharArray();
+        }
+        int result = search(arr, R, C);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int search(char[][] arr, int R, int C){
+        int start = 0;
+        int end = R-1;
+        while(start &lt;= end){
+            int mid = (start + end) / 2;
+            if(check(arr, mid, R, C)){
+                start = mid + 1;
+            }else{
+                end = mid - 1;
+            }
+        }
+        return start - 1;
+    }
+    static boolean check(char[][] arr, int mid, int R, int C){
+        Set&lt;String> set = new HashSet&lt;>();
+        StringBuilder sb;
+        for(int i = 0; i &lt; C;i++){
+            sb = new StringBuilder();
+            for(int j=mid;j&lt;R;j++){
+                sb.append(arr[j][i]);
+            }
+            if(set.contains(sb.toString())){
+                return false;
+            }
+            set.add(sb.toString());
+        }
+        return true;
+    }
+}

@@ -1,0 +1,31 @@
+<problem-name>대회 or 인턴
+<blog>
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main{
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        int teamCount = Math.min(N/2, M);
+        K -= (N - teamCount * 2) + (M-teamCount);
+        if(K&lt;=0)
+            bw.write(teamCount + "");
+        else {
+            int answer = teamCount - K/3;
+            if(K%3 != 0)
+                answer--;
+            bw.write(answer + "");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
