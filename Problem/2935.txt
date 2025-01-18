@@ -1,0 +1,32 @@
+<problem-name>소음
+<blog>
+<tag>수학, 문자열, 사칙연산
+<java-code>
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String A = br.readLine();
+        String operator = br.readLine();
+        String B = br.readLine();
+        boolean check = A.length() >= B.length();
+        String zero = "0";
+        String answer = "1";
+        if(operator.equals("+")){
+            if(check){
+                if(A.length() == B.length())
+                    answer = "2" + zero.repeat(A.length()-1);
+                else
+                    answer += zero.repeat(A.length()-B.length()-1) + "1" + zero.repeat(B.length()-1);
+            }else
+                answer += zero.repeat(B.length()-A.length()-1) + "1" + zero.repeat(A.length()-1);
+        }else
+            answer += zero.repeat(A.length() + B.length() - 2);
+        bw.write(answer + "");
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

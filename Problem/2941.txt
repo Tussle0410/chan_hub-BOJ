@@ -1,0 +1,24 @@
+<problem-name>크로아티아 알파벳
+<blog>https://tussle.tistory.com/124
+<tag>구현, 문자열
+<java-code>
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String text = br.readLine();
+        String result = croatiaAlphabet(text);
+        bw.write(String.valueOf(result.length()));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+    public static String croatiaAlphabet(String text) {
+    	String patten = "c=|c-|dz=|d-|lj|nj|s=|z=";
+    	String result = text.replaceAll(patten, "1");
+    	return result;
+    }
+}

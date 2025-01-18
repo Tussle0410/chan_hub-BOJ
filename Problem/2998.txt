@@ -1,0 +1,21 @@
+<problem-name>8진수
+<blog>
+<tag>수학, 구현, 문자열
+<java-code>
+import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+         String input = br.readLine();
+        BigInteger val = new BigInteger(input, 2);
+
+         bw.write( val.toString(8));
+         bw.flush();
+         bw.close();
+         br.close();
+
+    }
+}

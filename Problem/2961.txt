@@ -1,0 +1,59 @@
+<problem-name>도영이가 만든 맛있는 음식
+<blog>
+<tag>브루트포스 알고리즘, 비트마스킹, 백트래킹
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+	static class info{
+		int mul, sum;
+		public info(int mul, int sum) {
+			this.mul = mul;
+			this.sum = sum;
+		}
+	}
+	static int[][] DP;
+	static int INF = Integer.MAX_VALUE;
+	static info[] in;
+	static int N;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		N = Integer.parseInt(br.readLine());
+		StringTokenizer st;
+		in = new info[N];
+		DP = new int[N][1&lt;&lt;N];
+		for(int i=0;i&lt;N;i++) {
+			st = new StringTokenizer(br.readLine()," ");
+			int mul = Integer.parseInt(st.nextToken());
+			int sum = Integer.parseInt(st.nextToken());
+			in[i] = new info(mul, sum);
+			Arrays.fill(DP[i], INF);
+		}
+		int result = search(0, 1, 0, 0);
+		bw.write(String.valueOf(result));
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	static int search(int cnt, int mul, int sum, int mask) {
+		if(cnt == N) {
+			if(mask == 0)
+				return INF;
+			return Math.abs(mul - sum);
+		}
+		if(DP[cnt][mask] != INF)
+			return DP[cnt][mask];
+
+		info cur = in[cnt];
+		int min = Math.min(search(cnt+1, mul * cur.mul, sum+cur.sum, mask | (1&lt;&lt;cnt)), search(cnt+1, mul, sum, mask));
+		DP[cnt][mask] = Math.min(DP[cnt][mask], min);
+		return DP[cnt][mask];
+	}
+}

@@ -1,0 +1,35 @@
+<problem-name>상수
+<blog>https://tussle.tistory.com/120
+<tag>수학, 구현
+<java-code>
+import java.io.*;
+import java.util.*;
+import java.math.*;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String text = br.readLine();
+        StringTokenizer st = new StringTokenizer(text, " ");
+        int num1 = reverseNum(st.nextToken());
+        int num2 = reverseNum(st.nextToken());
+        int result = compareNum(num1,num2);
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+    public static int reverseNum(String num){
+        String temp = "";
+        for(int i=num.length()-1;i>=0;i--){
+            temp +=num.charAt(i);
+        }
+        int result = Integer.parseInt(temp);
+        return result;
+    }
+    public static int compareNum(int n, int m){
+        int result = Math.max(n,m);
+        return result;
+    }
+}

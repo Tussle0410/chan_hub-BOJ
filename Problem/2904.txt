@@ -1,0 +1,82 @@
+<problem-name>수학은 너무 쉬워
+<blog>
+<tag>수학, 정수론, 소수 판정, 에라토스테네스의 체
+<java-code>
+import java.io.*;
+import java.util.*;
+public class Main {
+    static Map&lt;Integer, Integer>[] maps;
+    static Map&lt;Integer, Integer> count;
+    static boolean[] decimal;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        final int MAX = 1000000;
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        decimal = new boolean[MAX+1];
+        decimal[1] = true;
+        for(int i=2;i&lt;Math.sqrt(MAX);i++){
+            if(decimal[i]){
+                continue;
+            }
+            for(int j=2;i*j&lt;=MAX;j++){
+                decimal[i*j] = true;
+            }
+        }
+        maps = new Map[N];
+        count = new HashMap&lt;>();
+        for(int i=0;i&lt;N;i++){
+            maps[i] = new HashMap&lt;>();
+            int num = Integer.parseInt(st.nextToken());
+            if(!decimal[num]){
+                maps[i].put(num, maps[i].getOrDefault(num, 0) + 1);
+                count.put(num, count.getOrDefault(num, 0) + 1);
+                continue;
+            }
+            div(num, i);
+        }
+        Map&lt;Integer, Integer> map = new HashMap&lt;>();
+        int gcd = 1;
+        for(int key : count.keySet()){
+            int temp = count.get(key)/N;
+            if(temp == 0){
+                continue;
+            }
+            map.put(key, map.getOrDefault(key, 0) + temp);
+            gcd *= Math.pow(key, temp);
+        }
+        int cnt = 0;
+        for(int i=0;i&lt;N;i++){
+            for(int key : map.keySet()){
+                int temp = map.get(key);
+                int ct = maps[i].getOrDefault(key, 0);
+                if(ct &lt; temp){
+                    cnt += temp - ct;
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(gcd).append(" ").append(cnt);bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static void div(int num, int idx){
+        int n = 2;
+        while(num > 1){
+            if(!decimal[num]){
+                maps[idx].put(num, maps[idx].getOrDefault(num, 0) + 1);
+                count.put(num, count.getOrDefault(num, 0) + 1);
+                break;
+            }
+            if(num % n == 0){
+                maps[idx].put(n, maps[idx].getOrDefault(n, 0) + 1);
+                count.put(n, count.getOrDefault(n, 0) + 1);
+                num /= n;
+            }else{
+                n++;
+            }
+        }
+    }
+}

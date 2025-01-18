@@ -1,0 +1,22 @@
+<problem-name>캔디 구매
+<blog>
+<tag>수학, 구현
+<java-code>
+import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int C = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        double div = Math.pow(10,K);
+        long result =  Math.round(C /  div) * (long)div;
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
