@@ -1,0 +1,52 @@
+<problem-name>개똥벌레
+<blog>
+<tag>이분 탐색, 누적 합
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int N = Integer.parseInt(st.nextToken());
+        int H = Integer.parseInt(st.nextToken());
+        int[] up = new int[H+1];
+        int[] down = new int[H+1];
+        for(int i=1;i&lt;=N;i++){
+            int num = Integer.parseInt(br.readLine());
+            if(i % 2 == 1){
+                up[num]++;
+            }else{
+                down[num]++;
+            }
+        }
+        int[] DP = new int[H+1];
+        DP[H] = up[H];
+        for(int i=H-1;i>0;i--){
+            DP[i] = DP[i+1] + up[i];
+        }
+        int sum = 0;
+        for(int i=H-1;i>0;i--){
+            sum += down[i];
+            DP[H-i+1] += sum;
+        }
+        int breakCnt = Integer.MAX_VALUE;
+        int cnt = 0;
+        for(int i=1;i&lt;=H;i++){
+            if(breakCnt > DP[i]){
+                breakCnt = DP[i];
+                cnt = 1;
+            }else if(breakCnt == DP[i]){
+                cnt++;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(breakCnt).append(" ").append(cnt);
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

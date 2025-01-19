@@ -1,0 +1,44 @@
+<problem-name>스캐너
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		List&lt;String> list = new ArrayList&lt;>();
+		String[] strArr = sc.nextLine().split(" ");
+		int[] arr = new int[strArr.length];
+
+		for (int i = 0; i &lt; arr.length; i++)
+			arr[i] = Integer.parseInt(strArr[i]);
+
+		while (sc.hasNextLine()) {
+			String book = sc.nextLine();
+			if (book == "")
+				break;
+			list.add(book);
+		}
+		int x = arr[1] * arr[3] / list.get(0).length();
+		int y = arr[0] * arr[2] / list.size();
+
+		for (int i = 0; i &lt; list.size(); i++) {
+			String str = "";
+			for (int j = 0; j &lt; list.get(0).length(); j++) {
+				for (int k = 0; k &lt; x; k++)
+					str += list.get(i).charAt(j);
+			}
+			for (int k = 0; k &lt; y; k++) {
+				System.out.print(str);
+				if (k != y || k != 0)
+					System.out.println();
+			}
+		}
+	}
+}

@@ -1,0 +1,28 @@
+<problem-name>택시 기하학
+<blog>https://tussle.tistory.com/164
+<tag>수학, 기하학
+<java-code>
+import java.io.*;
+public class Main{
+	public static void main(String[] args) throws IOException{
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    	int r = Integer.parseInt(br.readLine());
+    	bw.write(circleArea(r));
+    	bw.newLine();
+    	bw.write(texiArea(r));
+    	bw.flush();
+    	bw.close();
+    	br.close();
+	}
+	public static String circleArea(int r) {
+		double temp= r*r*Math.PI;
+		String result = String.format("%.6f", temp);
+		return result;
+	}
+	public static String texiArea(int r) {
+		double temp = Math.pow(r*2, 2) / 2;
+		String result = String.format("%.6f", temp);
+		return result;
+	}
+}

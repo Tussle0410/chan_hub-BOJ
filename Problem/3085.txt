@@ -1,0 +1,98 @@
+<problem-name>사탕 게임
+<blog>
+<tag>구현, 브루트포스 알고리즘
+<java-code>
+import java.io.*;
+public class Main{
+	static char[][] candis;
+	static int N;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        int result = Integer.MIN_VALUE;
+        candis = new char[N][N];
+        for(int i=0;i&lt;N;i++) {
+        	String temp = br.readLine();
+        	for(int j=0;j&lt;N;j++) {
+        		candis[i][j] = temp.charAt(j);
+        	}
+        }
+        for(int i=0;i&lt;N;i++) {
+        	for(int j=0;j&lt;N;j++) {
+        		result = Math.max(result, maxCandi(i, j));
+        	}
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    public static int maxCandi(int x, int y) {
+    	int max = Integer.MIN_VALUE;
+    	if(x == N-1 && y==N-1)
+    		return -1;
+    	if(x==N-1) {
+    		candiRowChange(x, y);
+    		max = Math.max(max, candiCheck());
+    		candiRowChange(x, y);
+    	}else if(y==N-1) {
+    		candiColChange(x, y);
+    		max = Math.max(max, candiCheck());
+    		candiColChange(x, y);
+    	}else {
+    		candiRowChange(x, y);
+    		max = Math.max(max, candiCheck());
+    		candiRowChange(x, y);
+
+    		candiColChange(x, y);
+    		max = Math.max(max, candiCheck());
+    		candiColChange(x, y);
+    	}
+    	return max;
+    }
+    public static void candiRowChange(int x, int y) {
+    	char temp = candis[x][y];
+    	candis[x][y] = candis[x][y+1];
+    	candis[x][y+1] = temp;
+    }
+    public static void candiColChange(int x, int y) {
+    	char temp = candis[x][y];
+    	candis[x][y] = candis[x+1][y];
+    	candis[x+1][y] = temp;
+    }
+    public static int candiCheck() {
+    	char cur;
+    	int count=0;
+    	int result = Integer.MIN_VALUE;
+    	for(int i=0;i&lt;N;i++) {
+    		cur = candis[i][0];
+    		count = 1;
+    		for(int j=1;j&lt;N;j++) {
+    			if(cur==candis[i][j])
+    				count++;
+    			else {
+    				result = Math.max(result, count);
+    				count = 1;
+    				cur = candis[i][j];
+    			}
+    		}
+        	result = Math.max(result, count);
+    	}
+    	for(int i=0;i&lt;N;i++) {
+    		cur = candis[0][i];
+    		count = 1;
+    		for(int j=1;j&lt;N;j++) {
+    			if(cur==candis[j][i])
+    				count++;
+    			else {
+    				result = Math.max(result, count);
+    				count = 1;
+    				cur = candis[j][i];
+    			}
+    		}
+        	result = Math.max(result, count);
+    	}
+    	return result;
+    }
+}

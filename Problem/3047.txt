@@ -1,0 +1,31 @@
+<problem-name>ABC
+<blog>
+<tag>구현
+<java-code>
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[] arr = new int[3];
+
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        String s = sc.next();
+        Arrays.sort(arr);
+
+        for (int j = 0; j &lt; arr.length; j++) {
+            if ('A' == s.charAt(j)) {
+                System.out.print(arr[0] + " ");
+            } else if ('B' == s.charAt(j)) {
+                System.out.print(arr[1] + " ");
+            } else if ('C' == s.charAt(j)) {
+                System.out.print(arr[2] + " ");
+            }
+        }
+
+    }
+}

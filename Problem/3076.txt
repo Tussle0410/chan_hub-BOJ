@@ -1,0 +1,53 @@
+<problem-name>상근이의 체스판
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int R = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine()," ");
+        int A = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        String black = "X";
+        String white = ".";
+        for(int i=0;i&lt;R;i++){
+            for(int s = 0; s &lt; A; s++){
+                for(int j=0;j&lt;C;j++) {
+                    if(i % 2 == 0){
+                        if(j % 2 == 0){
+                            for(int k=0;k&lt;B;k++){
+                                bw.write(black);
+                            }
+                        }else{
+                            for(int k=0;k&lt;B;k++){
+                                bw.write(white);
+                            }
+                        }
+                    }else{
+                        if(j % 2 == 0){
+                            for(int k=0;k&lt;B;k++){
+                                bw.write(white);
+                            }
+                        }else{
+                            for(int k=0;k&lt;B;k++){
+                                bw.write(black);
+                            }
+                        }
+                    }
+                }
+                bw.newLine();
+            }
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

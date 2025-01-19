@@ -1,0 +1,38 @@
+<problem-name>짝수를 찾아라
+<blog>
+<tag>수학, 구현, 사칙연산
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        for(int i=0;i&lt;N;i++){
+            st = new StringTokenizer(br.readLine()," ");
+            int min = Integer.MAX_VALUE;
+            int sum = 0;
+            for(int j=0;j&lt;7;j++){
+                int num = Integer.parseInt(st.nextToken());
+                if(num%2==0){
+                    sum+=num;
+                    min = Math.min(min,num);
+                }
+            }
+            bw.write(String.valueOf(sum));
+            bw.write(" ");
+            bw.write(String.valueOf(min));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
