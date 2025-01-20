@@ -1,0 +1,56 @@
+<problem-name>빵집
+<blog>https://tussle.tistory.com/923
+<tag>그래프 이론, 그리디 알고리즘, 그래프 탐색, 깊이 우선 탐색
+<java-code>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+	static char[][] map;
+	static int R, C, result = 0;
+	static int[] dr = { -1, 0, 1 };
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		R = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
+		map = new char[R][C];
+		for (int i = 0; i &lt; R; i++) {
+			String str = br.readLine();
+			for (int j = 0; j &lt; C; j++)
+				map[i][j] = str.charAt(j);
+		}
+		for (int i = 0; i &lt; R; i++)
+			dfs(i, 0);
+
+		System.out.print(result);
+	}
+
+	private static boolean dfs(int r, int c) {
+		if (c == C - 1) {
+			result++;
+			return true;
+		}
+		int tempC = c + 1;
+		for (int i = 0; i &lt; 3; i++) {
+			int tempR = r + dr[i];
+			if (inSpace(tempR, tempC) && map[tempR][tempC] != 'x') {
+				map[tempR][tempC] = 'x';
+				if (dfs(tempR, tempC))
+					return true;
+			}
+		}
+		return false;
+
+	}
+
+	private static boolean inSpace(int r, int c) {
+		if (r >= 0 && r &lt; R && c &lt; C)
+			return true;
+		return false;
+	}
+}

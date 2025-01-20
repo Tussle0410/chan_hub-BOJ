@@ -1,0 +1,59 @@
+<problem-name>즐거운 삶을 위한 노력
+<blog>https://tussle.tistory.com/1089
+<tag>수학, 정수론, 소수 판정, 에라토스테네스의 체
+<java-code>
+import java.io.*;
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw;bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        final int MAX_VALUE = 1000000;
+        boolean[] isPrime = new boolean[MAX_VALUE + 1];
+        boolean[] primeFactor = new boolean[MAX_VALUE + 1];
+        List&lt;Integer> primes = new ArrayList&lt;>();
+        for(int i=2; i&lt;=Math.sqrt(MAX_VALUE); i++){
+            if(!isPrime[i]){
+                for(int j=2; i*j&lt;=MAX_VALUE; j++){
+                    isPrime[i*j] = true;
+                }
+            }
+        }
+        for(int i=2;i&lt;=MAX_VALUE;i++){
+            if(!isPrime[i]){
+                primes.add(i);
+            }
+        }
+        int cnt = 0;
+        for(int i=0;i&lt;N;i++){
+            int num = Integer.parseInt(br.readLine());
+            for(int prime : primes){
+                if(num == 1){
+                    break;
+                }
+                if(!isPrime[num]){
+                    cnt += primeFactor[num] ? -1 : 1;
+                    primeFactor[num] = !primeFactor[num];
+                    break;
+                }
+                while(num % prime == 0){
+                    num /= prime;
+                    cnt += primeFactor[prime] ? -1 : 1;
+                    primeFactor[prime] = !primeFactor[prime];
+                }
+            }
+            if(cnt == 0){
+                bw.write("DA");
+            }else{
+                bw.write("NE");
+            }
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
