@@ -1,0 +1,39 @@
+<problem-name>두 수의 합
+<blog>https://tussle.tistory.com/622
+<tag>정렬, 두 포인터
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int x = Integer.parseInt(br.readLine());
+        List&lt;Integer> list = new ArrayList&lt;>();
+        for(int i=0;i&lt;n;i++){
+            list.add(Integer.parseInt(st.nextToken()));
+        }
+        int s = 0;
+        int e = n-1;
+        int result = 0;
+        Collections.sort(list);
+        while(s &lt; e){
+            int sum = list.get(s) + list.get(e);
+            if(sum == x){
+                result++;
+                s++;
+            }else if(sum > x){
+                e--;
+            }else{
+                s++;
+            }
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

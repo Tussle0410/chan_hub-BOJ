@@ -1,0 +1,62 @@
+<problem-name>LUKA
+<blog>
+<tag>구현, 문자열, 시뮬레이션
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int[] dy = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
+    static int[] dx = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int X = Integer.parseInt(st.nextToken());
+        int Y = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(br.readLine());
+        String direction = br.readLine();
+        int cnt = 0;
+        int X1 = 0, Y1 = 0;
+        for(int i=0;i&lt;9;i++){
+            int nx = X1 + dx[i];
+            int ny = Y1 + dy[i];
+            if(nx == X && ny == Y){
+                cnt++;
+                bw.write("0");
+                bw.newLine();
+                break;
+            }
+        }
+        for(int j=0;j&lt;K;j++){
+            char d = direction.charAt(j);
+            if(d == 'S'){
+                Y1++;
+            }else if(d == 'J'){
+                Y1--;
+            }else if(d == 'I') {
+                X1++;
+            }else if(d == 'Z'){
+                X1--;
+            }
+            for(int i=0;i&lt;9;i++){
+                int nx = X1 + dx[i];
+                int ny = Y1 + dy[i];
+                if(nx == X && ny == Y){
+                    cnt++;
+                    bw.write(String.valueOf(j+1));
+                    bw.newLine();
+                    break;
+                }
+            }
+        }
+        if(cnt == 0){
+            bw.write("-1");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+
+    }
+}
