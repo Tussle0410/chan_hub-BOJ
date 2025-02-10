@@ -1,0 +1,35 @@
+<problem-name>Vigenère Cipher Encryption
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        while(true){
+            String K = br.readLine().trim();
+            if(K.equals("0")){
+                break;
+            }
+            String P = br.readLine().trim();
+            int len = K.length();
+            for(int i=0;i&lt;P.length();i++){
+                char c = P.charAt(i);
+                int idx = i % len;
+                char val = (char)((c + (K.charAt(idx) - 'A' + 1)));
+                if(val > 'Z'){
+                    val = (char)(val - 26);
+                }
+                bw.write(String.valueOf(val));
+            }
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
