@@ -1,0 +1,41 @@
+<problem-name>맥주 냉장고
+<blog>
+<tag>수학, 브루트포스 알고리즘
+<java-code>
+import java.io.*;
+import java.lang.Math;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int min = Integer.MAX_VALUE;
+        int[] result = new int[3];
+        for(int i=1;i&lt;=N;i++){
+            if(N % i != 0){
+                continue;
+            }
+            for(int j=1; j&lt;= N / i; j++){
+                if((N/i) % j != 0){
+                    continue;
+                }
+                int k = N / i / j;
+                int temp = 2*i*j + 2*j*k + 2*k*i;
+                if(min > temp){
+                    result[0] = i;
+                    result[1] = j;
+                    result[2] = k;
+                    min = temp;
+                }
+            }
+        }
+        for(int i=0;i&lt;3;i++){
+            bw.write(String.valueOf(result[i]));
+            bw.write(" ");
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

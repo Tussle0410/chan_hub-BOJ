@@ -1,0 +1,42 @@
+<problem-name>Explicit Formula
+<blog>
+<tag>수학, 구현
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        int[] arr = new int[10];
+        for(int i=0;i&lt;10;i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        List&lt;Integer> list = new ArrayList&lt;>();
+        for(int i=0;i&lt;10;i++){
+            for(int j=i+1;j&lt;10;j++){
+                list.add(arr[i] | arr[j]);
+                for(int k=j+1;k&lt;10;k++){
+                    list.add(arr[i] | arr[j] | arr[k]);
+                }
+            }
+        }
+        int result = list.get(0);
+        for(int i=1;i&lt;list.size();i++){
+            result = result ^ list.get(i);
+        }
+        bw.write(String.valueOf(result));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

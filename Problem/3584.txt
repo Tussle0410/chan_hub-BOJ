@@ -1,0 +1,100 @@
+<problem-name>가장 가까운 공통 조상
+<blog>https://tussle.tistory.com/902
+<tag>그래프 이론, 그래프 탐색, 트리, 깊이 우선 탐색, 최소 공통 조상
+<java-code>
+import java.io.*;
+import java.util.*;
+
+
+public class Main {
+    static int[][] parent;
+    static int[] depth;
+    static boolean[] check;
+    static ArrayList&lt;ArrayList&lt;Integer>> tree;
+    static int size, root;
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        int T = Integer.parseInt(br.readLine());
+        for(int i=0;i&lt;T;i++){
+            int N = Integer.parseInt(br.readLine());
+            tree = new ArrayList&lt;>();
+            check = new boolean[N+1];
+            depth = new int[N+1];
+            size = getHeight(N);
+            parent = new int[N+1][size];
+            for(int j=0;j&lt;=N;j++)
+                tree.add(new ArrayList&lt;>());
+            for(int j=1;j&lt;N;j++){
+                st = new StringTokenizer(br.readLine()," ");
+                int A = Integer.parseInt(st.nextToken());
+                int B = Integer.parseInt(st.nextToken());
+                tree.get(A).add(B);
+                tree.get(B).add(A);
+                check[B] = true;
+            }
+            getRoot(N);
+            setDepth(1, root, 0);
+            setParent(N);
+            st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            bw.write(String.valueOf(LCA(a, b)));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+    static int getHeight(int n){
+        return (int)Math.ceil(Math.log(n) / Math.log(2)) + 1;
+    }
+    static void getRoot(int n){
+        for(int i=1;i&lt;=n;i++){
+            if(!check[i]){
+                root = i;
+                return;
+            }
+        }
+    }
+    static void setDepth(int d, int cur, int p){
+        depth[cur] = d;
+        for(int next : tree.get(cur)){
+            if(p != next){
+                parent[next][0] = cur;
+                setDepth(d+1, next, cur);
+            }
+        }
+    }
+    static void setParent(int n){
+        for(int i=1;i&lt;size;i++){
+            for(int j=1;j&lt;=n;j++){
+                parent[j][i] = parent[parent[j][i-1]][i-1];
+            }
+        }
+    }
+    static int LCA(int a, int b){
+        int da = depth[a];
+        int db = depth[b];
+        if(db > da){
+            int temp = b;
+            b = a;
+            a = temp;
+        }
+        for(int i = size-1;i>=0;i--){
+            if(depth[a] - Math.pow(2, i) >= depth[b])
+                a = parent[a][i];
+        }
+        if(a==b)
+            return a;
+        for(int i=size-1;i>=0;i--){
+            if(parent[a][i] != parent[b][i]){
+                a = parent[a][i];
+                b = parent[b][i];
+            }
+        }
+        return parent[a][0];
+    }
+
+}
