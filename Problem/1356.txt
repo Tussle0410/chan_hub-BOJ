@@ -1,0 +1,46 @@
+<problem-name>유진수
+<blog>
+<tag>수학, 구현, 문자열, 브루트포스 알고리즘, 사칙연산
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    char[] arr = br.readLine().toCharArray();
+    if(arr.length == 1){
+      bw.write("NO");
+    }else{
+      int size = arr.length;
+      boolean done = false;
+      for(int i=0;i&lt;size-1;i++){
+        int left = 1;
+        int right = 1;
+        for(int j=0;j&lt;=i;j++){
+          left *= Character.getNumericValue(arr[j]);
+        }
+        for(int j=i+1;j&lt;size;j++){
+          right *= Character.getNumericValue(arr[j]);
+        }
+        if(left == right){
+          done = true;
+          break;
+        }
+      }
+      if(done){
+        bw.write("YES");
+      }else{
+        bw.write("NO");
+      }
+    }
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+}
