@@ -1,0 +1,46 @@
+<problem-name>세준세비
+<blog>
+<tag>구현, 정렬
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    int t = Integer.parseInt(br.readLine());
+    StringTokenizer st;
+    for(int tc=1;tc&lt;=t;tc++){
+      br.readLine();
+      st = new StringTokenizer(br.readLine()," ");
+      int n = Integer.parseInt(st.nextToken());
+      int m = Integer.parseInt(st.nextToken());
+      int joonMax = 0;
+      int biMax = 0;
+      st = new StringTokenizer(br.readLine()," ");
+      for(int i=0;i&lt;n;i++){
+        int num = Integer.parseInt(st.nextToken());
+        joonMax = Math.max(joonMax, num);
+      }
+      st = new StringTokenizer(br.readLine()," ");
+      for(int i=0;i&lt;m;i++){
+        int num = Integer.parseInt(st.nextToken());
+        biMax = Math.max(biMax, num);
+      }
+      if(joonMax >= biMax){
+        bw.write("S");
+      }else{
+        bw.write("B");
+      }
+      bw.newLine();
+    }
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+}

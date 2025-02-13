@@ -1,0 +1,35 @@
+<problem-name>가장 큰 금민수
+<blog>
+<tag>구현, 구현, 브루트포스 알고리즘
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    int n = Integer.parseInt(br.readLine());
+    for(int i=n;i>0;i--){
+      char[] arr = String.valueOf(i).toCharArray();
+      boolean done = false;
+      for(char c : arr){
+        if(c  != '4' && c != '7'){
+          done = true;
+          break;
+        }
+      }
+      if(!done){
+        bw.write(String.valueOf(i));
+        break;
+      }
+    }
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+}

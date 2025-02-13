@@ -1,0 +1,43 @@
+<problem-name>수열의 변화
+<blog>
+<tag>수학, 구현, 문자열, 시뮬레이션, 파싱
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    int n = Integer.parseInt(st.nextToken());
+    int k = Integer.parseInt(st.nextToken());
+    st = new StringTokenizer(br.readLine(),",");
+    int[] arr = new int[n];
+    for(int i=0; i&lt;n; i++) {
+      arr[i] = Integer.parseInt(st.nextToken());
+    }
+    for(int i=1;i&lt;=k;i++){
+      int size = n-i;
+      int[] nxt = new int[size];
+      for(int j=0;j&lt;size;j++){
+        nxt[j] = arr[j+1]-arr[j];
+      }
+      arr = nxt;
+    }
+    int len = arr.length;
+    for(int i=0;i&lt;len;i++){
+      bw.write(String.valueOf(arr[i]));
+      if(i &lt; len - 1){
+        bw.write(",");
+      }
+    }
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+}

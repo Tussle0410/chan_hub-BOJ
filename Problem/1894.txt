@@ -1,0 +1,60 @@
+<problem-name>4번째 점
+<blog>
+<tag>수학, 구현, 기하학
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Objects;
+import java.util.StringTokenizer;
+
+public class Main {
+  static class Position{
+    double x;
+    double y;
+    public Position(double x, double y){
+      this.x = x;
+      this.y = y;
+    }
+    public boolean equals(Position p){
+      return this.x == p.x && this.y == p.y;
+    }
+
+  }
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    String input;
+    StringTokenizer st;
+    while ((input = br.readLine()) != null) {
+      st = new StringTokenizer(input, " ");
+      Position p1 = new Position(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+      Position p2 = new Position(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+      Position p3 = new Position(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+      Position p4 = new Position(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+      if (p2.equals(p3)) {
+        swap(p1, p2);
+      }else if(p1.equals(p4)){
+        swap(p3, p4);
+    }else if(p2.equals(p4)){
+        swap(p1, p2);
+        swap(p3, p4);
+      }
+      bw.write(String.format("%.3f %.3f", p1.x + (p2.x - p1.x) + (p4.x - p1.x), p1.y + (p2.y - p1.y) + (p4.y - p1.y)));
+      bw.newLine();
+    }
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+
+  static void swap(Position p1, Position p2){
+    Position temp = new Position(p1.x, p1.y);
+    p1.x = p2.x;
+    p1.y = p2.y;
+    p2.x = temp.x;
+    p2.y = temp.y;
+  }
+}
