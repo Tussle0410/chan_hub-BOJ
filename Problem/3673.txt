@@ -1,0 +1,41 @@
+<problem-name>나눌 수 있는 부분 수열
+<blog>
+<tag>수학, 누적 합
+<java-code>
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        int c = Integer.parseInt(br.readLine());
+        HashMap&lt;Integer, Integer> map = new HashMap&lt;>();
+        for(int tc=0;tc&lt;c;tc++){
+            st = new StringTokenizer(br.readLine()," ");
+            int d = Integer.parseInt(st.nextToken());
+            int n = Integer.parseInt(st.nextToken());
+            st = new StringTokenizer(br.readLine()," ");
+            long sum = 0L;
+            long result = 0;
+            for(int i=0;i&lt;n;i++){
+                sum += Integer.parseInt(st.nextToken());
+                int temp = (int)(sum % d);
+                if(sum >= d){
+                    if(temp == 0){
+                        result++;
+                    }
+                    result += map.getOrDefault(temp, 0);
+                }
+                map.put(temp, map.getOrDefault(temp, 0) + 1);
+            }
+            map.clear();
+            bw.write(String.valueOf(result));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

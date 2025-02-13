@@ -1,0 +1,53 @@
+<problem-name>로봇 프로젝트
+<blog>
+<tag>정렬, 이분 탐색, 두 포인터
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+public class Main {
+	static final int CENCIMETER = 10000000;
+
+	public static void main(String[] args) throws IOException {
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		Scanner sc = new Scanner(System.in);
+		List&lt;Integer> list = new ArrayList&lt;>();
+		while (sc.hasNext()) {
+			int X = sc.nextInt() * CENCIMETER;
+			int N = sc.nextInt();
+
+			for(int i=0;i&lt;N;i++)
+				list.add(sc.nextInt());
+
+			Collections.sort(list);
+			int start = 0;
+			int end = N-1;
+			boolean flag = false;
+			while(start&lt;end) {
+				int sum = list.get(start) + list.get(end);
+				if(sum == X) {
+					flag = true;
+					break;
+				}else if(sum > X)
+					end--;
+				else
+					start++;
+			}
+			if(flag) {
+				System.out.println("yes " + list.get(start) + " " + list.get(end));
+			}else
+				System.out.println("danger");
+
+			list.clear();
+		}
+	}
+}
