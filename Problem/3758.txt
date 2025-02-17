@@ -1,0 +1,73 @@
+<problem-name>KCPC
+<blog>
+<tag>구현, 정렬
+<java-code>
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static class Info implements Comparable&lt;Info>{
+        int score, recent, count, teamId;
+        int[] val;
+        public Info(int score, int recent, int count,int teamId, int N){
+            this.score = score;
+            this.recent = recent;
+            this.count = count;
+            this.teamId = teamId;
+            val = new int[N+1];
+        }
+
+        @Override
+        public int compareTo(Info o) {
+            if(o.score == this.score){
+                if(this.count == o.count)
+                    return this.recent - o.recent;
+                return this.count - o.count;
+            }
+            return o.score - this.score;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        ArrayList&lt;Info> list = new ArrayList&lt;>();
+        for(int tc = 0;tc&lt;T;tc++){
+            st = new StringTokenizer(br.readLine(), " ");
+            int n = Integer.parseInt(st.nextToken());
+            int k = Integer.parseInt(st.nextToken());
+            int t = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
+            for(int i=1;i&lt;=n;i++)
+                list.add(new Info(0, 0, 0, i, k));
+
+            for(int l=1;l&lt;=m;l++){
+                st = new StringTokenizer(br.readLine()," ");
+                int i = Integer.parseInt(st.nextToken());
+                int j = Integer.parseInt(st.nextToken());
+                int s = Integer.parseInt(st.nextToken());
+                Info cur = list.get(i-1);
+                if(s > cur.val[j]){
+                    cur.score = cur.score - cur.val[j] + s;
+                    cur.val[j] = s;
+                }
+                cur.recent = l;
+                cur.count++;
+            }
+            Collections.sort(list);
+            int result = 1;
+            for(Info cur : list){
+                if(cur.teamId == t)
+                    break;
+                result++;
+            }
+            bw.write(String.valueOf(result));
+            bw.newLine();
+            list.clear();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}

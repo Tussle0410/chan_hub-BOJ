@@ -1,0 +1,43 @@
+<problem-name>애너그램 거리
+<blog>
+<tag>구현, 문자열
+<java-code>
+import java.io.*;
+import java.lang.Math;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int testCases = Integer.parseInt(br.readLine());
+
+        for (int caseNum = 1; caseNum &lt;= testCases; caseNum++) {
+            String a = br.readLine();
+            String b = br.readLine();
+
+            int anagram;
+            if (!isNullOrBlank(a) || !isNullOrBlank(b)) {
+                int[] arr = new int[26];
+
+                for (char ch : a.toCharArray()) arr[ch - 'a']++;
+                for (char ch : b.toCharArray()) arr[ch - 'a']--;
+
+                anagram = 0;
+                for (int count : arr) {
+                    anagram += Math.abs(count);
+                }
+            } else {
+                anagram = Math.max(a.length(), b.length());
+            }
+            bw.write(String.format("Case #%d: %d", caseNum, anagram));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+
+    private static boolean isNullOrBlank(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+}

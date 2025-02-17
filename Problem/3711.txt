@@ -1,0 +1,50 @@
+<problem-name>학번
+<blog>
+<tag>수학, 브루트포스 알고리즘, 정수론
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.parseInt(br.readLine());
+        int[] student = new int[301];
+        Set&lt;Integer> visited = new HashSet&lt;>();
+        int maxNum = 1000000;
+        for(int tc=0;tc&lt;T;tc++){
+            int N = Integer.parseInt(br.readLine());
+            int max = -1;
+            for(int i=0;i&lt;N;i++){
+                student[i] = Integer.parseInt(br.readLine());
+                max = Math.max(max, student[i]);
+            }
+            for(int i=N;i&lt;=maxNum;i++){
+                boolean flag = false;
+                for(int j=0;j&lt;N;j++){
+                    int val = student[j] % i;
+                    if(visited.contains(val)){
+                        flag = true;
+                        break;
+                    }
+                    visited.add(val);
+                }
+                visited.clear();
+                if(!flag){
+                    bw.write(String.valueOf(i));
+                    bw.newLine();
+                    break;
+                }
+            }
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+}
