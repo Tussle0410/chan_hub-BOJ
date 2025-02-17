@@ -1,0 +1,24 @@
+<problem-name>테니스 시합
+<blog>
+<tag>구현, 문자열, 애드 혹
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    int n = Integer.parseInt(st.nextToken());
+    String s = st.nextToken();
+    bw.write(s.charAt(s.length()-1));
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+}

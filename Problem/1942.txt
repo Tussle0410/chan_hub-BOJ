@@ -1,0 +1,57 @@
+<problem-name>디지털시계
+<blog>
+<tag>수학, 구현, 문자열, 시뮬레이션, 파싱
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+  static final int TEST_CASE = 3;
+  static final int MAX_TIME = 235959;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    for(int tc=1;tc&lt;=TEST_CASE;tc++) {
+      StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+      int[][] time = new int[2][3];
+      for(int i=0;i&lt;2;i++){
+        String[] temp = st.nextToken().split(":");
+        for(int j=0;j&lt;3;j++){
+          time[i][j] = Integer.parseInt(temp[j]);
+        }
+      }
+      int count = 0;
+      while(time[0][0] != time[1][0] || time[0][1] != time[1][1] || time[0][2] != time[1][2]){
+        int timestamp = time[0][0] * 10000 + time[0][1] * 100 + time[0][2];
+        if(timestamp % 3 == 0){
+          count++;
+        }
+        time[0][2]++;
+        if(time[0][2] == 60){
+          time[0][2] = 0;
+          time[0][1]++;
+        }
+        if(time[0][1] == 60){
+          time[0][1] = 0;
+          time[0][0]++;
+        }
+        if(time[0][0] == 24){
+          time[0][0] = 0;
+        }
+      }
+      int timestamp = time[0][0] * 10000 + time[0][1] * 100 + time[0][2];
+      if(timestamp % 3 == 0){
+        count++;
+      }
+      bw.write(String.valueOf(count));
+      bw.newLine();
+    }
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+}

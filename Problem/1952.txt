@@ -1,0 +1,51 @@
+<problem-name>달팽이2
+<blog>
+<tag>수학, 구현, 시뮬레이션
+<java-code>
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+  static int[] dr = {0, 1, 0, -1};
+  static int[] dc = {1, 0, -1, 0};
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    StringTokenizer st = new StringTokenizer(br.readLine()," ");
+    int n = Integer.parseInt(st.nextToken());
+    int m = Integer.parseInt(st.nextToken());
+    int curR = 0;
+    int curC = 0;
+    boolean[][] isVisited = new boolean[n][m];
+    int count = 0;
+    int fill = 0;
+    int size = n*m;
+    int curDir = 0;
+    while(fill &lt; size){
+      isVisited[curR][curC] = true;
+      fill++;
+      while(fill &lt; size){
+        int nxtR = curR + dr[curDir];
+        int nxtC = curC + dc[curDir];
+        if(inSpace(nxtR, nxtC, n, m) && !isVisited[nxtR][nxtC]){
+          curR = nxtR;
+          curC = nxtC;
+          break;
+        }
+        curDir = (curDir + 1) % 4;
+        count++;
+      }
+    }
+    bw.write(String.valueOf(count));
+    bw.flush();
+    bw.close();
+    br.close();
+  }
+  static boolean inSpace(int r, int c, int n, int m){
+    return r >= 0 && r &lt; n && c >= 0 && c &lt; m;
+  }
+}
